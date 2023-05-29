@@ -1,5 +1,5 @@
 //! Implements the HexAdd trait
-use super::*;
+use super::hex::*;
 
 /// This is an internal implementation of addition without carryover
 pub trait _HexAdd1<H: Hex> { type Output: Hex; type Carry: Hex; }

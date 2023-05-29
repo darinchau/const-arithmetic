@@ -1,5 +1,5 @@
 //! Implements the HexEqual trait
-use super::*;
+use super::hex::*;
 
 /// This trait is the equal trait on hex numbers. False evaluates to _0 and true evaluates to _1
 pub trait HexEqual<H: Hex> { type Output: Hex; }

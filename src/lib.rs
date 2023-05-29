@@ -3,3 +3,5 @@
 use std::marker::PhantomData;
 
 mod hex;
+mod equal;
+mod add;

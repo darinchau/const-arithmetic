@@ -1,6 +1,3 @@
-mod equal;
-mod add;
-
 /// This denotes one single hexadecimal - half a byte
 pub trait Hex {}
 
