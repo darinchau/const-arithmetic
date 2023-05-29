@@ -12,15 +12,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "const-arithmetic"
-version = "0.1.0"
-dependencies = [
- "const-arith-macros",
- "paste",
- "quote",
-]
-
-[[package]]
 name = "paste"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
