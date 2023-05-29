@@ -1,3 +1,5 @@
+//! Implements the base hexadecimal type
+
 /// This denotes one single hexadecimal - half a byte
 pub trait Hex {}
 
