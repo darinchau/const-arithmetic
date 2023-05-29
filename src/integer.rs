@@ -28,38 +28,29 @@ pub trait IsInteger {
     type Hex7: Hex;
 }
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsInteger for Integer<H0, H1, H2, H3, H4, H5, H6, H7> {
-    type Hex0: H0;
-    type Hex1: H1;
-    type Hex2: H2;
-    type Hex3: H3;
-    type Hex4: H4;
-    type Hex5: H5;
-    type Hex6: H6;
-    type Hex7: H7;
+    type Hex0 = H0;
+    type Hex1 = H1;
+    type Hex2 = H2;
+    type Hex3 = H3;
+    type Hex4 = H4;
+    type Hex5 = H5;
+    type Hex6 = H6;
+    type Hex7 = H7;
 }
 
 /// Denotes integer addition.
 pub trait Add<N: IsInteger> { type Output: IsInteger; }
-impl<
-    N, H0, H1, H2, H3, H4, H5, H6, H7,
-    R0, C0,
-    R1, C1,
-    R2, C2,
-    R3, C3,
-    R4, C4,
-    R5, C5,
-    R6, C6,
-    R7, C7
+impl<N,
+    H0: Hex, R0: Hex, C0: Hex,
+    H1: Hex, R1: Hex, C1: Hex,
+    H2: Hex, R2: Hex, C2: Hex,
+    H3: Hex, R3: Hex, C3: Hex,
+    H4: Hex, R4: Hex, C4: Hex,
+    H5: Hex, R5: Hex, C5: Hex,
+    H6: Hex, R6: Hex, C6: Hex,
+    H7: Hex, R7: Hex, C7: Hex
 > Add<N> for Integer<H0, H1, H2, H3, H4, H5, H6, H7> where
     N: IsInteger,
-    H0: Hex, 
-    H1: Hex, 
-    H2: Hex, 
-    H3: Hex, 
-    H4: Hex, 
-    H5: Hex, 
-    H6: Hex, 
-    H7: Hex,
     H0: HexAdd1<N::Hex0, Output = R0, Carry = C0>,
     H1: HexAdd2<N::Hex1, C0, Output = R1, Carry = C1>,
     H2: HexAdd2<N::Hex2, C1, Output = R2, Carry = C2>,
@@ -69,5 +60,5 @@ impl<
     H6: HexAdd2<N::Hex6, C5, Output = R6, Carry = C6>,
     H7: HexAdd2<N::Hex7, C6, Output = R7, Carry = C7> 
 {
-    type Output: Integer<R0, R1, R2, R3, R99, R5, R6, R7>;
+    type Output = Integer<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
