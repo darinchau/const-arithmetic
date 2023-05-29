@@ -26,6 +26,7 @@ pub trait IsInteger {
     type Hex5: Hex;
     type Hex6: Hex;
     type Hex7: Hex;
+    type Int: IsInteger;
 }
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsInteger for Integer<H0, H1, H2, H3, H4, H5, H6, H7> {
     type Hex0 = H0;
@@ -36,6 +37,7 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsI
     type Hex5 = H5;
     type Hex6 = H6;
     type Hex7 = H7;
+    type Int = Integer<H0, H1, H2, H3, H4, H5, H6, H7>;
 }
 
 /// Denotes integer addition.
