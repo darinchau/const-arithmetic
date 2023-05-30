@@ -1,5 +1,8 @@
 //! Implements the base hexadecimal type
 
+// TODO: Optimize the addition of 5 - 8 to use hexadd 3
+// TODO: Move implementations elsewhere?
+
 /// This denotes one single hexadecimal - half a byte
 pub trait Hex {}
 
