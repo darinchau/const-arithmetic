@@ -67,32 +67,6 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsI
 pub trait TypedAssertEqual<N: IsInteger> {}
 impl<N: IsInteger> TypedAssertEqual<N> for TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, N::Hex4, N::Hex5, N::Hex6, N::Hex7> {}
 
-/// Denotes integer addition. We do not check overflow here.
-pub trait UncheckedAdd<N: IsInteger> { type Output: IsInteger; type Overflow: Hex; }
-impl<N,
-    H0: Hex, R0: Hex, C0: Hex,
-    H1: Hex, R1: Hex, C1: Hex,
-    H2: Hex, R2: Hex, C2: Hex,
-    H3: Hex, R3: Hex, C3: Hex,
-    H4: Hex, R4: Hex, C4: Hex,
-    H5: Hex, R5: Hex, C5: Hex,
-    H6: Hex, R6: Hex, C6: Hex,
-    H7: Hex, R7: Hex, C7: Hex
-> UncheckedAdd<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
-    N: IsInteger,
-    H0: HexAdd<N::Hex0, Output = R0, Carry = C0>,
-    H1: HexAdd3<N::Hex1, C0, Output = R1, Carry = C1>,
-    H2: HexAdd3<N::Hex2, C1, Output = R2, Carry = C2>,
-    H3: HexAdd3<N::Hex3, C2, Output = R3, Carry = C3>,
-    H4: HexAdd3<N::Hex4, C3, Output = R4, Carry = C4>,
-    H5: HexAdd3<N::Hex5, C4, Output = R5, Carry = C5>,
-    H6: HexAdd3<N::Hex6, C5, Output = R6, Carry = C6>,
-    H7: HexAdd3<N::Hex7, C6, Output = R7, Carry = C7>
-{
-    type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
-    type Overflow = C7;
-}
-
 /// Denotes integer addition. If this says C7 does not implement HexAssertEq, this means it overflowed.
 pub trait Add<N: IsInteger> { type Output: IsInteger; }
 impl<N,
