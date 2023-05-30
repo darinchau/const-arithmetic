@@ -93,7 +93,7 @@ impl<N,
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
 
-/// Denotes integer subtraction.
+/// Denotes integer subtraction. If this says C7 does not implement HexAssertEq, this means it underflowed.
 pub trait Sub<N: IsInteger> { type Output: IsInteger; }
 impl<N: IsInteger,
     H0: Hex, R0: Hex, C0: Hex, X0: Hex,
@@ -121,7 +121,8 @@ impl<N: IsInteger,
     H4: HexAdd3<X4, C3, Output = R4, Carry = C4>,
     H5: HexAdd3<X5, C4, Output = R5, Carry = C5>,
     H6: HexAdd3<X6, C5, Output = R6, Carry = C6>,
-    H7: HexAdd3<X7, C6, Output = R7, Carry = C7> 
+    H7: HexAdd3<X7, C6, Output = R7, Carry = C7>,
+    C7: HexAssertEqual<_1>
 {
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
