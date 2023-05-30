@@ -701,3 +701,22 @@ impl HexAssertEqual<_C> for _C { }
 impl HexAssertEqual<_D> for _D { }
 impl HexAssertEqual<_E> for _E { }
 impl HexAssertEqual<_F> for _F { }
+
+/// This represents 15 - x: the hexadecimal complement
+pub trait HexNot { type Output: Hex; }
+impl HexNot for _0 { type Output = _F; }
+impl HexNot for _1 { type Output = _E; }
+impl HexNot for _2 { type Output = _D; }
+impl HexNot for _3 { type Output = _C; }
+impl HexNot for _4 { type Output = _B; }
+impl HexNot for _5 { type Output = _A; }
+impl HexNot for _6 { type Output = _9; }
+impl HexNot for _7 { type Output = _8; }
+impl HexNot for _8 { type Output = _7; }
+impl HexNot for _9 { type Output = _6; }
+impl HexNot for _A { type Output = _5; }
+impl HexNot for _B { type Output = _4; }
+impl HexNot for _C { type Output = _3; }
+impl HexNot for _D { type Output = _2; }
+impl HexNot for _E { type Output = _1; }
+impl HexNot for _F { type Output = _0; }
