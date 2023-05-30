@@ -29,6 +29,10 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> Typ
             _m7: PhantomData 
         }
     }
+
+    pub const fn number() -> u32 {
+        H0::NUMBER + 16 * H1::NUMBER + 256 * H2::NUMBER + 4096 * H3::NUMBER + 65536 * H4::NUMBER + 1048576 * H5::NUMBER + 16777216 * H6::NUMBER + 268435456 * H7::NUMBER
+    }
 }
 
 /// A trait that denotes whether something is an integer
@@ -41,6 +45,8 @@ pub trait IsInteger {
     type Hex5: Hex;
     type Hex6: Hex;
     type Hex7: Hex;
+
+    fn number(&self) -> u32;
 }
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsInteger for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {
     type Hex0 = H0;
@@ -51,10 +57,18 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsI
     type Hex5 = H5;
     type Hex6 = H6;
     type Hex7 = H7;
+
+    fn number(&self) -> u32 {
+        H0::NUMBER + 16 * H1::NUMBER + 256 * H2::NUMBER + 4096 * H3::NUMBER + 65536 * H4::NUMBER + 1048576 * H5::NUMBER + 16777216 * H6::NUMBER + 268435456 * H7::NUMBER
+    }
 }
 
+/// A trait that asserts two integers are equal
+pub trait TypedAssertEqual<N: IsInteger> {}
+impl<N: IsInteger> TypedAssertEqual<N> for TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, N::Hex4, N::Hex5, N::Hex6, N::Hex7> {}
+
 /// Denotes integer addition. We do not check overflow here.
-pub trait UncheckedAdd<N: IsInteger> { type Output: IsInteger; }
+pub trait UncheckedAdd<N: IsInteger> { type Output: IsInteger; type Overflow: Hex; }
 impl<N,
     H0: Hex, R0: Hex, C0: Hex,
     H1: Hex, R1: Hex, C1: Hex,
@@ -76,6 +90,7 @@ impl<N,
     H7: HexAdd3<N::Hex7, C6, Output = R7, Carry = C7>
 {
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
+    type Overflow = C7;
 }
 
 /// Denotes integer addition. If this says C7 does not implement HexAssertEq, this means it overflowed.
@@ -116,6 +131,7 @@ impl<N: IsInteger,
     H6: Hex, R6: Hex, C6: Hex, X6: Hex,
     H7: Hex, R7: Hex, C7: Hex, X7: Hex,
 > Sub<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+    // The implementation takes advantage of overflowing, a - b = a + (2 ** 32 - 1 - b) + 1 = a - b + 2 ** 32 (mod 2 **32)
     N::Hex0: HexNot<Output = X0>,
     N::Hex1: HexNot<Output = X1>,
     N::Hex2: HexNot<Output = X2>,
@@ -124,7 +140,7 @@ impl<N: IsInteger,
     N::Hex5: HexNot<Output = X5>,
     N::Hex6: HexNot<Output = X6>,
     N::Hex7: HexNot<Output = X7>,
-    H0: HexAdd<X0, Output = R0, Carry = C0>,
+    H0: HexAdd3<X0, _1, Output = R0, Carry = C0>,
     H1: HexAdd3<X1, C0, Output = R1, Carry = C1>,
     H2: HexAdd3<X2, C1, Output = R2, Carry = C2>,
     H3: HexAdd3<X3, C2, Output = R3, Carry = C3>,
@@ -190,4 +206,34 @@ C33: HexAdd<C6, Output = R7, Carry = C_>,
 C_: HexAssertEqual<_0>
 {
     type Output = TypedInteger<X00, R1, R2, R3, R4, R5, R6, R7>;
+}
+
+/// A multiplication of 32 bit number and 32 bit number can be stored safely in a 64 bit number. We represent them as lower 32 bits and upper 32 bits
+pub trait Mul<N: IsInteger> {
+    type Output: IsInteger;
+    type Overflow: IsInteger;
+}
+impl<N: IsInteger,
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
+N0: IsInteger, N1: IsInteger, N2: IsInteger, N3: IsInteger,
+R4: Hex, R5: Hex, R6: Hex, R7: Hex, R8: Hex, R9: Hex, R10: Hex, R11: Hex, R12: Hex,
+C4: Hex, C5: Hex, C6: Hex, C7: Hex, C8: Hex, C9: Hex, C10: Hex, C11: Hex, C_: Hex
+> Mul<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, H0, H1, H2, H3>: FoldMul<Output = N0>,
+TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, H4, H5, H6, H7>: FoldMul<Output = N1>,
+TypedInteger<N::Hex4, N::Hex5, N::Hex6, N::Hex7, H0, H1, H2, H3>: FoldMul<Output = N2>,
+TypedInteger<N::Hex4, N::Hex5, N::Hex6, N::Hex7, H4, H5, H6, H7>: FoldMul<Output = N3>,
+N0::Hex4: HexAdd3<N1::Hex0, N2::Hex0, Output = R4, Carry = C4>,
+N0::Hex5: HexAdd4<N1::Hex1, N2::Hex1, C4, Output = R5, Carry = C5>,
+N0::Hex6: HexAdd4<N1::Hex2, N2::Hex2, C5, Output = R6, Carry = C6>,
+N0::Hex7: HexAdd4<N1::Hex3, N2::Hex3, C6, Output = R7, Carry = C7>,
+N3::Hex0: HexAdd4<N1::Hex4, N2::Hex4, C7, Output = R8, Carry = C8>,
+N3::Hex1: HexAdd4<N1::Hex5, N2::Hex5, C8, Output = R9, Carry = C9>,
+N3::Hex2: HexAdd4<N1::Hex6, N2::Hex6, C9, Output = R10, Carry = C10>,
+N3::Hex3: HexAdd4<N1::Hex7, N2::Hex7, C10, Output = R11, Carry = C11>,
+N3::Hex4: HexAdd<C11, Output = R12, Carry = C_>,
+C_: HexAssertEqual<_0>
+{
+    type Output = TypedInteger<N0::Hex0, N0::Hex1, N0::Hex2, N0::Hex3, R4, R5, R6, R7>;
+    type Overflow = TypedInteger<R8, R9, R10, R11, R12, N3::Hex5, N3::Hex6, N3::Hex7>;
 }

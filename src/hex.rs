@@ -1,74 +1,75 @@
 //! Implements the base hexadecimal type
 
 // TODO: Optimize the addition of 5 - 8 to use hexadd 3
-// TODO: Move implementations elsewhere?
 
 /// This denotes one single hexadecimal - half a byte
-pub trait Hex {}
+pub trait Hex {
+    const NUMBER: u32;
+}
 
 /// This denotes the number 0
 pub struct _0;
-impl Hex for _0 {}
+impl Hex for _0 { const NUMBER: u32 = 0; }
 
 /// This denotes the number 1
 pub struct _1;
-impl Hex for _1 {}
+impl Hex for _1 { const NUMBER: u32 = 1; }
 
 /// This denotes the number 2
 pub struct _2;
-impl Hex for _2 {}
+impl Hex for _2 { const NUMBER: u32 = 2; }
 
 /// This denotes the number 3
 pub struct _3;
-impl Hex for _3 {}
+impl Hex for _3 { const NUMBER: u32 = 3; }
 
 /// This denotes the number 4
 pub struct _4;
-impl Hex for _4 {}
+impl Hex for _4 { const NUMBER: u32 = 4; }
 
 /// This denotes the number 5
 pub struct _5;
-impl Hex for _5 {}
+impl Hex for _5 { const NUMBER: u32 = 5; }
 
 /// This denotes the number 6
 pub struct _6;
-impl Hex for _6 {}
+impl Hex for _6 { const NUMBER: u32 = 6; }
 
 /// This denotes the number 7
 pub struct _7;
-impl Hex for _7 {}
+impl Hex for _7 { const NUMBER: u32 = 7; }
 
 /// This denotes the number 8
 pub struct _8;
-impl Hex for _8 {}
+impl Hex for _8 { const NUMBER: u32 = 8; }
 
 /// This denotes the number 9
 pub struct _9;
-impl Hex for _9 {}
+impl Hex for _9 { const NUMBER: u32 = 9; }
 
 /// This denotes the number A
 pub struct _A;
-impl Hex for _A {}
+impl Hex for _A { const NUMBER: u32 = 10; }
 
 /// This denotes the number B
 pub struct _B;
-impl Hex for _B {}
+impl Hex for _B { const NUMBER: u32 = 11; }
 
 /// This denotes the number C
 pub struct _C;
-impl Hex for _C {}
+impl Hex for _C { const NUMBER: u32 = 12; }
 
 /// This denotes the number D
 pub struct _D;
-impl Hex for _D {}
+impl Hex for _D { const NUMBER: u32 = 13; }
 
 /// This denotes the number E
 pub struct _E;
-impl Hex for _E {}
+impl Hex for _E { const NUMBER: u32 = 14; }
 
 /// This denotes the number F
 pub struct _F;
-impl Hex for _F {}
+impl Hex for _F { const NUMBER: u32 = 15; }
 
 /// This is an internal implementation of addition of one other number
 pub trait HexAdd<H: Hex> { type Output: Hex; type Carry: Hex; }

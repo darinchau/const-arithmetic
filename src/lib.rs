@@ -8,7 +8,7 @@ mod test;
 
 // pub use hex::{_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C, _D, _E, _F, Hex, HexAdd1, HexAdd2, HexEqual};
 pub use hex::*;
-pub use integer::{TypedInteger, IsInteger, Add};
+pub use integer::{TypedInteger, IsInteger, Add, Sub, Mul};
 pub use const_arith_macros::parse_integer;
 
 #[allow(unused_imports)]
