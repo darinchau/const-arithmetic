@@ -2,7 +2,7 @@
 
 use super::hex::*;
 use std::marker::PhantomData;
-use super::{HexAdd1, HexAdd2};
+use super::{HexAdd, HexAdd3};
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
 pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> {
@@ -66,14 +66,14 @@ impl<N,
     H7: Hex, R7: Hex, C7: Hex
 > Add<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
     N: IsInteger,
-    H0: HexAdd1<N::Hex0, Output = R0, Carry = C0>,
-    H1: HexAdd2<N::Hex1, C0, Output = R1, Carry = C1>,
-    H2: HexAdd2<N::Hex2, C1, Output = R2, Carry = C2>,
-    H3: HexAdd2<N::Hex3, C2, Output = R3, Carry = C3>,
-    H4: HexAdd2<N::Hex4, C3, Output = R4, Carry = C4>,
-    H5: HexAdd2<N::Hex5, C4, Output = R5, Carry = C5>,
-    H6: HexAdd2<N::Hex6, C5, Output = R6, Carry = C6>,
-    H7: HexAdd2<N::Hex7, C6, Output = R7, Carry = C7> 
+    H0: HexAdd<N::Hex0, Output = R0, Carry = C0>,
+    H1: HexAdd3<N::Hex1, C0, Output = R1, Carry = C1>,
+    H2: HexAdd3<N::Hex2, C1, Output = R2, Carry = C2>,
+    H3: HexAdd3<N::Hex3, C2, Output = R3, Carry = C3>,
+    H4: HexAdd3<N::Hex4, C3, Output = R4, Carry = C4>,
+    H5: HexAdd3<N::Hex5, C4, Output = R5, Carry = C5>,
+    H6: HexAdd3<N::Hex6, C5, Output = R6, Carry = C6>,
+    H7: HexAdd3<N::Hex7, C6, Output = R7, Carry = C7> 
 {
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
@@ -98,14 +98,70 @@ impl<N: IsInteger,
     N::Hex5: HexNot<Output = X5>,
     N::Hex6: HexNot<Output = X6>,
     N::Hex7: HexNot<Output = X7>,
-    H0: HexAdd1<X0, Output = R0, Carry = C0>,
-    H1: HexAdd2<X1, C0, Output = R1, Carry = C1>,
-    H2: HexAdd2<X2, C1, Output = R2, Carry = C2>,
-    H3: HexAdd2<X3, C2, Output = R3, Carry = C3>,
-    H4: HexAdd2<X4, C3, Output = R4, Carry = C4>,
-    H5: HexAdd2<X5, C4, Output = R5, Carry = C5>,
-    H6: HexAdd2<X6, C5, Output = R6, Carry = C6>,
-    H7: HexAdd2<X7, C6, Output = R7, Carry = C7> 
+    H0: HexAdd<X0, Output = R0, Carry = C0>,
+    H1: HexAdd3<X1, C0, Output = R1, Carry = C1>,
+    H2: HexAdd3<X2, C1, Output = R2, Carry = C2>,
+    H3: HexAdd3<X3, C2, Output = R3, Carry = C3>,
+    H4: HexAdd3<X4, C3, Output = R4, Carry = C4>,
+    H5: HexAdd3<X5, C4, Output = R5, Carry = C5>,
+    H6: HexAdd3<X6, C5, Output = R6, Carry = C6>,
+    H7: HexAdd3<X7, C6, Output = R7, Carry = C7> 
 {
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
+}
+
+/// Implements the 16-bit multiplication. This ensures no overflow happen. 
+/// To ease implementation we multiply the first 4 hex of the Integer by the last 4 hex
+/// This makes it an unary operation on integers
+pub trait FoldMul { type Output: IsInteger; }
+impl<
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, 
+K0: Hex, K1: Hex, K2: Hex, K3: Hex,
+X00: Hex, C00: Hex,
+X01: Hex, C01: Hex,
+X02: Hex, C02: Hex,
+X03: Hex, C03: Hex,
+X10: Hex, C10: Hex,
+X11: Hex, C11: Hex,
+X12: Hex, C12: Hex,
+X13: Hex, C13: Hex,
+X20: Hex, C20: Hex,
+X21: Hex, C21: Hex,
+X22: Hex, C22: Hex,
+X23: Hex, C23: Hex,
+X30: Hex, C30: Hex,
+X31: Hex, C31: Hex,
+X32: Hex, C32: Hex,
+X33: Hex, C33: Hex,
+C1: Hex, C2: Hex, C3: Hex, C4: Hex, C5: Hex, C6: Hex, C_: Hex,
+R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex,
+> FoldMul for TypedInteger<H0, H1, H2, H3, K0, K1, K2, K3> where
+// Multiplication part
+H0: HexMul<K0, Output = X00, Carry = C00>,
+H0: HexMul<K1, Output = X01, Carry = C01>,
+H0: HexMul<K2, Output = X02, Carry = C02>,
+H0: HexMul<K3, Output = X03, Carry = C03>,
+H1: HexMul<K0, Output = X10, Carry = C10>,
+H1: HexMul<K1, Output = X11, Carry = C11>,
+H1: HexMul<K2, Output = X12, Carry = C12>,
+H1: HexMul<K3, Output = X13, Carry = C13>,
+H2: HexMul<K0, Output = X20, Carry = C20>,
+H2: HexMul<K1, Output = X21, Carry = C21>,
+H2: HexMul<K2, Output = X22, Carry = C22>,
+H2: HexMul<K3, Output = X23, Carry = C23>,
+H3: HexMul<K0, Output = X30, Carry = C30>,
+H3: HexMul<K1, Output = X31, Carry = C31>,
+H3: HexMul<K2, Output = X32, Carry = C32>,
+H3: HexMul<K3, Output = X33, Carry = C33>,
+// Addition part
+C00: HexAdd3<X01, X10, Output = R1, Carry = C1>,
+C01: HexAdd6<X02, C10, X11, X20, C1, Output = R2, Carry = C2>,
+C02: HexAdd8<X03, X12, C11, C20, X21, X30, C2, Output = R3, Carry = C3>,
+C03: HexAdd8<C12, X13, X22, C21, C30, X31, C3, Output = R4, Carry = C4>,
+C13: HexAdd6<C22, X23, X32, C31, C4, Output = R5, Carry = C5>,
+C23: HexAdd4<C32, X33, C5, Output = R6, Carry = C6>,
+C33: HexAdd<C6, Output = R7, Carry = C_>,
+C_: HexAssertEqual<_0>
+{
+    type Output = TypedInteger<X00, R1, R2, R3, R4, R5, R6, R7>;
 }

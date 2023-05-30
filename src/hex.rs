@@ -67,362 +67,620 @@ impl Hex for _E {}
 pub struct _F;
 impl Hex for _F {}
 
-/// This is an internal implementation of addition without carryover
-pub trait HexAdd1<H: Hex> { type Output: Hex; type Carry: Hex; }
-impl HexAdd1<_0> for _0 { type Output = _0; type Carry = _0; }
-impl HexAdd1<_0> for _1 { type Output = _1; type Carry = _0; }
-impl HexAdd1<_0> for _2 { type Output = _2; type Carry = _0; }
-impl HexAdd1<_0> for _3 { type Output = _3; type Carry = _0; }
-impl HexAdd1<_0> for _4 { type Output = _4; type Carry = _0; }
-impl HexAdd1<_0> for _5 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_0> for _6 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_0> for _7 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_0> for _8 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_0> for _9 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_0> for _A { type Output = _A; type Carry = _0; }
-impl HexAdd1<_0> for _B { type Output = _B; type Carry = _0; }
-impl HexAdd1<_0> for _C { type Output = _C; type Carry = _0; }
-impl HexAdd1<_0> for _D { type Output = _D; type Carry = _0; }
-impl HexAdd1<_0> for _E { type Output = _E; type Carry = _0; }
-impl HexAdd1<_0> for _F { type Output = _F; type Carry = _0; }
-impl HexAdd1<_1> for _0 { type Output = _1; type Carry = _0; }
-impl HexAdd1<_1> for _1 { type Output = _2; type Carry = _0; }
-impl HexAdd1<_1> for _2 { type Output = _3; type Carry = _0; }
-impl HexAdd1<_1> for _3 { type Output = _4; type Carry = _0; }
-impl HexAdd1<_1> for _4 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_1> for _5 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_1> for _6 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_1> for _7 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_1> for _8 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_1> for _9 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_1> for _A { type Output = _B; type Carry = _0; }
-impl HexAdd1<_1> for _B { type Output = _C; type Carry = _0; }
-impl HexAdd1<_1> for _C { type Output = _D; type Carry = _0; }
-impl HexAdd1<_1> for _D { type Output = _E; type Carry = _0; }
-impl HexAdd1<_1> for _E { type Output = _F; type Carry = _0; }
-impl HexAdd1<_1> for _F { type Output = _0; type Carry = _1; }
-impl HexAdd1<_2> for _0 { type Output = _2; type Carry = _0; }
-impl HexAdd1<_2> for _1 { type Output = _3; type Carry = _0; }
-impl HexAdd1<_2> for _2 { type Output = _4; type Carry = _0; }
-impl HexAdd1<_2> for _3 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_2> for _4 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_2> for _5 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_2> for _6 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_2> for _7 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_2> for _8 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_2> for _9 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_2> for _A { type Output = _C; type Carry = _0; }
-impl HexAdd1<_2> for _B { type Output = _D; type Carry = _0; }
-impl HexAdd1<_2> for _C { type Output = _E; type Carry = _0; }
-impl HexAdd1<_2> for _D { type Output = _F; type Carry = _0; }
-impl HexAdd1<_2> for _E { type Output = _0; type Carry = _1; }
-impl HexAdd1<_2> for _F { type Output = _1; type Carry = _1; }
-impl HexAdd1<_3> for _0 { type Output = _3; type Carry = _0; }
-impl HexAdd1<_3> for _1 { type Output = _4; type Carry = _0; }
-impl HexAdd1<_3> for _2 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_3> for _3 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_3> for _4 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_3> for _5 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_3> for _6 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_3> for _7 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_3> for _8 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_3> for _9 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_3> for _A { type Output = _D; type Carry = _0; }
-impl HexAdd1<_3> for _B { type Output = _E; type Carry = _0; }
-impl HexAdd1<_3> for _C { type Output = _F; type Carry = _0; }
-impl HexAdd1<_3> for _D { type Output = _0; type Carry = _1; }
-impl HexAdd1<_3> for _E { type Output = _1; type Carry = _1; }
-impl HexAdd1<_3> for _F { type Output = _2; type Carry = _1; }
-impl HexAdd1<_4> for _0 { type Output = _4; type Carry = _0; }
-impl HexAdd1<_4> for _1 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_4> for _2 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_4> for _3 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_4> for _4 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_4> for _5 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_4> for _6 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_4> for _7 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_4> for _8 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_4> for _9 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_4> for _A { type Output = _E; type Carry = _0; }
-impl HexAdd1<_4> for _B { type Output = _F; type Carry = _0; }
-impl HexAdd1<_4> for _C { type Output = _0; type Carry = _1; }
-impl HexAdd1<_4> for _D { type Output = _1; type Carry = _1; }
-impl HexAdd1<_4> for _E { type Output = _2; type Carry = _1; }
-impl HexAdd1<_4> for _F { type Output = _3; type Carry = _1; }
-impl HexAdd1<_5> for _0 { type Output = _5; type Carry = _0; }
-impl HexAdd1<_5> for _1 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_5> for _2 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_5> for _3 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_5> for _4 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_5> for _5 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_5> for _6 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_5> for _7 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_5> for _8 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_5> for _9 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_5> for _A { type Output = _F; type Carry = _0; }
-impl HexAdd1<_5> for _B { type Output = _0; type Carry = _1; }
-impl HexAdd1<_5> for _C { type Output = _1; type Carry = _1; }
-impl HexAdd1<_5> for _D { type Output = _2; type Carry = _1; }
-impl HexAdd1<_5> for _E { type Output = _3; type Carry = _1; }
-impl HexAdd1<_5> for _F { type Output = _4; type Carry = _1; }
-impl HexAdd1<_6> for _0 { type Output = _6; type Carry = _0; }
-impl HexAdd1<_6> for _1 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_6> for _2 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_6> for _3 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_6> for _4 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_6> for _5 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_6> for _6 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_6> for _7 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_6> for _8 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_6> for _9 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_6> for _A { type Output = _0; type Carry = _1; }
-impl HexAdd1<_6> for _B { type Output = _1; type Carry = _1; }
-impl HexAdd1<_6> for _C { type Output = _2; type Carry = _1; }
-impl HexAdd1<_6> for _D { type Output = _3; type Carry = _1; }
-impl HexAdd1<_6> for _E { type Output = _4; type Carry = _1; }
-impl HexAdd1<_6> for _F { type Output = _5; type Carry = _1; }
-impl HexAdd1<_7> for _0 { type Output = _7; type Carry = _0; }
-impl HexAdd1<_7> for _1 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_7> for _2 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_7> for _3 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_7> for _4 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_7> for _5 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_7> for _6 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_7> for _7 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_7> for _8 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_7> for _9 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_7> for _A { type Output = _1; type Carry = _1; }
-impl HexAdd1<_7> for _B { type Output = _2; type Carry = _1; }
-impl HexAdd1<_7> for _C { type Output = _3; type Carry = _1; }
-impl HexAdd1<_7> for _D { type Output = _4; type Carry = _1; }
-impl HexAdd1<_7> for _E { type Output = _5; type Carry = _1; }
-impl HexAdd1<_7> for _F { type Output = _6; type Carry = _1; }
-impl HexAdd1<_8> for _0 { type Output = _8; type Carry = _0; }
-impl HexAdd1<_8> for _1 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_8> for _2 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_8> for _3 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_8> for _4 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_8> for _5 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_8> for _6 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_8> for _7 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_8> for _8 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_8> for _9 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_8> for _A { type Output = _2; type Carry = _1; }
-impl HexAdd1<_8> for _B { type Output = _3; type Carry = _1; }
-impl HexAdd1<_8> for _C { type Output = _4; type Carry = _1; }
-impl HexAdd1<_8> for _D { type Output = _5; type Carry = _1; }
-impl HexAdd1<_8> for _E { type Output = _6; type Carry = _1; }
-impl HexAdd1<_8> for _F { type Output = _7; type Carry = _1; }
-impl HexAdd1<_9> for _0 { type Output = _9; type Carry = _0; }
-impl HexAdd1<_9> for _1 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_9> for _2 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_9> for _3 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_9> for _4 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_9> for _5 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_9> for _6 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_9> for _7 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_9> for _8 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_9> for _9 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_9> for _A { type Output = _3; type Carry = _1; }
-impl HexAdd1<_9> for _B { type Output = _4; type Carry = _1; }
-impl HexAdd1<_9> for _C { type Output = _5; type Carry = _1; }
-impl HexAdd1<_9> for _D { type Output = _6; type Carry = _1; }
-impl HexAdd1<_9> for _E { type Output = _7; type Carry = _1; }
-impl HexAdd1<_9> for _F { type Output = _8; type Carry = _1; }
-impl HexAdd1<_A> for _0 { type Output = _A; type Carry = _0; }
-impl HexAdd1<_A> for _1 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_A> for _2 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_A> for _3 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_A> for _4 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_A> for _5 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_A> for _6 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_A> for _7 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_A> for _8 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_A> for _9 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_A> for _A { type Output = _4; type Carry = _1; }
-impl HexAdd1<_A> for _B { type Output = _5; type Carry = _1; }
-impl HexAdd1<_A> for _C { type Output = _6; type Carry = _1; }
-impl HexAdd1<_A> for _D { type Output = _7; type Carry = _1; }
-impl HexAdd1<_A> for _E { type Output = _8; type Carry = _1; }
-impl HexAdd1<_A> for _F { type Output = _9; type Carry = _1; }
-impl HexAdd1<_B> for _0 { type Output = _B; type Carry = _0; }
-impl HexAdd1<_B> for _1 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_B> for _2 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_B> for _3 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_B> for _4 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_B> for _5 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_B> for _6 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_B> for _7 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_B> for _8 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_B> for _9 { type Output = _4; type Carry = _1; }
-impl HexAdd1<_B> for _A { type Output = _5; type Carry = _1; }
-impl HexAdd1<_B> for _B { type Output = _6; type Carry = _1; }
-impl HexAdd1<_B> for _C { type Output = _7; type Carry = _1; }
-impl HexAdd1<_B> for _D { type Output = _8; type Carry = _1; }
-impl HexAdd1<_B> for _E { type Output = _9; type Carry = _1; }
-impl HexAdd1<_B> for _F { type Output = _A; type Carry = _1; }
-impl HexAdd1<_C> for _0 { type Output = _C; type Carry = _0; }
-impl HexAdd1<_C> for _1 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_C> for _2 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_C> for _3 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_C> for _4 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_C> for _5 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_C> for _6 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_C> for _7 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_C> for _8 { type Output = _4; type Carry = _1; }
-impl HexAdd1<_C> for _9 { type Output = _5; type Carry = _1; }
-impl HexAdd1<_C> for _A { type Output = _6; type Carry = _1; }
-impl HexAdd1<_C> for _B { type Output = _7; type Carry = _1; }
-impl HexAdd1<_C> for _C { type Output = _8; type Carry = _1; }
-impl HexAdd1<_C> for _D { type Output = _9; type Carry = _1; }
-impl HexAdd1<_C> for _E { type Output = _A; type Carry = _1; }
-impl HexAdd1<_C> for _F { type Output = _B; type Carry = _1; }
-impl HexAdd1<_D> for _0 { type Output = _D; type Carry = _0; }
-impl HexAdd1<_D> for _1 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_D> for _2 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_D> for _3 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_D> for _4 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_D> for _5 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_D> for _6 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_D> for _7 { type Output = _4; type Carry = _1; }
-impl HexAdd1<_D> for _8 { type Output = _5; type Carry = _1; }
-impl HexAdd1<_D> for _9 { type Output = _6; type Carry = _1; }
-impl HexAdd1<_D> for _A { type Output = _7; type Carry = _1; }
-impl HexAdd1<_D> for _B { type Output = _8; type Carry = _1; }
-impl HexAdd1<_D> for _C { type Output = _9; type Carry = _1; }
-impl HexAdd1<_D> for _D { type Output = _A; type Carry = _1; }
-impl HexAdd1<_D> for _E { type Output = _B; type Carry = _1; }
-impl HexAdd1<_D> for _F { type Output = _C; type Carry = _1; }
-impl HexAdd1<_E> for _0 { type Output = _E; type Carry = _0; }
-impl HexAdd1<_E> for _1 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_E> for _2 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_E> for _3 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_E> for _4 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_E> for _5 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_E> for _6 { type Output = _4; type Carry = _1; }
-impl HexAdd1<_E> for _7 { type Output = _5; type Carry = _1; }
-impl HexAdd1<_E> for _8 { type Output = _6; type Carry = _1; }
-impl HexAdd1<_E> for _9 { type Output = _7; type Carry = _1; }
-impl HexAdd1<_E> for _A { type Output = _8; type Carry = _1; }
-impl HexAdd1<_E> for _B { type Output = _9; type Carry = _1; }
-impl HexAdd1<_E> for _C { type Output = _A; type Carry = _1; }
-impl HexAdd1<_E> for _D { type Output = _B; type Carry = _1; }
-impl HexAdd1<_E> for _E { type Output = _C; type Carry = _1; }
-impl HexAdd1<_E> for _F { type Output = _D; type Carry = _1; }
-impl HexAdd1<_F> for _0 { type Output = _F; type Carry = _0; }
-impl HexAdd1<_F> for _1 { type Output = _0; type Carry = _1; }
-impl HexAdd1<_F> for _2 { type Output = _1; type Carry = _1; }
-impl HexAdd1<_F> for _3 { type Output = _2; type Carry = _1; }
-impl HexAdd1<_F> for _4 { type Output = _3; type Carry = _1; }
-impl HexAdd1<_F> for _5 { type Output = _4; type Carry = _1; }
-impl HexAdd1<_F> for _6 { type Output = _5; type Carry = _1; }
-impl HexAdd1<_F> for _7 { type Output = _6; type Carry = _1; }
-impl HexAdd1<_F> for _8 { type Output = _7; type Carry = _1; }
-impl HexAdd1<_F> for _9 { type Output = _8; type Carry = _1; }
-impl HexAdd1<_F> for _A { type Output = _9; type Carry = _1; }
-impl HexAdd1<_F> for _B { type Output = _A; type Carry = _1; }
-impl HexAdd1<_F> for _C { type Output = _B; type Carry = _1; }
-impl HexAdd1<_F> for _D { type Output = _C; type Carry = _1; }
-impl HexAdd1<_F> for _E { type Output = _D; type Carry = _1; }
-impl HexAdd1<_F> for _F { type Output = _E; type Carry = _1; }
+/// This is an internal implementation of addition of one other number
+pub trait HexAdd<H: Hex> { type Output: Hex; type Carry: Hex; }
+impl HexAdd<_0> for _0 { type Output = _0; type Carry = _0; }
+impl HexAdd<_0> for _1 { type Output = _1; type Carry = _0; }
+impl HexAdd<_0> for _2 { type Output = _2; type Carry = _0; }
+impl HexAdd<_0> for _3 { type Output = _3; type Carry = _0; }
+impl HexAdd<_0> for _4 { type Output = _4; type Carry = _0; }
+impl HexAdd<_0> for _5 { type Output = _5; type Carry = _0; }
+impl HexAdd<_0> for _6 { type Output = _6; type Carry = _0; }
+impl HexAdd<_0> for _7 { type Output = _7; type Carry = _0; }
+impl HexAdd<_0> for _8 { type Output = _8; type Carry = _0; }
+impl HexAdd<_0> for _9 { type Output = _9; type Carry = _0; }
+impl HexAdd<_0> for _A { type Output = _A; type Carry = _0; }
+impl HexAdd<_0> for _B { type Output = _B; type Carry = _0; }
+impl HexAdd<_0> for _C { type Output = _C; type Carry = _0; }
+impl HexAdd<_0> for _D { type Output = _D; type Carry = _0; }
+impl HexAdd<_0> for _E { type Output = _E; type Carry = _0; }
+impl HexAdd<_0> for _F { type Output = _F; type Carry = _0; }
+impl HexAdd<_1> for _0 { type Output = _1; type Carry = _0; }
+impl HexAdd<_1> for _1 { type Output = _2; type Carry = _0; }
+impl HexAdd<_1> for _2 { type Output = _3; type Carry = _0; }
+impl HexAdd<_1> for _3 { type Output = _4; type Carry = _0; }
+impl HexAdd<_1> for _4 { type Output = _5; type Carry = _0; }
+impl HexAdd<_1> for _5 { type Output = _6; type Carry = _0; }
+impl HexAdd<_1> for _6 { type Output = _7; type Carry = _0; }
+impl HexAdd<_1> for _7 { type Output = _8; type Carry = _0; }
+impl HexAdd<_1> for _8 { type Output = _9; type Carry = _0; }
+impl HexAdd<_1> for _9 { type Output = _A; type Carry = _0; }
+impl HexAdd<_1> for _A { type Output = _B; type Carry = _0; }
+impl HexAdd<_1> for _B { type Output = _C; type Carry = _0; }
+impl HexAdd<_1> for _C { type Output = _D; type Carry = _0; }
+impl HexAdd<_1> for _D { type Output = _E; type Carry = _0; }
+impl HexAdd<_1> for _E { type Output = _F; type Carry = _0; }
+impl HexAdd<_1> for _F { type Output = _0; type Carry = _1; }
+impl HexAdd<_2> for _0 { type Output = _2; type Carry = _0; }
+impl HexAdd<_2> for _1 { type Output = _3; type Carry = _0; }
+impl HexAdd<_2> for _2 { type Output = _4; type Carry = _0; }
+impl HexAdd<_2> for _3 { type Output = _5; type Carry = _0; }
+impl HexAdd<_2> for _4 { type Output = _6; type Carry = _0; }
+impl HexAdd<_2> for _5 { type Output = _7; type Carry = _0; }
+impl HexAdd<_2> for _6 { type Output = _8; type Carry = _0; }
+impl HexAdd<_2> for _7 { type Output = _9; type Carry = _0; }
+impl HexAdd<_2> for _8 { type Output = _A; type Carry = _0; }
+impl HexAdd<_2> for _9 { type Output = _B; type Carry = _0; }
+impl HexAdd<_2> for _A { type Output = _C; type Carry = _0; }
+impl HexAdd<_2> for _B { type Output = _D; type Carry = _0; }
+impl HexAdd<_2> for _C { type Output = _E; type Carry = _0; }
+impl HexAdd<_2> for _D { type Output = _F; type Carry = _0; }
+impl HexAdd<_2> for _E { type Output = _0; type Carry = _1; }
+impl HexAdd<_2> for _F { type Output = _1; type Carry = _1; }
+impl HexAdd<_3> for _0 { type Output = _3; type Carry = _0; }
+impl HexAdd<_3> for _1 { type Output = _4; type Carry = _0; }
+impl HexAdd<_3> for _2 { type Output = _5; type Carry = _0; }
+impl HexAdd<_3> for _3 { type Output = _6; type Carry = _0; }
+impl HexAdd<_3> for _4 { type Output = _7; type Carry = _0; }
+impl HexAdd<_3> for _5 { type Output = _8; type Carry = _0; }
+impl HexAdd<_3> for _6 { type Output = _9; type Carry = _0; }
+impl HexAdd<_3> for _7 { type Output = _A; type Carry = _0; }
+impl HexAdd<_3> for _8 { type Output = _B; type Carry = _0; }
+impl HexAdd<_3> for _9 { type Output = _C; type Carry = _0; }
+impl HexAdd<_3> for _A { type Output = _D; type Carry = _0; }
+impl HexAdd<_3> for _B { type Output = _E; type Carry = _0; }
+impl HexAdd<_3> for _C { type Output = _F; type Carry = _0; }
+impl HexAdd<_3> for _D { type Output = _0; type Carry = _1; }
+impl HexAdd<_3> for _E { type Output = _1; type Carry = _1; }
+impl HexAdd<_3> for _F { type Output = _2; type Carry = _1; }
+impl HexAdd<_4> for _0 { type Output = _4; type Carry = _0; }
+impl HexAdd<_4> for _1 { type Output = _5; type Carry = _0; }
+impl HexAdd<_4> for _2 { type Output = _6; type Carry = _0; }
+impl HexAdd<_4> for _3 { type Output = _7; type Carry = _0; }
+impl HexAdd<_4> for _4 { type Output = _8; type Carry = _0; }
+impl HexAdd<_4> for _5 { type Output = _9; type Carry = _0; }
+impl HexAdd<_4> for _6 { type Output = _A; type Carry = _0; }
+impl HexAdd<_4> for _7 { type Output = _B; type Carry = _0; }
+impl HexAdd<_4> for _8 { type Output = _C; type Carry = _0; }
+impl HexAdd<_4> for _9 { type Output = _D; type Carry = _0; }
+impl HexAdd<_4> for _A { type Output = _E; type Carry = _0; }
+impl HexAdd<_4> for _B { type Output = _F; type Carry = _0; }
+impl HexAdd<_4> for _C { type Output = _0; type Carry = _1; }
+impl HexAdd<_4> for _D { type Output = _1; type Carry = _1; }
+impl HexAdd<_4> for _E { type Output = _2; type Carry = _1; }
+impl HexAdd<_4> for _F { type Output = _3; type Carry = _1; }
+impl HexAdd<_5> for _0 { type Output = _5; type Carry = _0; }
+impl HexAdd<_5> for _1 { type Output = _6; type Carry = _0; }
+impl HexAdd<_5> for _2 { type Output = _7; type Carry = _0; }
+impl HexAdd<_5> for _3 { type Output = _8; type Carry = _0; }
+impl HexAdd<_5> for _4 { type Output = _9; type Carry = _0; }
+impl HexAdd<_5> for _5 { type Output = _A; type Carry = _0; }
+impl HexAdd<_5> for _6 { type Output = _B; type Carry = _0; }
+impl HexAdd<_5> for _7 { type Output = _C; type Carry = _0; }
+impl HexAdd<_5> for _8 { type Output = _D; type Carry = _0; }
+impl HexAdd<_5> for _9 { type Output = _E; type Carry = _0; }
+impl HexAdd<_5> for _A { type Output = _F; type Carry = _0; }
+impl HexAdd<_5> for _B { type Output = _0; type Carry = _1; }
+impl HexAdd<_5> for _C { type Output = _1; type Carry = _1; }
+impl HexAdd<_5> for _D { type Output = _2; type Carry = _1; }
+impl HexAdd<_5> for _E { type Output = _3; type Carry = _1; }
+impl HexAdd<_5> for _F { type Output = _4; type Carry = _1; }
+impl HexAdd<_6> for _0 { type Output = _6; type Carry = _0; }
+impl HexAdd<_6> for _1 { type Output = _7; type Carry = _0; }
+impl HexAdd<_6> for _2 { type Output = _8; type Carry = _0; }
+impl HexAdd<_6> for _3 { type Output = _9; type Carry = _0; }
+impl HexAdd<_6> for _4 { type Output = _A; type Carry = _0; }
+impl HexAdd<_6> for _5 { type Output = _B; type Carry = _0; }
+impl HexAdd<_6> for _6 { type Output = _C; type Carry = _0; }
+impl HexAdd<_6> for _7 { type Output = _D; type Carry = _0; }
+impl HexAdd<_6> for _8 { type Output = _E; type Carry = _0; }
+impl HexAdd<_6> for _9 { type Output = _F; type Carry = _0; }
+impl HexAdd<_6> for _A { type Output = _0; type Carry = _1; }
+impl HexAdd<_6> for _B { type Output = _1; type Carry = _1; }
+impl HexAdd<_6> for _C { type Output = _2; type Carry = _1; }
+impl HexAdd<_6> for _D { type Output = _3; type Carry = _1; }
+impl HexAdd<_6> for _E { type Output = _4; type Carry = _1; }
+impl HexAdd<_6> for _F { type Output = _5; type Carry = _1; }
+impl HexAdd<_7> for _0 { type Output = _7; type Carry = _0; }
+impl HexAdd<_7> for _1 { type Output = _8; type Carry = _0; }
+impl HexAdd<_7> for _2 { type Output = _9; type Carry = _0; }
+impl HexAdd<_7> for _3 { type Output = _A; type Carry = _0; }
+impl HexAdd<_7> for _4 { type Output = _B; type Carry = _0; }
+impl HexAdd<_7> for _5 { type Output = _C; type Carry = _0; }
+impl HexAdd<_7> for _6 { type Output = _D; type Carry = _0; }
+impl HexAdd<_7> for _7 { type Output = _E; type Carry = _0; }
+impl HexAdd<_7> for _8 { type Output = _F; type Carry = _0; }
+impl HexAdd<_7> for _9 { type Output = _0; type Carry = _1; }
+impl HexAdd<_7> for _A { type Output = _1; type Carry = _1; }
+impl HexAdd<_7> for _B { type Output = _2; type Carry = _1; }
+impl HexAdd<_7> for _C { type Output = _3; type Carry = _1; }
+impl HexAdd<_7> for _D { type Output = _4; type Carry = _1; }
+impl HexAdd<_7> for _E { type Output = _5; type Carry = _1; }
+impl HexAdd<_7> for _F { type Output = _6; type Carry = _1; }
+impl HexAdd<_8> for _0 { type Output = _8; type Carry = _0; }
+impl HexAdd<_8> for _1 { type Output = _9; type Carry = _0; }
+impl HexAdd<_8> for _2 { type Output = _A; type Carry = _0; }
+impl HexAdd<_8> for _3 { type Output = _B; type Carry = _0; }
+impl HexAdd<_8> for _4 { type Output = _C; type Carry = _0; }
+impl HexAdd<_8> for _5 { type Output = _D; type Carry = _0; }
+impl HexAdd<_8> for _6 { type Output = _E; type Carry = _0; }
+impl HexAdd<_8> for _7 { type Output = _F; type Carry = _0; }
+impl HexAdd<_8> for _8 { type Output = _0; type Carry = _1; }
+impl HexAdd<_8> for _9 { type Output = _1; type Carry = _1; }
+impl HexAdd<_8> for _A { type Output = _2; type Carry = _1; }
+impl HexAdd<_8> for _B { type Output = _3; type Carry = _1; }
+impl HexAdd<_8> for _C { type Output = _4; type Carry = _1; }
+impl HexAdd<_8> for _D { type Output = _5; type Carry = _1; }
+impl HexAdd<_8> for _E { type Output = _6; type Carry = _1; }
+impl HexAdd<_8> for _F { type Output = _7; type Carry = _1; }
+impl HexAdd<_9> for _0 { type Output = _9; type Carry = _0; }
+impl HexAdd<_9> for _1 { type Output = _A; type Carry = _0; }
+impl HexAdd<_9> for _2 { type Output = _B; type Carry = _0; }
+impl HexAdd<_9> for _3 { type Output = _C; type Carry = _0; }
+impl HexAdd<_9> for _4 { type Output = _D; type Carry = _0; }
+impl HexAdd<_9> for _5 { type Output = _E; type Carry = _0; }
+impl HexAdd<_9> for _6 { type Output = _F; type Carry = _0; }
+impl HexAdd<_9> for _7 { type Output = _0; type Carry = _1; }
+impl HexAdd<_9> for _8 { type Output = _1; type Carry = _1; }
+impl HexAdd<_9> for _9 { type Output = _2; type Carry = _1; }
+impl HexAdd<_9> for _A { type Output = _3; type Carry = _1; }
+impl HexAdd<_9> for _B { type Output = _4; type Carry = _1; }
+impl HexAdd<_9> for _C { type Output = _5; type Carry = _1; }
+impl HexAdd<_9> for _D { type Output = _6; type Carry = _1; }
+impl HexAdd<_9> for _E { type Output = _7; type Carry = _1; }
+impl HexAdd<_9> for _F { type Output = _8; type Carry = _1; }
+impl HexAdd<_A> for _0 { type Output = _A; type Carry = _0; }
+impl HexAdd<_A> for _1 { type Output = _B; type Carry = _0; }
+impl HexAdd<_A> for _2 { type Output = _C; type Carry = _0; }
+impl HexAdd<_A> for _3 { type Output = _D; type Carry = _0; }
+impl HexAdd<_A> for _4 { type Output = _E; type Carry = _0; }
+impl HexAdd<_A> for _5 { type Output = _F; type Carry = _0; }
+impl HexAdd<_A> for _6 { type Output = _0; type Carry = _1; }
+impl HexAdd<_A> for _7 { type Output = _1; type Carry = _1; }
+impl HexAdd<_A> for _8 { type Output = _2; type Carry = _1; }
+impl HexAdd<_A> for _9 { type Output = _3; type Carry = _1; }
+impl HexAdd<_A> for _A { type Output = _4; type Carry = _1; }
+impl HexAdd<_A> for _B { type Output = _5; type Carry = _1; }
+impl HexAdd<_A> for _C { type Output = _6; type Carry = _1; }
+impl HexAdd<_A> for _D { type Output = _7; type Carry = _1; }
+impl HexAdd<_A> for _E { type Output = _8; type Carry = _1; }
+impl HexAdd<_A> for _F { type Output = _9; type Carry = _1; }
+impl HexAdd<_B> for _0 { type Output = _B; type Carry = _0; }
+impl HexAdd<_B> for _1 { type Output = _C; type Carry = _0; }
+impl HexAdd<_B> for _2 { type Output = _D; type Carry = _0; }
+impl HexAdd<_B> for _3 { type Output = _E; type Carry = _0; }
+impl HexAdd<_B> for _4 { type Output = _F; type Carry = _0; }
+impl HexAdd<_B> for _5 { type Output = _0; type Carry = _1; }
+impl HexAdd<_B> for _6 { type Output = _1; type Carry = _1; }
+impl HexAdd<_B> for _7 { type Output = _2; type Carry = _1; }
+impl HexAdd<_B> for _8 { type Output = _3; type Carry = _1; }
+impl HexAdd<_B> for _9 { type Output = _4; type Carry = _1; }
+impl HexAdd<_B> for _A { type Output = _5; type Carry = _1; }
+impl HexAdd<_B> for _B { type Output = _6; type Carry = _1; }
+impl HexAdd<_B> for _C { type Output = _7; type Carry = _1; }
+impl HexAdd<_B> for _D { type Output = _8; type Carry = _1; }
+impl HexAdd<_B> for _E { type Output = _9; type Carry = _1; }
+impl HexAdd<_B> for _F { type Output = _A; type Carry = _1; }
+impl HexAdd<_C> for _0 { type Output = _C; type Carry = _0; }
+impl HexAdd<_C> for _1 { type Output = _D; type Carry = _0; }
+impl HexAdd<_C> for _2 { type Output = _E; type Carry = _0; }
+impl HexAdd<_C> for _3 { type Output = _F; type Carry = _0; }
+impl HexAdd<_C> for _4 { type Output = _0; type Carry = _1; }
+impl HexAdd<_C> for _5 { type Output = _1; type Carry = _1; }
+impl HexAdd<_C> for _6 { type Output = _2; type Carry = _1; }
+impl HexAdd<_C> for _7 { type Output = _3; type Carry = _1; }
+impl HexAdd<_C> for _8 { type Output = _4; type Carry = _1; }
+impl HexAdd<_C> for _9 { type Output = _5; type Carry = _1; }
+impl HexAdd<_C> for _A { type Output = _6; type Carry = _1; }
+impl HexAdd<_C> for _B { type Output = _7; type Carry = _1; }
+impl HexAdd<_C> for _C { type Output = _8; type Carry = _1; }
+impl HexAdd<_C> for _D { type Output = _9; type Carry = _1; }
+impl HexAdd<_C> for _E { type Output = _A; type Carry = _1; }
+impl HexAdd<_C> for _F { type Output = _B; type Carry = _1; }
+impl HexAdd<_D> for _0 { type Output = _D; type Carry = _0; }
+impl HexAdd<_D> for _1 { type Output = _E; type Carry = _0; }
+impl HexAdd<_D> for _2 { type Output = _F; type Carry = _0; }
+impl HexAdd<_D> for _3 { type Output = _0; type Carry = _1; }
+impl HexAdd<_D> for _4 { type Output = _1; type Carry = _1; }
+impl HexAdd<_D> for _5 { type Output = _2; type Carry = _1; }
+impl HexAdd<_D> for _6 { type Output = _3; type Carry = _1; }
+impl HexAdd<_D> for _7 { type Output = _4; type Carry = _1; }
+impl HexAdd<_D> for _8 { type Output = _5; type Carry = _1; }
+impl HexAdd<_D> for _9 { type Output = _6; type Carry = _1; }
+impl HexAdd<_D> for _A { type Output = _7; type Carry = _1; }
+impl HexAdd<_D> for _B { type Output = _8; type Carry = _1; }
+impl HexAdd<_D> for _C { type Output = _9; type Carry = _1; }
+impl HexAdd<_D> for _D { type Output = _A; type Carry = _1; }
+impl HexAdd<_D> for _E { type Output = _B; type Carry = _1; }
+impl HexAdd<_D> for _F { type Output = _C; type Carry = _1; }
+impl HexAdd<_E> for _0 { type Output = _E; type Carry = _0; }
+impl HexAdd<_E> for _1 { type Output = _F; type Carry = _0; }
+impl HexAdd<_E> for _2 { type Output = _0; type Carry = _1; }
+impl HexAdd<_E> for _3 { type Output = _1; type Carry = _1; }
+impl HexAdd<_E> for _4 { type Output = _2; type Carry = _1; }
+impl HexAdd<_E> for _5 { type Output = _3; type Carry = _1; }
+impl HexAdd<_E> for _6 { type Output = _4; type Carry = _1; }
+impl HexAdd<_E> for _7 { type Output = _5; type Carry = _1; }
+impl HexAdd<_E> for _8 { type Output = _6; type Carry = _1; }
+impl HexAdd<_E> for _9 { type Output = _7; type Carry = _1; }
+impl HexAdd<_E> for _A { type Output = _8; type Carry = _1; }
+impl HexAdd<_E> for _B { type Output = _9; type Carry = _1; }
+impl HexAdd<_E> for _C { type Output = _A; type Carry = _1; }
+impl HexAdd<_E> for _D { type Output = _B; type Carry = _1; }
+impl HexAdd<_E> for _E { type Output = _C; type Carry = _1; }
+impl HexAdd<_E> for _F { type Output = _D; type Carry = _1; }
+impl HexAdd<_F> for _0 { type Output = _F; type Carry = _0; }
+impl HexAdd<_F> for _1 { type Output = _0; type Carry = _1; }
+impl HexAdd<_F> for _2 { type Output = _1; type Carry = _1; }
+impl HexAdd<_F> for _3 { type Output = _2; type Carry = _1; }
+impl HexAdd<_F> for _4 { type Output = _3; type Carry = _1; }
+impl HexAdd<_F> for _5 { type Output = _4; type Carry = _1; }
+impl HexAdd<_F> for _6 { type Output = _5; type Carry = _1; }
+impl HexAdd<_F> for _7 { type Output = _6; type Carry = _1; }
+impl HexAdd<_F> for _8 { type Output = _7; type Carry = _1; }
+impl HexAdd<_F> for _9 { type Output = _8; type Carry = _1; }
+impl HexAdd<_F> for _A { type Output = _9; type Carry = _1; }
+impl HexAdd<_F> for _B { type Output = _A; type Carry = _1; }
+impl HexAdd<_F> for _C { type Output = _B; type Carry = _1; }
+impl HexAdd<_F> for _D { type Output = _C; type Carry = _1; }
+impl HexAdd<_F> for _E { type Output = _D; type Carry = _1; }
+impl HexAdd<_F> for _F { type Output = _E; type Carry = _1; }
 
-/// This is an internal implementation of addition with carryover
-pub trait HexAdd2<H: Hex, C: Hex> { type Output: Hex; type Carry: Hex; }
+/// This is an internal implementation of addition of three number
+pub trait HexAdd3<H1: Hex, H2: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _0 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _1 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _2 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _3 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _4 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _5 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _6 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _7 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _8 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _9 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _A where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _B where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _C where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _D where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _E where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _F where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _0 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _1 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _2 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _3 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _4 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _5 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _6 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _7 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _8 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _9 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _A where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _B where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _C where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _D where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _E where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_1, H> for _F where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _0 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _1 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _2 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _3 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _4 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _5 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _6 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _7 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _8 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _9 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _A where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _B where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _C where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _D where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _E where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_2, H> for _F where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _0 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _1 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _2 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _3 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _4 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _5 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _6 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _7 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _8 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _9 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _A where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _B where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _C where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _D where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _E where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_3, H> for _F where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _0 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _1 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _2 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _3 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _4 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _5 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _6 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _7 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _8 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _9 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _A where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _B where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _C where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _D where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _E where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_4, H> for _F where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _0 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _1 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _2 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _3 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _4 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _5 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _6 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _7 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _8 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _9 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _A where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _B where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _C where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _D where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _E where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_5, H> for _F where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _0 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _1 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _2 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _3 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _4 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _5 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _6 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _7 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _8 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _9 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _A where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _B where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _C where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _D where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _E where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_6, H> for _F where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _0 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _1 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _2 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _3 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _4 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _5 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _6 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _7 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _8 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _9 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _A where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _B where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _C where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _D where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _E where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_7, H> for _F where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _0 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _1 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _2 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _3 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _4 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _5 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _6 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _7 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _8 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _9 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _A where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _B where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _C where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _D where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _E where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_8, H> for _F where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _0 where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _1 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _2 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _3 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _4 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _5 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _6 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _7 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _8 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _9 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _A where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _B where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _C where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _D where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _E where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_9, H> for _F where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _0 where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _1 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _2 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _3 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _4 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _5 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _6 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _7 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _8 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _9 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _A where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _B where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _C where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _D where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _E where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_A, H> for _F where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _0 where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _1 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _2 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _3 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _4 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _5 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _6 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _7 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _8 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _9 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _A where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _B where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _C where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _D where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _E where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_B, H> for _F where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _0 where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _1 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _2 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _3 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _4 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _5 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _6 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _7 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _8 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _9 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _A where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _B where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _C where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _D where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _E where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_C, H> for _F where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _0 where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _1 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _2 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _3 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _4 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _5 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _6 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _7 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _8 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _9 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _A where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _B where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _C where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _D where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _E where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_D, H> for _F where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _0 where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _1 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _2 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _3 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _4 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _5 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _6 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _7 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _8 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _9 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _A where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _B where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _C where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _D where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _E where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_E, H> for _F where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _0 where H: HexAdd<_F, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _1 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _2 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _3 where H: HexAdd<_2, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _4 where H: HexAdd<_3, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _5 where H: HexAdd<_4, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _6 where H: HexAdd<_5, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _7 where H: HexAdd<_6, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _8 where H: HexAdd<_7, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _9 where H: HexAdd<_8, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _A where H: HexAdd<_9, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _B where H: HexAdd<_A, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _C where H: HexAdd<_B, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _D where H: HexAdd<_C, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _E where H: HexAdd<_D, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
+impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _F where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
 
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _0 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_0, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
+/// This is an internal implementation of addition of 4 number
+pub trait HexAdd4<H1: Hex, H2: Hex, H3: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _0 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _1 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _2 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _3 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_3, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _4 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _5 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _6 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _7 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _8 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_8, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _9 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_9, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _A where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_A, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _B where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_B, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _C where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_C, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _D where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_D, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _E where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_E, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _F where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+
+/// This is an internal implementation of addition of 5 number
+pub trait HexAdd5<H1: Hex, H2: Hex, H3: Hex, H4: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _3 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_3, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _4 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _5 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _6 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _7 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _8 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_8, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _9 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_9, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _A where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_A, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _B where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_B, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _C where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_C, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _D where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_D, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _E where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_E, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, R1, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+
+/// This is an internal implementation of addition of 6 number
+pub trait HexAdd6<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _3 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_3, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _4 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _5 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _6 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _7 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _8 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_8, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _9 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_9, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _A where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_A, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _B where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_B, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _C where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_C, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _D where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_D, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _E where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_E, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, R1, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+
+/// This is an internal implementation of addition of 7 number
+pub trait HexAdd7<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _3 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_3, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _4 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _5 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _6 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _7 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _8 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_8, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _9 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_9, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _A where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_A, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _B where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_B, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _C where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_C, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _D where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_D, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _E where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_E, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, R1, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+
+/// This is an internal implementation of addition of 8 number
+pub trait HexAdd8<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> { type Output: Hex; type Carry: Hex; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _3 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_3, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _4 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _5 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _6 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _7 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _8 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_8, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _9 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_9, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _A where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_A, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _B where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_B, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _C where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_C, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _D where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_D, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _E where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_E, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
+impl<H1, H2, H3, H4, H5, H6, H7, R1, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd7<H2, H3, H4, H5, H6, H7, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
 
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _1 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_1, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _2 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_2, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _3 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_3, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _4 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_4, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _5 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_5, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _6 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_6, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _7 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_7, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _8 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_8, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _9 where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_9, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _A where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_A, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _B where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_B, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _C where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_C, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _D where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_D, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _E where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_E, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
-
-
-impl<H, C, R1, C1, R2, C2, Cr, C_> HexAdd2<H, C> for _F where H: Hex, C: Hex, R1: Hex, R2: Hex, C1: Hex, C2: Hex, Cr: Hex, H: HexAdd1<_F, Output = R1, Carry = C1>, R1: HexAdd1<C, Output = R2, Carry = C2>, C1: HexAdd1<C2, Output = Cr, Carry = C_> {
-    type Output = R2;
-    type Carry = Cr;
-}
 
 /// This trait is the equal trait on hex numbers. False evaluates to _0 and true evaluates to _1
 pub trait HexEqual<H: Hex> { type Output: Hex; }
@@ -720,3 +978,262 @@ impl HexNot for _C { type Output = _3; }
 impl HexNot for _D { type Output = _2; }
 impl HexNot for _E { type Output = _1; }
 impl HexNot for _F { type Output = _0; }
+
+/// This is an internal implementation of multiplication of two hexadecimal
+pub trait HexMul<H: Hex> { type Output: Hex; type Carry: Hex; }
+impl HexMul<_0> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _1 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _2 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _3 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _4 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _5 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _6 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _7 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _8 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _9 { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _A { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _B { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _C { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _D { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _E { type Output = _0; type Carry = _0; }
+impl HexMul<_0> for _F { type Output = _0; type Carry = _0; }
+impl HexMul<_1> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_1> for _1 { type Output = _1; type Carry = _0; }
+impl HexMul<_1> for _2 { type Output = _2; type Carry = _0; }
+impl HexMul<_1> for _3 { type Output = _3; type Carry = _0; }
+impl HexMul<_1> for _4 { type Output = _4; type Carry = _0; }
+impl HexMul<_1> for _5 { type Output = _5; type Carry = _0; }
+impl HexMul<_1> for _6 { type Output = _6; type Carry = _0; }
+impl HexMul<_1> for _7 { type Output = _7; type Carry = _0; }
+impl HexMul<_1> for _8 { type Output = _8; type Carry = _0; }
+impl HexMul<_1> for _9 { type Output = _9; type Carry = _0; }
+impl HexMul<_1> for _A { type Output = _A; type Carry = _0; }
+impl HexMul<_1> for _B { type Output = _B; type Carry = _0; }
+impl HexMul<_1> for _C { type Output = _C; type Carry = _0; }
+impl HexMul<_1> for _D { type Output = _D; type Carry = _0; }
+impl HexMul<_1> for _E { type Output = _E; type Carry = _0; }
+impl HexMul<_1> for _F { type Output = _F; type Carry = _0; }
+impl HexMul<_2> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_2> for _1 { type Output = _2; type Carry = _0; }
+impl HexMul<_2> for _2 { type Output = _4; type Carry = _0; }
+impl HexMul<_2> for _3 { type Output = _6; type Carry = _0; }
+impl HexMul<_2> for _4 { type Output = _8; type Carry = _0; }
+impl HexMul<_2> for _5 { type Output = _A; type Carry = _0; }
+impl HexMul<_2> for _6 { type Output = _C; type Carry = _0; }
+impl HexMul<_2> for _7 { type Output = _E; type Carry = _0; }
+impl HexMul<_2> for _8 { type Output = _0; type Carry = _1; }
+impl HexMul<_2> for _9 { type Output = _2; type Carry = _1; }
+impl HexMul<_2> for _A { type Output = _4; type Carry = _1; }
+impl HexMul<_2> for _B { type Output = _6; type Carry = _1; }
+impl HexMul<_2> for _C { type Output = _8; type Carry = _1; }
+impl HexMul<_2> for _D { type Output = _A; type Carry = _1; }
+impl HexMul<_2> for _E { type Output = _C; type Carry = _1; }
+impl HexMul<_2> for _F { type Output = _E; type Carry = _1; }
+impl HexMul<_3> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_3> for _1 { type Output = _3; type Carry = _0; }
+impl HexMul<_3> for _2 { type Output = _6; type Carry = _0; }
+impl HexMul<_3> for _3 { type Output = _9; type Carry = _0; }
+impl HexMul<_3> for _4 { type Output = _C; type Carry = _0; }
+impl HexMul<_3> for _5 { type Output = _F; type Carry = _0; }
+impl HexMul<_3> for _6 { type Output = _2; type Carry = _1; }
+impl HexMul<_3> for _7 { type Output = _5; type Carry = _1; }
+impl HexMul<_3> for _8 { type Output = _8; type Carry = _1; }
+impl HexMul<_3> for _9 { type Output = _B; type Carry = _1; }
+impl HexMul<_3> for _A { type Output = _E; type Carry = _1; }
+impl HexMul<_3> for _B { type Output = _1; type Carry = _2; }
+impl HexMul<_3> for _C { type Output = _4; type Carry = _2; }
+impl HexMul<_3> for _D { type Output = _7; type Carry = _2; }
+impl HexMul<_3> for _E { type Output = _A; type Carry = _2; }
+impl HexMul<_3> for _F { type Output = _D; type Carry = _2; }
+impl HexMul<_4> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_4> for _1 { type Output = _4; type Carry = _0; }
+impl HexMul<_4> for _2 { type Output = _8; type Carry = _0; }
+impl HexMul<_4> for _3 { type Output = _C; type Carry = _0; }
+impl HexMul<_4> for _4 { type Output = _0; type Carry = _1; }
+impl HexMul<_4> for _5 { type Output = _4; type Carry = _1; }
+impl HexMul<_4> for _6 { type Output = _8; type Carry = _1; }
+impl HexMul<_4> for _7 { type Output = _C; type Carry = _1; }
+impl HexMul<_4> for _8 { type Output = _0; type Carry = _2; }
+impl HexMul<_4> for _9 { type Output = _4; type Carry = _2; }
+impl HexMul<_4> for _A { type Output = _8; type Carry = _2; }
+impl HexMul<_4> for _B { type Output = _C; type Carry = _2; }
+impl HexMul<_4> for _C { type Output = _0; type Carry = _3; }
+impl HexMul<_4> for _D { type Output = _4; type Carry = _3; }
+impl HexMul<_4> for _E { type Output = _8; type Carry = _3; }
+impl HexMul<_4> for _F { type Output = _C; type Carry = _3; }
+impl HexMul<_5> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_5> for _1 { type Output = _5; type Carry = _0; }
+impl HexMul<_5> for _2 { type Output = _A; type Carry = _0; }
+impl HexMul<_5> for _3 { type Output = _F; type Carry = _0; }
+impl HexMul<_5> for _4 { type Output = _4; type Carry = _1; }
+impl HexMul<_5> for _5 { type Output = _9; type Carry = _1; }
+impl HexMul<_5> for _6 { type Output = _E; type Carry = _1; }
+impl HexMul<_5> for _7 { type Output = _3; type Carry = _2; }
+impl HexMul<_5> for _8 { type Output = _8; type Carry = _2; }
+impl HexMul<_5> for _9 { type Output = _D; type Carry = _2; }
+impl HexMul<_5> for _A { type Output = _2; type Carry = _3; }
+impl HexMul<_5> for _B { type Output = _7; type Carry = _3; }
+impl HexMul<_5> for _C { type Output = _C; type Carry = _3; }
+impl HexMul<_5> for _D { type Output = _1; type Carry = _4; }
+impl HexMul<_5> for _E { type Output = _6; type Carry = _4; }
+impl HexMul<_5> for _F { type Output = _B; type Carry = _4; }
+impl HexMul<_6> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_6> for _1 { type Output = _6; type Carry = _0; }
+impl HexMul<_6> for _2 { type Output = _C; type Carry = _0; }
+impl HexMul<_6> for _3 { type Output = _2; type Carry = _1; }
+impl HexMul<_6> for _4 { type Output = _8; type Carry = _1; }
+impl HexMul<_6> for _5 { type Output = _E; type Carry = _1; }
+impl HexMul<_6> for _6 { type Output = _4; type Carry = _2; }
+impl HexMul<_6> for _7 { type Output = _A; type Carry = _2; }
+impl HexMul<_6> for _8 { type Output = _0; type Carry = _3; }
+impl HexMul<_6> for _9 { type Output = _6; type Carry = _3; }
+impl HexMul<_6> for _A { type Output = _C; type Carry = _3; }
+impl HexMul<_6> for _B { type Output = _2; type Carry = _4; }
+impl HexMul<_6> for _C { type Output = _8; type Carry = _4; }
+impl HexMul<_6> for _D { type Output = _E; type Carry = _4; }
+impl HexMul<_6> for _E { type Output = _4; type Carry = _5; }
+impl HexMul<_6> for _F { type Output = _A; type Carry = _5; }
+impl HexMul<_7> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_7> for _1 { type Output = _7; type Carry = _0; }
+impl HexMul<_7> for _2 { type Output = _E; type Carry = _0; }
+impl HexMul<_7> for _3 { type Output = _5; type Carry = _1; }
+impl HexMul<_7> for _4 { type Output = _C; type Carry = _1; }
+impl HexMul<_7> for _5 { type Output = _3; type Carry = _2; }
+impl HexMul<_7> for _6 { type Output = _A; type Carry = _2; }
+impl HexMul<_7> for _7 { type Output = _1; type Carry = _3; }
+impl HexMul<_7> for _8 { type Output = _8; type Carry = _3; }
+impl HexMul<_7> for _9 { type Output = _F; type Carry = _3; }
+impl HexMul<_7> for _A { type Output = _6; type Carry = _4; }
+impl HexMul<_7> for _B { type Output = _D; type Carry = _4; }
+impl HexMul<_7> for _C { type Output = _4; type Carry = _5; }
+impl HexMul<_7> for _D { type Output = _B; type Carry = _5; }
+impl HexMul<_7> for _E { type Output = _2; type Carry = _6; }
+impl HexMul<_7> for _F { type Output = _9; type Carry = _6; }
+impl HexMul<_8> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_8> for _1 { type Output = _8; type Carry = _0; }
+impl HexMul<_8> for _2 { type Output = _0; type Carry = _1; }
+impl HexMul<_8> for _3 { type Output = _8; type Carry = _1; }
+impl HexMul<_8> for _4 { type Output = _0; type Carry = _2; }
+impl HexMul<_8> for _5 { type Output = _8; type Carry = _2; }
+impl HexMul<_8> for _6 { type Output = _0; type Carry = _3; }
+impl HexMul<_8> for _7 { type Output = _8; type Carry = _3; }
+impl HexMul<_8> for _8 { type Output = _0; type Carry = _4; }
+impl HexMul<_8> for _9 { type Output = _8; type Carry = _4; }
+impl HexMul<_8> for _A { type Output = _0; type Carry = _5; }
+impl HexMul<_8> for _B { type Output = _8; type Carry = _5; }
+impl HexMul<_8> for _C { type Output = _0; type Carry = _6; }
+impl HexMul<_8> for _D { type Output = _8; type Carry = _6; }
+impl HexMul<_8> for _E { type Output = _0; type Carry = _7; }
+impl HexMul<_8> for _F { type Output = _8; type Carry = _7; }
+impl HexMul<_9> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_9> for _1 { type Output = _9; type Carry = _0; }
+impl HexMul<_9> for _2 { type Output = _2; type Carry = _1; }
+impl HexMul<_9> for _3 { type Output = _B; type Carry = _1; }
+impl HexMul<_9> for _4 { type Output = _4; type Carry = _2; }
+impl HexMul<_9> for _5 { type Output = _D; type Carry = _2; }
+impl HexMul<_9> for _6 { type Output = _6; type Carry = _3; }
+impl HexMul<_9> for _7 { type Output = _F; type Carry = _3; }
+impl HexMul<_9> for _8 { type Output = _8; type Carry = _4; }
+impl HexMul<_9> for _9 { type Output = _1; type Carry = _5; }
+impl HexMul<_9> for _A { type Output = _A; type Carry = _5; }
+impl HexMul<_9> for _B { type Output = _3; type Carry = _6; }
+impl HexMul<_9> for _C { type Output = _C; type Carry = _6; }
+impl HexMul<_9> for _D { type Output = _5; type Carry = _7; }
+impl HexMul<_9> for _E { type Output = _E; type Carry = _7; }
+impl HexMul<_9> for _F { type Output = _7; type Carry = _8; }
+impl HexMul<_A> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_A> for _1 { type Output = _A; type Carry = _0; }
+impl HexMul<_A> for _2 { type Output = _4; type Carry = _1; }
+impl HexMul<_A> for _3 { type Output = _E; type Carry = _1; }
+impl HexMul<_A> for _4 { type Output = _8; type Carry = _2; }
+impl HexMul<_A> for _5 { type Output = _2; type Carry = _3; }
+impl HexMul<_A> for _6 { type Output = _C; type Carry = _3; }
+impl HexMul<_A> for _7 { type Output = _6; type Carry = _4; }
+impl HexMul<_A> for _8 { type Output = _0; type Carry = _5; }
+impl HexMul<_A> for _9 { type Output = _A; type Carry = _5; }
+impl HexMul<_A> for _A { type Output = _4; type Carry = _6; }
+impl HexMul<_A> for _B { type Output = _E; type Carry = _6; }
+impl HexMul<_A> for _C { type Output = _8; type Carry = _7; }
+impl HexMul<_A> for _D { type Output = _2; type Carry = _8; }
+impl HexMul<_A> for _E { type Output = _C; type Carry = _8; }
+impl HexMul<_A> for _F { type Output = _6; type Carry = _9; }
+impl HexMul<_B> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_B> for _1 { type Output = _B; type Carry = _0; }
+impl HexMul<_B> for _2 { type Output = _6; type Carry = _1; }
+impl HexMul<_B> for _3 { type Output = _1; type Carry = _2; }
+impl HexMul<_B> for _4 { type Output = _C; type Carry = _2; }
+impl HexMul<_B> for _5 { type Output = _7; type Carry = _3; }
+impl HexMul<_B> for _6 { type Output = _2; type Carry = _4; }
+impl HexMul<_B> for _7 { type Output = _D; type Carry = _4; }
+impl HexMul<_B> for _8 { type Output = _8; type Carry = _5; }
+impl HexMul<_B> for _9 { type Output = _3; type Carry = _6; }
+impl HexMul<_B> for _A { type Output = _E; type Carry = _6; }
+impl HexMul<_B> for _B { type Output = _9; type Carry = _7; }
+impl HexMul<_B> for _C { type Output = _4; type Carry = _8; }
+impl HexMul<_B> for _D { type Output = _F; type Carry = _8; }
+impl HexMul<_B> for _E { type Output = _A; type Carry = _9; }
+impl HexMul<_B> for _F { type Output = _5; type Carry = _A; }
+impl HexMul<_C> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_C> for _1 { type Output = _C; type Carry = _0; }
+impl HexMul<_C> for _2 { type Output = _8; type Carry = _1; }
+impl HexMul<_C> for _3 { type Output = _4; type Carry = _2; }
+impl HexMul<_C> for _4 { type Output = _0; type Carry = _3; }
+impl HexMul<_C> for _5 { type Output = _C; type Carry = _3; }
+impl HexMul<_C> for _6 { type Output = _8; type Carry = _4; }
+impl HexMul<_C> for _7 { type Output = _4; type Carry = _5; }
+impl HexMul<_C> for _8 { type Output = _0; type Carry = _6; }
+impl HexMul<_C> for _9 { type Output = _C; type Carry = _6; }
+impl HexMul<_C> for _A { type Output = _8; type Carry = _7; }
+impl HexMul<_C> for _B { type Output = _4; type Carry = _8; }
+impl HexMul<_C> for _C { type Output = _0; type Carry = _9; }
+impl HexMul<_C> for _D { type Output = _C; type Carry = _9; }
+impl HexMul<_C> for _E { type Output = _8; type Carry = _A; }
+impl HexMul<_C> for _F { type Output = _4; type Carry = _B; }
+impl HexMul<_D> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_D> for _1 { type Output = _D; type Carry = _0; }
+impl HexMul<_D> for _2 { type Output = _A; type Carry = _1; }
+impl HexMul<_D> for _3 { type Output = _7; type Carry = _2; }
+impl HexMul<_D> for _4 { type Output = _4; type Carry = _3; }
+impl HexMul<_D> for _5 { type Output = _1; type Carry = _4; }
+impl HexMul<_D> for _6 { type Output = _E; type Carry = _4; }
+impl HexMul<_D> for _7 { type Output = _B; type Carry = _5; }
+impl HexMul<_D> for _8 { type Output = _8; type Carry = _6; }
+impl HexMul<_D> for _9 { type Output = _5; type Carry = _7; }
+impl HexMul<_D> for _A { type Output = _2; type Carry = _8; }
+impl HexMul<_D> for _B { type Output = _F; type Carry = _8; }
+impl HexMul<_D> for _C { type Output = _C; type Carry = _9; }
+impl HexMul<_D> for _D { type Output = _9; type Carry = _A; }
+impl HexMul<_D> for _E { type Output = _6; type Carry = _B; }
+impl HexMul<_D> for _F { type Output = _3; type Carry = _C; }
+impl HexMul<_E> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_E> for _1 { type Output = _E; type Carry = _0; }
+impl HexMul<_E> for _2 { type Output = _C; type Carry = _1; }
+impl HexMul<_E> for _3 { type Output = _A; type Carry = _2; }
+impl HexMul<_E> for _4 { type Output = _8; type Carry = _3; }
+impl HexMul<_E> for _5 { type Output = _6; type Carry = _4; }
+impl HexMul<_E> for _6 { type Output = _4; type Carry = _5; }
+impl HexMul<_E> for _7 { type Output = _2; type Carry = _6; }
+impl HexMul<_E> for _8 { type Output = _0; type Carry = _7; }
+impl HexMul<_E> for _9 { type Output = _E; type Carry = _7; }
+impl HexMul<_E> for _A { type Output = _C; type Carry = _8; }
+impl HexMul<_E> for _B { type Output = _A; type Carry = _9; }
+impl HexMul<_E> for _C { type Output = _8; type Carry = _A; }
+impl HexMul<_E> for _D { type Output = _6; type Carry = _B; }
+impl HexMul<_E> for _E { type Output = _4; type Carry = _C; }
+impl HexMul<_E> for _F { type Output = _2; type Carry = _D; }
+impl HexMul<_F> for _0 { type Output = _0; type Carry = _0; }
+impl HexMul<_F> for _1 { type Output = _F; type Carry = _0; }
+impl HexMul<_F> for _2 { type Output = _E; type Carry = _1; }
+impl HexMul<_F> for _3 { type Output = _D; type Carry = _2; }
+impl HexMul<_F> for _4 { type Output = _C; type Carry = _3; }
+impl HexMul<_F> for _5 { type Output = _B; type Carry = _4; }
+impl HexMul<_F> for _6 { type Output = _A; type Carry = _5; }
+impl HexMul<_F> for _7 { type Output = _9; type Carry = _6; }
+impl HexMul<_F> for _8 { type Output = _8; type Carry = _7; }
+impl HexMul<_F> for _9 { type Output = _7; type Carry = _8; }
+impl HexMul<_F> for _A { type Output = _6; type Carry = _9; }
+impl HexMul<_F> for _B { type Output = _5; type Carry = _A; }
+impl HexMul<_F> for _C { type Output = _4; type Carry = _B; }
+impl HexMul<_F> for _D { type Output = _3; type Carry = _C; }
+impl HexMul<_F> for _E { type Output = _2; type Carry = _D; }
+impl HexMul<_F> for _F { type Output = _1; type Carry = _E; }
