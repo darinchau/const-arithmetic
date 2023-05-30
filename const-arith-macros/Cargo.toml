@@ -12,3 +12,4 @@ proc-macro = true
 syn = { version = "1.0.82", features = ["full", "extra-traits"] }
 quote = "1.0.10"
 paste = "1.0.12"
+prettyplease = "0.2.6"
