@@ -344,28 +344,7 @@ D: IsInteger,
 Bx: Binary,
 By: Binary,
 MinusMe: Binary,
-// minus_me = h >= 16 ** j * K
-// h -= 16 ** j * K * minus_me
-// quotient += 16 ** j * minus_me
-//
-// This becomes
-//
-// 16**j -> J16
-// J16 * K -> A, overflow = O
-// Overflow == 0 -> Bx
-// H >= A -> By
-// Bx and By -> MinusMe
-// A if MinusMe else 0 -> C
-// H - C -> Hout
-// J16 if MinusMe else 0 -> D
-// Q + D -> Qout
-
-// J16 = 2147483648
-// Typed = K = 32
-// H = 97
 J16: Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
-// A = 2147483648
-// O = 32
 O: TypedEqual<Zero, Output = Bx>,
 A: TypedLessThan<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 

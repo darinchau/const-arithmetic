@@ -9,6 +9,9 @@ pub use binary::*;
 pub use integer::*;
 pub use const_arith_macros::parse_integer;
 
+#[cfg(test)]
+mod test;
+
 #[allow(unused_imports)]
 use const_arith_macros::typed_assert_eq_inner;
 /// This asserts the typed integer provided is the same as the number you provided
