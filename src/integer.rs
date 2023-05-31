@@ -359,9 +359,15 @@ MinusMe: Binary,
 // H - C -> Hout
 // J16 if MinusMe else 0 -> D
 // Q + D -> Qout
+
+// J16 = 2147483648
+// Typed = K = 32
+// H = 97
 J16: Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
+// A = 2147483648
+// O = 32
 O: TypedEqual<Zero, Output = Bx>,
-H: TypedGeq<A, Output = By>,
+A: TypedLessThan<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 
 MinusMe: If<A, Zero, Output = C>, 
 MinusMe: If<J16, Zero, Output = D>, 

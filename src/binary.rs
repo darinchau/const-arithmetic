@@ -52,7 +52,7 @@ impl BinEq<_1> for _1 {type Output = _1;}
 /// A 8-input AND gate
 pub trait BinMultiAnd<B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary> { type Output: Binary; }
 impl BinMultiAnd<_1, _1, _1, _1, _1, _1, _1> for _1 { type Output = _1; }
-impl BinMultiAnd<_0, _1, _1, _1, _1, _1, _1> for _1 { type Output = _1; }
+impl BinMultiAnd<_0, _1, _1, _1, _1, _1, _1> for _1 { type Output = _0; }
 impl<B0: Binary> BinMultiAnd<B0, _0, _1, _1, _1, _1, _1> for _1 { type Output = _0; }
 impl<B0: Binary, B1: Binary> BinMultiAnd<B0, B1, _0, _1, _1, _1, _1> for _1 { type Output = _0; }
 impl<B0: Binary, B1: Binary, B2: Binary> BinMultiAnd<B0, B1, B2, _0, _1, _1, _1> for _1 { type Output = _0; }
