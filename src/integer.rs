@@ -4,8 +4,10 @@
 use super::binary::*;
 use super::hex::*;
 use std::marker::PhantomData;
+use std::process::Output;
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
+#[derive(Clone, Copy)]
 pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> {
     _m0: PhantomData<H0>,
     _m1: PhantomData<H1>,
@@ -98,9 +100,11 @@ impl<N: IsInteger,
     H5: Hex, R5: Hex, C5: Hex, X5: Hex,
     H6: Hex, R6: Hex, C6: Hex, X6: Hex,
     H7: Hex, R7: Hex, C7: Hex, X7: Hex,
-    R: Binary
+    R_: Binary, Eq: Binary, NotEq: Binary, R: Binary,
 > TypedLessThan<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
     // The implementation is a < b <=> a - b < 0 <=> a - b underflows
+    N: TypedEqual<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = Eq>,
+    Eq: BinNot<Output = NotEq>,
     N::Hex0: HexNot<Output = X0>,
     N::Hex1: HexNot<Output = X1>,
     N::Hex2: HexNot<Output = X2>,
@@ -117,7 +121,8 @@ impl<N: IsInteger,
     H5: HexAdd3<X5, C4, Output = R5, Carry = C5>,
     H6: HexAdd3<X6, C5, Output = R6, Carry = C6>,
     H7: HexAdd3<X7, C6, Output = R7, Carry = C7>,
-    C7: HexEqual<_0, Output = R>
+    C7: HexEqual<_0, Output = R_>,
+    R_: BinAnd<NotEq, Output = R>
 {
     type Output = R;
 }
@@ -224,7 +229,7 @@ impl<N: IsInteger,
 /// Implements the 16-bit multiplication. This ensures no overflow happen. 
 /// To ease implementation we multiply the first 4 hex of the Integer by the last 4 hex
 /// This makes it an unary operation on integers
-pub trait FoldMul { type Output: IsInteger; }
+trait FoldMul { type Output: IsInteger; }
 impl<
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, 
 K0: Hex, K1: Hex, K2: Hex, K3: Hex,
@@ -306,3 +311,137 @@ C_: HexAssertEqual<_0>
     type Output = TypedInteger<N0::Hex0, N0::Hex1, N0::Hex2, N0::Hex3, R4, R5, R6, R7>;
     type Overflow = TypedInteger<R8, R9, R10, R11, R12, N3::Hex5, N3::Hex6, N3::Hex7>;
 }
+
+/// Helper stuff for division
+/// Helper if clauses. Condition: If<TrueValue: T, FalseValue: T, Output = T>
+trait If<T: IsInteger, F: IsInteger> { type Output: IsInteger; }
+impl<T: IsInteger, F: IsInteger> If<T, F> for _0 { type Output = F; }
+impl<T: IsInteger, F: IsInteger> If<T, F> for _1 { type Output = T; }
+
+// Helper types for division
+type Zero = TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>;
+
+// One single iteration of long div
+trait DivInner<H: IsInteger, Q: IsInteger, TT: IsInteger> { type Hout: IsInteger; type Qout: IsInteger; }
+impl<H, Q, H0, H1, H2, H3, H4, H5, H6, H7, J16, A, O, C, D, MinusMe, Bx, By, Ho, Qo> DivInner<H, Q, J16> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+H: IsInteger, 
+Q: IsInteger,
+O: IsInteger,
+Ho: IsInteger,
+Qo: IsInteger,
+H0: Hex,
+H1: Hex, 
+H2: Hex, 
+H3: Hex, 
+H4: Hex, 
+H5: Hex, 
+H6: Hex, 
+H7: Hex, 
+J16: IsInteger, 
+A: IsInteger, 
+C: IsInteger, 
+D: IsInteger,
+Bx: Binary,
+By: Binary,
+MinusMe: Binary,
+// minus_me = h >= 16 ** j * K
+// h -= 16 ** j * K * minus_me
+// quotient += 16 ** j * minus_me
+//
+// This becomes
+//
+// 16**j -> J16
+// J16 * K -> A, overflow = O
+// Overflow == 0 -> Bx
+// H >= A -> By
+// Bx and By -> MinusMe
+// A if MinusMe else 0 -> C
+// H - C -> Hout
+// J16 if MinusMe else 0 -> D
+// Q + D -> Qout
+J16: Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
+O: TypedEqual<Zero, Output = Bx>,
+H: TypedGeq<A, Output = By>,
+Bx: BinAnd<By, Output = MinusMe>, 
+MinusMe: If<A, Zero, Output = C>, 
+MinusMe: If<J16, Zero, Output = D>, 
+H: Sub<C, Output = Ho>, 
+D: Add<Q, Output = Qo> {
+    type Hout = Ho;
+    type Qout = Qo;
+}
+
+/// Returns the Quotient of H/K for H: Div<K, Output: ...>
+/// Implementation detail: This is an expanded version of long division - it takes O(1) steps where the constant is about 1000
+pub trait Div<K: IsInteger> { type Output: IsInteger; type Remainder: IsInteger; }
+impl< K: IsInteger, 
+Hx0: Hex, Hx1: Hex, Hx2: Hex, Hx3: Hex, Hx4: Hex, Hx5: Hex, Hx6: Hex, Hx7: Hex, 
+H1: IsInteger, Q1: IsInteger, 
+H2: IsInteger, Q2: IsInteger, 
+H3: IsInteger, Q3: IsInteger, 
+H4: IsInteger, Q4: IsInteger, 
+H5: IsInteger, Q5: IsInteger, 
+H6: IsInteger, Q6: IsInteger, 
+H7: IsInteger, Q7: IsInteger, 
+H8: IsInteger, Q8: IsInteger, 
+H9: IsInteger, Q9: IsInteger, 
+H10: IsInteger, Q10: IsInteger, 
+H11: IsInteger, Q11: IsInteger, 
+H12: IsInteger, Q12: IsInteger, 
+H13: IsInteger, Q13: IsInteger, 
+H14: IsInteger, Q14: IsInteger, 
+H15: IsInteger, Q15: IsInteger, 
+H16: IsInteger, Q16: IsInteger, 
+H17: IsInteger, Q17: IsInteger, 
+H18: IsInteger, Q18: IsInteger, 
+H19: IsInteger, Q19: IsInteger, 
+H20: IsInteger, Q20: IsInteger, 
+H21: IsInteger, Q21: IsInteger, 
+H22: IsInteger, Q22: IsInteger, 
+H23: IsInteger, Q23: IsInteger, 
+H24: IsInteger, Q24: IsInteger, 
+H25: IsInteger, Q25: IsInteger, 
+H26: IsInteger, Q26: IsInteger, 
+H27: IsInteger, Q27: IsInteger, 
+H28: IsInteger, Q28: IsInteger, 
+H29: IsInteger, Q29: IsInteger, 
+H30: IsInteger, Q30: IsInteger, 
+H31: IsInteger, Q31: IsInteger, 
+H32: IsInteger, Q32: IsInteger, 
+B: Binary
+> Div<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
+K: DivInner<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Zero, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _8>, Hout = H1, Qout = Q1>, 
+K: DivInner<H1, Q1, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _4>, Hout = H2, Qout = Q2>, 
+K: DivInner<H2, Q2, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _2>, Hout = H3, Qout = Q3>, 
+K: DivInner<H3, Q3, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _1>, Hout = H4, Qout = Q4>, 
+K: DivInner<H4, Q4, TypedInteger<_0, _0, _0, _0, _0, _0, _8, _0>, Hout = H5, Qout = Q5>, 
+K: DivInner<H5, Q5, TypedInteger<_0, _0, _0, _0, _0, _0, _4, _0>, Hout = H6, Qout = Q6>,
+K: DivInner<H6, Q6, TypedInteger<_0, _0, _0, _0, _0, _0, _2, _0>, Hout = H7, Qout = Q7>, 
+K: DivInner<H7, Q7, TypedInteger<_0, _0, _0, _0, _0, _0, _1, _0>, Hout = H8, Qout = Q8>, 
+K: DivInner<H8, Q8, TypedInteger<_0, _0, _0, _0, _0, _8, _0, _0>, Hout = H9, Qout = Q9>, 
+K: DivInner<H9, Q9, TypedInteger<_0, _0, _0, _0, _0, _4, _0, _0>, Hout = H10, Qout = Q10>, 
+K: DivInner<H10, Q10, TypedInteger<_0, _0, _0, _0, _0, _2, _0, _0>, Hout = H11, Qout = Q11>, 
+K: DivInner<H11, Q11, TypedInteger<_0, _0, _0, _0, _0, _1, _0, _0>, Hout = H12, Qout = Q12>, 
+K: DivInner<H12, Q12, TypedInteger<_0, _0, _0, _0, _8, _0, _0, _0>, Hout = H13, Qout = Q13>, 
+K: DivInner<H13, Q13, TypedInteger<_0, _0, _0, _0, _4, _0, _0, _0>, Hout = H14, Qout = Q14>, 
+K: DivInner<H14, Q14, TypedInteger<_0, _0, _0, _0, _2, _0, _0, _0>, Hout = H15, Qout = Q15>, 
+K: DivInner<H15, Q15, TypedInteger<_0, _0, _0, _0, _1, _0, _0, _0>, Hout = H16, Qout = Q16>, 
+K: DivInner<H16, Q16, TypedInteger<_0, _0, _0, _8, _0, _0, _0, _0>, Hout = H17, Qout = Q17>, 
+K: DivInner<H17, Q17, TypedInteger<_0, _0, _0, _4, _0, _0, _0, _0>, Hout = H18, Qout = Q18>, 
+K: DivInner<H18, Q18, TypedInteger<_0, _0, _0, _2, _0, _0, _0, _0>, Hout = H19, Qout = Q19>, 
+K: DivInner<H19, Q19, TypedInteger<_0, _0, _0, _1, _0, _0, _0, _0>, Hout = H20, Qout = Q20>, 
+K: DivInner<H20, Q20, TypedInteger<_0, _0, _8, _0, _0, _0, _0, _0>, Hout = H21, Qout = Q21>, 
+K: DivInner<H21, Q21, TypedInteger<_0, _0, _4, _0, _0, _0, _0, _0>, Hout = H22, Qout = Q22>, 
+K: DivInner<H22, Q22, TypedInteger<_0, _0, _2, _0, _0, _0, _0, _0>, Hout = H23, Qout = Q23>, 
+K: DivInner<H23, Q23, TypedInteger<_0, _0, _1, _0, _0, _0, _0, _0>, Hout = H24, Qout = Q24>, 
+K: DivInner<H24, Q24, TypedInteger<_0, _8, _0, _0, _0, _0, _0, _0>, Hout = H25, Qout = Q25>, 
+K: DivInner<H25, Q25, TypedInteger<_0, _4, _0, _0, _0, _0, _0, _0>, Hout = H26, Qout = Q26>, 
+K: DivInner<H26, Q26, TypedInteger<_0, _2, _0, _0, _0, _0, _0, _0>, Hout = H27, Qout = Q27>, 
+K: DivInner<H27, Q27, TypedInteger<_0, _1, _0, _0, _0, _0, _0, _0>, Hout = H28, Qout = Q28>, 
+K: DivInner<H28, Q28, TypedInteger<_8, _0, _0, _0, _0, _0, _0, _0>, Hout = H29, Qout = Q29>, 
+K: DivInner<H29, Q29, TypedInteger<_4, _0, _0, _0, _0, _0, _0, _0>, Hout = H30, Qout = Q30>, 
+K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, Qout = Q31>, 
+K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>, 
+K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
+B: AssertTrue,
+{ type Output = Q32; type Remainder = H32; }

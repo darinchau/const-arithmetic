@@ -4,9 +4,6 @@ mod hex;
 mod integer;
 mod binary;
 
-#[cfg(test)]
-mod test;
-
 pub use hex::*;
 pub use binary::*;
 pub use integer::*;

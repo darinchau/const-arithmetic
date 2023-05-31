@@ -3,51 +3,67 @@
 use super::binary::*;
 
 /// This denotes the number 0
+#[derive(Clone, Copy, Debug)]
 pub struct _0;
 
 /// This denotes the number 1
+#[derive(Clone, Copy, Debug)]
 pub struct _1;
 
 /// This denotes the number 2
+#[derive(Clone, Copy, Debug)]
 pub struct _2;
 
 /// This denotes the number 3
+#[derive(Clone, Copy, Debug)]
 pub struct _3;
 
 /// This denotes the number 4
+#[derive(Clone, Copy, Debug)]
 pub struct _4;
 
 /// This denotes the number 5
+#[derive(Clone, Copy, Debug)]
 pub struct _5;
 
 /// This denotes the number 6
+#[derive(Clone, Copy, Debug)]
 pub struct _6;
 
 /// This denotes the number 7
+#[derive(Clone, Copy, Debug)]
 pub struct _7;
 
 /// This denotes the number 8
+#[derive(Clone, Copy, Debug)]
 pub struct _8;
 
 /// This denotes the number 9
+#[derive(Clone, Copy, Debug)]
 pub struct _9;
 
 /// This denotes the number 10
+#[derive(Clone, Copy, Debug)]
 pub struct _A;
 
 /// This denotes the number 11
+#[derive(Clone, Copy, Debug)]
 pub struct _B;
 
 /// This denotes the number 12
+#[derive(Clone, Copy, Debug)]
 pub struct _C;
 
 /// This denotes the number 13
+#[derive(Clone, Copy, Debug)]
 pub struct _D;
 
 /// This denotes the number 14
+#[derive(Clone, Copy, Debug)]
 pub struct _E;
 
 /// This denotes the number 15
+#[derive(Clone, Copy, Debug)]
 pub struct _F;
 
 /// This denotes one single hexadecimal - half a byte
