@@ -4,7 +4,6 @@
 use super::binary::*;
 use super::hex::*;
 use std::marker::PhantomData;
-use std::process::Output;
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
 #[derive(Clone, Copy)]
@@ -344,9 +343,24 @@ D: IsInteger,
 Bx: Binary,
 By: Binary,
 MinusMe: Binary,
+// minus_me = h >= 16 ** j * K
+// h -= 16 ** j * K * minus_me
+// quotient += 16 ** j * minus_me
+//
+// This becomes
+//
+// 16**j -> J16
+// J16 * K -> A, overflow = O
+// Overflow == 0 -> Bx
+// H >= A -> By
+// Bx and By -> MinusMe
+// A if MinusMe else 0 -> C
+// H - C -> Hout
+// J16 if MinusMe else 0 -> D
+// Q + D -> Qout
 J16: Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
 O: TypedEqual<Zero, Output = Bx>,
-A: TypedLessThan<H, Output = By>,
+A: TypedLeq<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 
 MinusMe: If<A, Zero, Output = C>, 
 MinusMe: If<J16, Zero, Output = D>, 
@@ -393,13 +407,18 @@ H29: IsInteger, Q29: IsInteger,
 H30: IsInteger, Q30: IsInteger, 
 H31: IsInteger, Q31: IsInteger, 
 H32: IsInteger, Q32: IsInteger, 
-B: Binary, Eq1: Binary,
+
+// For special case
+B: Binary, Eq1: Binary, Eq0: Binary,
+H33: IsInteger, Q33: IsInteger,
 HResult: IsInteger, QResult: IsInteger
 > Div<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
+
 // Make sure k is not 0
 K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
 B: AssertTrue,
 
+// Long division
 K: DivInner<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Zero, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _8>, Hout = H1, Qout = Q1>, 
 K: DivInner<H1, Q1, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _4>, Hout = H2, Qout = Q2>, 
 K: DivInner<H2, Q2, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _2>, Hout = H3, Qout = Q3>, 
@@ -434,7 +453,13 @@ K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, 
 K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>,
 
 // There is a special case we need to implement: if k = 1 then stuff goes wrong
+// If  k = 1 then h//k = h, h%k = 0
 K: TypedEqual<TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Output = Eq1>,
-Eq1: If<Zero, H32, Output = HResult>,
-Eq1: If<K, Q32, Output = QResult>,
+Eq1: If<Zero, H32, Output = H33>,
+Eq1: If<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Q32, Output = Q33>,
+
+// There is a special case we need to implement: if H = 0 then stuff goes wrong. Order matters here because 0/1 == (0, 0)
+TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>: TypedEqual<Zero, Output = Eq0>,
+Eq0: If<Zero, H33, Output = HResult>,
+Eq0: If<Zero, Q33, Output = QResult>,
 { type Output = QResult; type Remainder = HResult; }
