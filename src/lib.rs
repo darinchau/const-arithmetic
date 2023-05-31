@@ -2,12 +2,14 @@
 
 mod hex;
 mod integer;
+mod binary;
 
 #[cfg(test)]
 mod test;
 
 pub use hex::*;
-pub use integer::{TypedInteger, IsInteger, Add, Sub, Mul};
+pub use binary::*;
+pub use integer::*;
 pub use const_arith_macros::parse_integer;
 
 #[allow(unused_imports)]

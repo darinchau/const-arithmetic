@@ -1,8 +1,9 @@
 //! This implements the integer trait which denotes a 32 bit unsigned integer
 
+
+use super::binary::*;
 use super::hex::*;
 use std::marker::PhantomData;
-use super::{HexAdd, HexAdd3};
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
 pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> {
@@ -66,6 +67,99 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsI
 /// A trait that asserts two integers are equal
 pub trait TypedAssertEqual<N: IsInteger> {}
 impl<N: IsInteger> TypedAssertEqual<N> for TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, N::Hex4, N::Hex5, N::Hex6, N::Hex7> {}
+
+/// A trait that returns a binary depending on whether two integers are equal
+pub trait TypedEqual<N: IsInteger> { type Output: Binary; }
+impl <N: IsInteger, 
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
+B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary,
+R: Binary
+> TypedEqual<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+H0: HexEqual<N::Hex0, Output = B0>,
+H1: HexEqual<N::Hex1, Output = B1>,
+H2: HexEqual<N::Hex2, Output = B2>,
+H3: HexEqual<N::Hex3, Output = B3>,
+H4: HexEqual<N::Hex4, Output = B4>,
+H5: HexEqual<N::Hex5, Output = B5>,
+H6: HexEqual<N::Hex6, Output = B6>,
+H7: HexEqual<N::Hex7, Output = B7>,
+B0: BinMultiAnd<B1, B2, B3, B4, B5, B6, B7, Output = R> {
+    type Output = R;
+}
+
+/// A trait that returns a binary depending on whether a < b
+pub trait TypedLessThan<N: IsInteger> { type Output: Binary; }
+impl<N: IsInteger,
+    H0: Hex, R0: Hex, C0: Hex, X0: Hex,
+    H1: Hex, R1: Hex, C1: Hex, X1: Hex,
+    H2: Hex, R2: Hex, C2: Hex, X2: Hex,
+    H3: Hex, R3: Hex, C3: Hex, X3: Hex,
+    H4: Hex, R4: Hex, C4: Hex, X4: Hex,
+    H5: Hex, R5: Hex, C5: Hex, X5: Hex,
+    H6: Hex, R6: Hex, C6: Hex, X6: Hex,
+    H7: Hex, R7: Hex, C7: Hex, X7: Hex,
+    R: Binary
+> TypedLessThan<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+    // The implementation is a < b <=> a - b < 0 <=> a - b underflows
+    N::Hex0: HexNot<Output = X0>,
+    N::Hex1: HexNot<Output = X1>,
+    N::Hex2: HexNot<Output = X2>,
+    N::Hex3: HexNot<Output = X3>,
+    N::Hex4: HexNot<Output = X4>,
+    N::Hex5: HexNot<Output = X5>,
+    N::Hex6: HexNot<Output = X6>,
+    N::Hex7: HexNot<Output = X7>,
+    H0: HexAdd3<X0, _1, Output = R0, Carry = C0>,
+    H1: HexAdd3<X1, C0, Output = R1, Carry = C1>,
+    H2: HexAdd3<X2, C1, Output = R2, Carry = C2>,
+    H3: HexAdd3<X3, C2, Output = R3, Carry = C3>,
+    H4: HexAdd3<X4, C3, Output = R4, Carry = C4>,
+    H5: HexAdd3<X5, C4, Output = R5, Carry = C5>,
+    H6: HexAdd3<X6, C5, Output = R6, Carry = C6>,
+    H7: HexAdd3<X7, C6, Output = R7, Carry = C7>,
+    C7: HexEqual<_0, Output = R>
+{
+    type Output = R;
+}
+
+
+/// A trait that returns a binary depending on whether two integers are less or equal
+pub trait TypedLeq<N: IsInteger> { type Output: Binary; }
+impl <N: IsInteger, 
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
+B0: Binary, B1: Binary, B2: Binary
+> TypedLeq<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: TypedLessThan<N, Output = B0>,
+TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: TypedEqual<N, Output = B1>,
+B0: BinOr<B1, Output = B2>
+{
+    type Output = B2;
+}
+
+/// A trait that returns a binary depending on whether two integers are less or equal
+pub trait TypedGeq<N: IsInteger> { type Output: Binary; }
+impl <N: IsInteger, 
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
+B0: Binary, B1: Binary
+> TypedGeq<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: TypedLessThan<N, Output = B0>,
+B0: BinNot<Output = B1>
+{
+    type Output = B1;
+}
+
+/// A trait that returns a binary depending on whether two integers are less or equal
+pub trait TypedGreaterThan<N: IsInteger> { type Output: Binary; }
+impl <N: IsInteger, 
+H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
+B0: Binary, B1: Binary, B2: Binary
+> TypedGreaterThan<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: TypedLessThan<N, Output = B0>,
+TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: TypedEqual<N, Output = B1>,
+B0: BinNor<B1, Output = B2>
+{
+    type Output = B2;
+}
 
 /// Denotes integer addition. If this says C7 does not implement HexAssertEq, this means it overflowed.
 pub trait Add<N: IsInteger> { type Output: IsInteger; }
