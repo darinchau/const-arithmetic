@@ -393,8 +393,13 @@ H29: IsInteger, Q29: IsInteger,
 H30: IsInteger, Q30: IsInteger, 
 H31: IsInteger, Q31: IsInteger, 
 H32: IsInteger, Q32: IsInteger, 
-B: Binary
+B: Binary, Eq1: Binary,
+HResult: IsInteger, QResult: IsInteger
 > Div<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
+// Make sure k is not 0
+K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
+B: AssertTrue,
+
 K: DivInner<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Zero, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _8>, Hout = H1, Qout = Q1>, 
 K: DivInner<H1, Q1, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _4>, Hout = H2, Qout = Q2>, 
 K: DivInner<H2, Q2, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _2>, Hout = H3, Qout = Q3>, 
@@ -426,7 +431,10 @@ K: DivInner<H27, Q27, TypedInteger<_0, _1, _0, _0, _0, _0, _0, _0>, Hout = H28, 
 K: DivInner<H28, Q28, TypedInteger<_8, _0, _0, _0, _0, _0, _0, _0>, Hout = H29, Qout = Q29>, 
 K: DivInner<H29, Q29, TypedInteger<_4, _0, _0, _0, _0, _0, _0, _0>, Hout = H30, Qout = Q30>, 
 K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, Qout = Q31>, 
-K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>, 
-K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
-B: AssertTrue,
-{ type Output = Q32; type Remainder = H32; }
+K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>,
+
+// There is a special case we need to implement: if k = 1 then stuff goes wrong
+K: TypedEqual<TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Output = Eq1>,
+Eq1: If<Zero, H32, Output = HResult>,
+Eq1: If<K, Q32, Output = QResult>,
+{ type Output = QResult; type Remainder = HResult; }
