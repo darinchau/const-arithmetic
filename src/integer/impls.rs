@@ -2,7 +2,9 @@ use crate::hex::*;
 use crate::binary::*;
 use super::{IsInteger, TypedInteger};
 
-// Inner implementation for Equal
+// ==================================
+// = Inner implementation for equal =
+// ==================================
 pub(crate) trait _Equal<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -21,7 +23,9 @@ B0: BinMultiAnd<B1, B2, B3, B4, B5, B6, B7, Output = R> {
     type Output = R;
 }
 
-// Inner implementation for Less than
+// ======================================
+// = Inner implementation for less than =
+// ======================================
 pub(crate) trait _LessThan<N: IsInteger> { type Output: Binary; }
 impl<N: IsInteger,
     H0: Hex, R0: Hex, C0: Hex, X0: Hex,
@@ -59,7 +63,9 @@ impl<N: IsInteger,
     type Output = R;
 }
 
-// Inner implementation for Leq
+// ================================
+// = Inner implementation for leq =
+// ================================
 pub(crate) trait _Leq<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -72,7 +78,9 @@ B0: BinOr<B1, Output = B2>
     type Output = B2;
 }
 
-// Inner implementation for geq
+// ================================
+// = Inner implementation for geq =
+// ================================
 pub(crate) trait _Geq<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -84,7 +92,9 @@ B0: BinNot<Output = B1>
     type Output = B1;
 }
 
-// Inner implementation for gt
+// =========================================
+// = Inner implementation for greater than =
+// =========================================
 pub(crate) trait _GreaterThan<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -97,7 +107,9 @@ B0: BinNor<B1, Output = B2>
     type Output = B2;
 }
 
-// Inner implementation for add
+// =====================================
+// = Inner implementation for addition =
+// =====================================
 pub trait _Add<N: IsInteger> { type Output: IsInteger; }
 impl<N,
     H0: Hex, R0: Hex, C0: Hex,
@@ -123,7 +135,9 @@ impl<N,
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
 
-// Inner implementation for subtraction
+// ========================================
+// = Inner implementation for subtraction =
+// ========================================
 pub trait _Sub<N: IsInteger> { type Output: IsInteger; }
 impl<N: IsInteger,
     H0: Hex, R0: Hex, C0: Hex, X0: Hex,
@@ -157,7 +171,10 @@ impl<N: IsInteger,
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
 
-// Inner implementation for multiplication
+// ===========================================
+// = Inner implementation for multiplication =
+// ===========================================
+
 // Implements the 16-bit multiplication. This ensures no overflow happen. 
 // To ease implementation we multiply the first 4 hex of the Integer by the last 4 hex
 // This makes it an unary operation on integers
@@ -184,7 +201,6 @@ X33: Hex, C33: Hex,
 C1: Hex, C2: Hex, C3: Hex, C4: Hex, C5: Hex, C6: Hex, C_: Hex,
 R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex,
 > _FoldMul for TypedInteger<H0, H1, H2, H3, K0, K1, K2, K3> where
-// Multiplication part
 H0: HexMul<K0, Output = X00, Carry = C00>,
 H0: HexMul<K1, Output = X01, Carry = C01>,
 H0: HexMul<K2, Output = X02, Carry = C02>,
@@ -201,7 +217,6 @@ H3: HexMul<K0, Output = X30, Carry = C30>,
 H3: HexMul<K1, Output = X31, Carry = C31>,
 H3: HexMul<K2, Output = X32, Carry = C32>,
 H3: HexMul<K3, Output = X33, Carry = C33>,
-// Addition part
 C00: HexAdd3<X01, X10, Output = R1, Carry = C1>,
 C01: HexAdd6<X02, C10, X11, X20, C1, Output = R2, Carry = C2>,
 C02: HexAdd8<X03, X12, C11, C20, X21, X30, C2, Output = R3, Carry = C3>,
@@ -214,6 +229,9 @@ C_: HexAssertEqual<_0>
     type Output = TypedInteger<X00, R1, R2, R3, R4, R5, R6, R7>;
 }
 
+// So for the normal multiplication, we multiply 16 bits by 16 bits, so nothing overflows
+// Then stitch everything together
+// This is the generic implementation
 pub(crate) trait _Mul<N: IsInteger> {
     type Output: IsInteger;
     type Overflow: IsInteger;
@@ -369,7 +387,7 @@ HResult: IsInteger, QResult: IsInteger
 //     return quotient, remainder
 
 // Make sure k is not 0
-K: _GreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
+K: _GreaterThan<_Zero, Output = B>,
 B: AssertTrue,
 
 // Long division
