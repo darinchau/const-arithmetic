@@ -2,7 +2,6 @@ extern crate proc_macro;
 
 use proc_macro::TokenStream;
 use syn::{parse_macro_input, LitInt};
-use quote::quote;
 
 // Debug :)
 fn print_type_of<T>(_: &T) -> &'static str {

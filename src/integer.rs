@@ -6,6 +6,12 @@ use super::hex::*;
 use std::marker::PhantomData;
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// // a has type TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>
+/// ```
 #[derive(Clone, Copy)]
 pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> {
     _m0: PhantomData<H0>,
@@ -32,12 +38,33 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> Typ
         }
     }
 
+    /// Returns the value of the Typed integer
+    /// 
+    /// Example
+    /// ```
+    /// use const_arithmetic::*;
+    /// let a = parse_integer!(3);
+    /// assert_eq!(a.number(), 3);
+    /// ```
     pub const fn number() -> u32 {
         H0::NUMBER + 16 * H1::NUMBER + 256 * H2::NUMBER + 4096 * H3::NUMBER + 65536 * H4::NUMBER + 1048576 * H5::NUMBER + 16777216 * H6::NUMBER + 268435456 * H7::NUMBER
     }
 }
 
 /// A trait that denotes whether something is an integer
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a is 3
+/// fn is_3<T>(_a: T) where
+/// T: IsInteger,
+/// T: TypedAssertEqual<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>>
+/// {}
+/// 
+/// is_3(a);
+/// ```
 pub trait IsInteger {
     type Hex0: Hex;
     type Hex1: Hex;
@@ -66,10 +93,42 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsI
 }
 
 /// A trait that asserts two integers are equal
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a is 3
+/// fn is_3<T>(_a: T) where
+/// T: IsInteger,
+/// T: TypedAssertEqual<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>>
+/// {}
+/// 
+/// is_3(a);
+/// ```
 pub trait TypedAssertEqual<N: IsInteger> {}
 impl<N: IsInteger> TypedAssertEqual<N> for TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, N::Hex4, N::Hex5, N::Hex6, N::Hex7> {}
 
 /// A trait that returns a binary depending on whether two integers are equal
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a <= 5 but not a < 3
+/// fn example<T, R, S>(_a: T) where
+/// T: IsInteger,
+/// R: Binary,
+/// S: Binary,
+/// T: TypedEqual<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>, Output = R>,
+/// R: AssertTrue,
+/// T: TypedEqual<TypedInteger<_5, _0, _0, _0, _0, _0, _0, _0>, Output = S>,
+/// S: AssertFalse
+/// {}
+/// 
+/// example(a);
+/// ```
 pub trait TypedEqual<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -89,6 +148,25 @@ B0: BinMultiAnd<B1, B2, B3, B4, B5, B6, B7, Output = R> {
 }
 
 /// A trait that returns a binary depending on whether a < b
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a <= 5 but not a < 3
+/// fn example<T, R, S>(_a: T) where
+/// T: IsInteger,
+/// R: Binary,
+/// S: Binary,
+/// T: TypedLessThan<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>, Output = R>,
+/// R: AssertFalse,
+/// T: TypedLessThan<TypedInteger<_5, _0, _0, _0, _0, _0, _0, _0>, Output = S>,
+/// S: AssertTrue
+/// {}
+/// 
+/// example(a);
+/// ```
 pub trait TypedLessThan<N: IsInteger> { type Output: Binary; }
 impl<N: IsInteger,
     H0: Hex, R0: Hex, C0: Hex, X0: Hex,
@@ -128,6 +206,25 @@ impl<N: IsInteger,
 
 
 /// A trait that returns a binary depending on whether two integers are less or equal
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a <= 5 but not a < 3
+/// fn example<T, R, S>(_a: T) where
+/// T: IsInteger,
+/// R: Binary,
+/// S: Binary,
+/// T: TypedLeq<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>, Output = R>,
+/// R: AssertTrue,
+/// T: TypedLeq<TypedInteger<_5, _0, _0, _0, _0, _0, _0, _0>, Output = S>,
+/// S: AssertTrue
+/// {}
+/// 
+/// example(a);
+/// ```
 pub trait TypedLeq<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -140,7 +237,26 @@ B0: BinOr<B1, Output = B2>
     type Output = B2;
 }
 
-/// A trait that returns a binary depending on whether two integers are less or equal
+/// A trait that returns a binary depending on whether two integers are greater or equal
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a <= 5 but not a < 3
+/// fn example<T, R, S>(_a: T) where
+/// T: IsInteger,
+/// R: Binary,
+/// S: Binary,
+/// T: TypedGeq<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>, Output = R>,
+/// R: AssertTrue,
+/// T: TypedGeq<TypedInteger<_5, _0, _0, _0, _0, _0, _0, _0>, Output = S>,
+/// S: AssertFalse
+/// {}
+/// 
+/// example(a);
+/// ```
 pub trait TypedGeq<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -152,7 +268,26 @@ B0: BinNot<Output = B1>
     type Output = B1;
 }
 
-/// A trait that returns a binary depending on whether two integers are less or equal
+/// A trait that returns a binary depending on whether a > b
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// 
+/// // This verifies that a <= 5 but not a < 3
+/// fn example<T, R, S>(_a: T) where
+/// T: IsInteger,
+/// R: Binary,
+/// S: Binary,
+/// T: TypedGreaterThan<TypedInteger<_3, _0, _0, _0, _0, _0, _0, _0>, Output = R>,
+/// R: AssertFalse,
+/// T: TypedGreaterThan<TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Output = S>,
+/// S: AssertTrue
+/// {}
+/// 
+/// example(a);
+/// ```
 pub trait TypedGreaterThan<N: IsInteger> { type Output: Binary; }
 impl <N: IsInteger, 
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
@@ -166,7 +301,37 @@ B0: BinNor<B1, Output = B2>
 }
 
 /// Denotes integer addition. If this says C7 does not implement HexAssertEq, this means it overflowed.
-pub trait Add<N: IsInteger> { type Output: IsInteger; }
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(3);
+/// let b = parse_integer!(5);
+/// let c = parse_integer!(8);
+/// 
+/// // This verifies that 3 + 5 = 8
+/// fn example<P, Q, R>(_p: P, _q: Q, _r: R) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// P: TypedAdd<Q, Output = R>
+/// {}
+/// 
+/// example(a, b, c);
+/// 
+/// // This is another way of implementing the above
+/// fn example2<P, Q, R, S, T>(_p: P, _q: Q, _r: R) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// S: IsInteger,
+/// T: Binary,
+/// P: TypedAdd<Q, Output = S>,
+/// R: TypedEqual<S, Output = T>,
+/// T: AssertTrue {}
+/// example2(a, b, c);
+/// ```
+pub trait TypedAdd<N: IsInteger> { type Output: IsInteger; }
 impl<N,
     H0: Hex, R0: Hex, C0: Hex,
     H1: Hex, R1: Hex, C1: Hex,
@@ -176,7 +341,7 @@ impl<N,
     H5: Hex, R5: Hex, C5: Hex,
     H6: Hex, R6: Hex, C6: Hex,
     H7: Hex, R7: Hex, C7: Hex
-> Add<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+> TypedAdd<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
     N: IsInteger,
     H0: HexAdd<N::Hex0, Output = R0, Carry = C0>,
     H1: HexAdd3<N::Hex1, C0, Output = R1, Carry = C1>,
@@ -192,7 +357,25 @@ impl<N,
 }
 
 /// Denotes integer subtraction. If this says C7 does not implement HexAssertEq, this means it underflowed.
-pub trait Sub<N: IsInteger> { type Output: IsInteger; }
+///
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(7);
+/// let b = parse_integer!(4);
+/// let c = parse_integer!(3);
+/// 
+/// // This verifies that 7 - 4 = 3
+/// fn example<P, Q, R>(_p: P, _q: Q, _r: R) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// P: TypedSub<Q, Output = R>
+/// {}
+/// 
+/// example(a, b, c);
+/// ```
+pub trait TypedSub<N: IsInteger> { type Output: IsInteger; }
 impl<N: IsInteger,
     H0: Hex, R0: Hex, C0: Hex, X0: Hex,
     H1: Hex, R1: Hex, C1: Hex, X1: Hex,
@@ -202,7 +385,7 @@ impl<N: IsInteger,
     H5: Hex, R5: Hex, C5: Hex, X5: Hex,
     H6: Hex, R6: Hex, C6: Hex, X6: Hex,
     H7: Hex, R7: Hex, C7: Hex, X7: Hex,
-> Sub<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+> TypedSub<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
     // The implementation takes advantage of overflowing, a - b = a + (2 ** 32 - 1 - b) + 1 = a - b + 2 ** 32 (mod 2 **32)
     N::Hex0: HexNot<Output = X0>,
     N::Hex1: HexNot<Output = X1>,
@@ -225,9 +408,9 @@ impl<N: IsInteger,
     type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
 }
 
-/// Implements the 16-bit multiplication. This ensures no overflow happen. 
-/// To ease implementation we multiply the first 4 hex of the Integer by the last 4 hex
-/// This makes it an unary operation on integers
+// Implements the 16-bit multiplication. This ensures no overflow happen. 
+// To ease implementation we multiply the first 4 hex of the Integer by the last 4 hex
+// This makes it an unary operation on integers
 trait FoldMul { type Output: IsInteger; }
 impl<
 H0: Hex, H1: Hex, H2: Hex, H3: Hex, 
@@ -282,7 +465,43 @@ C_: HexAssertEqual<_0>
 }
 
 /// A multiplication of 32 bit number and 32 bit number can be stored safely in a 64 bit number. We represent them as lower 32 bits and upper 32 bits
-pub trait Mul<N: IsInteger> {
+///
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = parse_integer!(6);
+/// let b = parse_integer!(4);
+/// let c = parse_integer!(24);
+/// 
+/// // This verifies that 6 * 4 = 24
+/// fn example<P, Q, R>(_p: P, _q: Q, _r: R) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// P: TypedMul<Q, Output = R>
+/// {}
+/// 
+/// example(a, b, c);
+/// 
+/// // If we are handling really big integers we can get the overflowed bits as follows
+/// // 1234567890 * 987654321 = 1219326311126352690 = 283896529 * (2**32) + 3623437106
+/// let a = parse_integer!(1234567890);
+/// let b = parse_integer!(987654321);
+/// let overflow = parse_integer!(283896529);
+/// let result = parse_integer!(3623437106);
+/// 
+/// // This verifies that 7 - 4 = 3
+/// fn example2<P, Q, R, S>(_p: P, _q: Q, _r: R, _s: S) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// S: IsInteger,
+/// P: TypedMul<Q, Output = R, Overflow = S>
+/// {}
+/// 
+/// example2(a, b, result, overflow);
+/// ```
+pub trait TypedMul<N: IsInteger> {
     type Output: IsInteger;
     type Overflow: IsInteger;
 }
@@ -291,7 +510,7 @@ H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
 N0: IsInteger, N1: IsInteger, N2: IsInteger, N3: IsInteger,
 R4: Hex, R5: Hex, R6: Hex, R7: Hex, R8: Hex, R9: Hex, R10: Hex, R11: Hex, R12: Hex,
 C4: Hex, C5: Hex, C6: Hex, C7: Hex, C8: Hex, C9: Hex, C10: Hex, C11: Hex, C_: Hex
-> Mul<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
+> TypedMul<N> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
 TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, H0, H1, H2, H3>: FoldMul<Output = N0>,
 TypedInteger<N::Hex0, N::Hex1, N::Hex2, N::Hex3, H4, H5, H6, H7>: FoldMul<Output = N1>,
 TypedInteger<N::Hex4, N::Hex5, N::Hex6, N::Hex7, H0, H1, H2, H3>: FoldMul<Output = N2>,
@@ -358,21 +577,45 @@ MinusMe: Binary,
 // H - C -> Hout
 // J16 if MinusMe else 0 -> D
 // Q + D -> Qout
-J16: Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
+J16: TypedMul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
 O: TypedEqual<Zero, Output = Bx>,
 A: TypedLeq<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 
 MinusMe: If<A, Zero, Output = C>, 
 MinusMe: If<J16, Zero, Output = D>, 
-H: Sub<C, Output = Ho>, 
-D: Add<Q, Output = Qo> {
+H: TypedSub<C, Output = Ho>, 
+D: TypedAdd<Q, Output = Qo> {
     type Hout = Ho;
     type Qout = Qo;
 }
 
+// TODO: We can actually implement bitshift to optimize division
+
 /// Returns the Quotient of H/K for H: Div<K, Output: ...>
-/// Implementation detail: This is an expanded version of long division - it takes O(1) steps where the constant is about 1000
-pub trait Div<K: IsInteger> { type Output: IsInteger; type Remainder: IsInteger; }
+/// Note about implementation detail: This is an expanded version of long division - it takes O(1) steps but the constant is quite big unfortunately
+/// (to be precise its 32 multiplications plus a negligible amount of addition and subtraction and other stuff)
+/// If there were many divisions, the compile time increases quite a bit
+/// 
+/// Example
+/// ```
+/// // (This doc test takes about 5 seconds to complete on my computer)
+/// use const_arithmetic::*;
+/// let a = parse_integer!(25);
+/// let b = parse_integer!(4);
+/// let quotient = parse_integer!(6);
+/// let modulus = parse_integer!(1);
+/// 
+/// // This verifies that 25/4 = 6 ... 1
+/// fn example<P, Q, R, S>(_p: P, _q: Q, _r: R, _s: S) where
+/// P: IsInteger,
+/// Q: IsInteger,
+/// R: IsInteger,
+/// S: IsInteger,
+/// P: TypedDiv<Q, Output = R, Remainder = S>
+/// {}
+/// 
+/// example(a, b, quotient, modulus);
+pub trait TypedDiv<K: IsInteger> { type Output: IsInteger; type Remainder: IsInteger; }
 impl< K: IsInteger, 
 Hx0: Hex, Hx1: Hex, Hx2: Hex, Hx3: Hex, Hx4: Hex, Hx5: Hex, Hx6: Hex, Hx7: Hex, 
 H1: IsInteger, Q1: IsInteger, 
@@ -407,12 +650,12 @@ H29: IsInteger, Q29: IsInteger,
 H30: IsInteger, Q30: IsInteger, 
 H31: IsInteger, Q31: IsInteger, 
 H32: IsInteger, Q32: IsInteger, 
-
 // For special case
 B: Binary, Eq1: Binary, Eq0: Binary,
 H33: IsInteger, Q33: IsInteger,
 HResult: IsInteger, QResult: IsInteger
-> Div<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
+
+> TypedDiv<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
 
 // Make sure k is not 0
 K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,
@@ -451,15 +694,15 @@ K: DivInner<H28, Q28, TypedInteger<_8, _0, _0, _0, _0, _0, _0, _0>, Hout = H29, 
 K: DivInner<H29, Q29, TypedInteger<_4, _0, _0, _0, _0, _0, _0, _0>, Hout = H30, Qout = Q30>, 
 K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, Qout = Q31>, 
 K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>,
-
 // There is a special case we need to implement: if k = 1 then stuff goes wrong
 // If  k = 1 then h//k = h, h%k = 0
 K: TypedEqual<TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Output = Eq1>,
 Eq1: If<Zero, H32, Output = H33>,
 Eq1: If<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Q32, Output = Q33>,
-
 // There is a special case we need to implement: if H = 0 then stuff goes wrong. Order matters here because 0/1 == (0, 0)
 TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>: TypedEqual<Zero, Output = Eq0>,
 Eq0: If<Zero, H33, Output = HResult>,
 Eq0: If<Zero, Q33, Output = QResult>,
-{ type Output = QResult; type Remainder = HResult; }
+{ 
+    type Output = QResult; type Remainder = HResult; 
+}

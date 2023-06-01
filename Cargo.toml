@@ -15,5 +15,3 @@ readme = "README.md"
 
 [dependencies]
 const-arith-macros = { path = "./const-arith-macros"}
-quote = "1.0.28"
-paste = "1.0.12"
