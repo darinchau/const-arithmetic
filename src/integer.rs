@@ -655,8 +655,30 @@ H32: IsInteger, Q32: IsInteger,
 B: Binary, Eq1: Binary, Eq0: Binary,
 H33: IsInteger, Q33: IsInteger,
 HResult: IsInteger, QResult: IsInteger
-
 > TypedDiv<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
+// Here is some psuedocode in python
+// # Actual psuedocode for division
+// def long_division(H, K):
+//     quotient = 0
+//     h = H
+//     for j in range(7, -1, -1):
+//         while h >= 16 ** j * K:
+//             h -= 16 ** j * K
+//             quotient += 16 ** j
+//     remainder = h
+//     return quotient, remainder
+
+// # Implementation psuedocode for Division
+// def long_division(H, K):
+//     quotient = 0
+//     h = H
+//     for j in (7, 6, 5, 4, 3, 2, 1, 0):
+//         for x in (8, 4, 2, 1):
+//             minus_me = h >= 16 ** j * x * K
+//             h -= 16 ** j * x * K * minus_me
+//             quotient += 16 ** j * x * minus_me
+//     remainder = h
+//     return quotient, remainder
 
 // Make sure k is not 0
 K: TypedGreaterThan<TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>, Output = B>,

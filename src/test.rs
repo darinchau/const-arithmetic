@@ -1,4 +1,78 @@
 //! If this compiles then all tests passed
+
+
+// This is generated using the following python code
+// # Test cases
+// import random
+// random.seed(420)
+
+// # Some big ones we wanted to test
+// nos = (0, 1, 2, 3, 4, 5, 8, 32, 95, 96, 97, 128, 324, 330, 862761, 2147483647, 2147483648, 4294967294, 4294967295)
+// sets_to_test = set()
+
+// for r in nos:
+//     for s in nos:
+//         if (r, s) in sets_to_test:
+//             continue
+//         if (s, r) in sets_to_test:
+//             continue
+//         if r > s:
+//             sets_to_test.add((s, r))
+//         else:
+//             sets_to_test.add((r, s))
+
+
+// # Generate some random ones
+// i = 0
+// while i < 15:
+//     r = int(2 ** (random.random() * 32)) - 1
+//     s = int(2 ** (random.random() * 32)) - 1
+//     if r > s:
+//         r, s = s, r
+//     if (r, s) in sets_to_test:
+//         continue
+//     sets_to_test.add((r, s))
+//     i += 1
+
+// for i, (h, k) in enumerate(sorted(sets_to_test)):
+//     print("#[test]")
+//     print(f"fn test_set_{i+1}() {{")
+//     print(f"    let h = parse_integer!({h}); ")
+//     print(f"    let k = parse_integer!({k}); ")
+
+//     if h + k < 2**32:
+//         print(f"    let hk_sum = parse_integer!({h + k}); ")
+//         print(f"    add_equal(h, k, hk_sum);")
+    
+//     if h >= k:
+//         print(f"    let hk_diff = parse_integer!({h - k}); ")
+//         print(f"    sub_equal(h, k, hk_diff);")
+//     if k >= h:
+//         print(f"    let kh_diff = parse_integer!({k - h}); ")
+//         print(f"    sub_equal(k, h, kh_diff);")
+    
+//     print(f"    let hk_prod = parse_integer!({(h*k)%2**32}); ")
+//     print(f"    let hk_over = parse_integer!({(h*k)//2**32}); ")
+//     print(f"    mul_equal(h, k, hk_over, hk_prod);")
+//     print(f"    mul_equal(k, h, hk_over, hk_prod);")
+
+//     if k > 0:
+//         print(f"    let hk_quot = parse_integer!({h//k}); ")
+//         print(f"    let hk_rem = parse_integer!({h%k}); ")
+//         print(f"    div_equal(h, k, hk_quot, hk_rem);")
+
+//     if h > 0:
+//         print(f"    let kh_quot = parse_integer!({k//h}); ")
+//         print(f"    let kh_rem = parse_integer!({k%h}); ")
+//         print(f"    div_equal(k, h, kh_quot, kh_rem);")
+
+//     if h < k:
+//         print(f"    less_than(h, k);")
+//     if k < h:
+//         print(f"    less_than(k, h);")
+
+//     print("}")
+//     print()
 use super::*;
 
 fn div_equal<H, K, Q, R>(_a: H, _b: K, _c: Q, _d: R) where H: IsInteger, K: IsInteger, Q: IsInteger, R: IsInteger, H: TypedDiv<K, Output = Q, Remainder = R> {}
