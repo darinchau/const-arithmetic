@@ -14,4 +14,4 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-const-arith-macros = { path = "./const-arith-macros"}
+const-arith-macros = { version = "~0.1.0", path = "./const-arith-macros"}
