@@ -87,7 +87,27 @@ impl Hex for _D { const NUMBER: u32 = 13; }
 impl Hex for _E { const NUMBER: u32 = 14; }
 impl Hex for _F { const NUMBER: u32 = 15; }
 
-/// This is an internal implementation of addition of one other number
+/// This is an internal implementation of addition of 2 number
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = _F;
+/// let b = _6;
+/// let result = _5;
+/// let overflow = _1;
+/// 
+/// // This verifies 15 + 6 = 21
+/// fn hex_add<H1, H2, B, C>(_h1: H1, _h2: H2,  _b: B, _c: C) where
+/// H1: Hex,
+/// H2: Hex,
+/// B: Hex,
+/// C: Hex,
+/// H1: HexAdd<H2, Output = B, Carry = C>
+/// {}
+/// 
+/// hex_add(a, b, result, overflow);
+/// ```
 pub trait HexAdd<H: Hex> { type Output: Hex; type Carry: Hex; }
 impl HexAdd<_0> for _0 { type Output = _0; type Carry = _0; }
 impl HexAdd<_0> for _1 { type Output = _1; type Carry = _0; }
@@ -347,6 +367,27 @@ impl HexAdd<_F> for _E { type Output = _D; type Carry = _1; }
 impl HexAdd<_F> for _F { type Output = _E; type Carry = _1; }
 
 /// This is an internal implementation of addition of three number
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = _5;
+/// let b = _6;
+/// let c = _7;
+/// let result = _2;
+/// let overflow = _1;
+/// 
+/// fn hex_add<H1, H2, H3, B, C>(_h1: H1, _h2: H2, _h3: H3, _b: B, _c: C) where
+/// H1: Hex,
+/// H2: Hex,
+/// H3: Hex,
+/// B: Hex,
+/// C: Hex,
+/// H1: HexAdd3<H2, H3, Output = B, Carry = C>
+/// {}
+/// 
+/// hex_add(a, b, c, result, overflow);
+/// ```
 pub trait HexAdd3<H1: Hex, H2: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _0 where H: HexAdd<_0, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
 impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_0, H> for _1 where H: HexAdd<_1, Output = R, Carry = C0>, C0: HexAdd<_0, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
@@ -606,7 +647,7 @@ impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _E where H: H
 impl<H: Hex, R: Hex, C0: Hex, Cr: Hex, C_: Hex> HexAdd3<_F, H> for _F where H: HexAdd<_E, Output = R, Carry = C0>, C0: HexAdd<_1, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = R; type Carry = Cr; }
 
 /// This is an internal implementation of addition of 4 number
-pub trait HexAdd4<H1: Hex, H2: Hex, H3: Hex> { type Output: Hex; type Carry: Hex; }
+pub(crate) trait HexAdd4<H1: Hex, H2: Hex, H3: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _0 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_0, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _1 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_1, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _2 where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_2, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
@@ -625,7 +666,7 @@ impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _E where H1
 impl<H1, H2, H3, R1, C1, C2, Result, Cr, C_> HexAdd4<H1, H2, H3> for _F where H1: Hex, H2: Hex, H3: Hex, R1: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R1, Carry = C1>, R1: HexAdd<_F, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
 /// This is an internal implementation of addition of 5 number
-pub trait HexAdd5<H1: Hex, H2: Hex, H3: Hex, H4: Hex> { type Output: Hex; type Carry: Hex; }
+pub(crate) trait HexAdd5<H1: Hex, H2: Hex, H3: Hex, H4: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H1, H2, H3, H4, R, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R, Carry = C1>, R: HexAdd3<_0, H4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, R, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R, Carry = C1>, R: HexAdd3<_1, H4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, R, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R, Carry = C1>, R: HexAdd3<_2, H4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
@@ -644,7 +685,7 @@ impl<H1, H2, H3, H4, R, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _E w
 impl<H1, H2, H3, H4, R, C1, C2, Result, Cr, C_> HexAdd5<H1, H2, H3, H4> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd3<H2, H3, Output = R, Carry = C1>, R: HexAdd3<_F, H4, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
 /// This is an internal implementation of addition of 6 number
-pub trait HexAdd6<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex> { type Output: Hex; type Carry: Hex; }
+pub(crate) trait HexAdd6<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H1, H2, H3, H4, H5, R, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R, Carry = C1>, R: HexAdd3<_0, H5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, R, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R, Carry = C1>, R: HexAdd3<_1, H5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, R, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R, Carry = C1>, R: HexAdd3<_2, H5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
@@ -663,7 +704,7 @@ impl<H1, H2, H3, H4, H5, R, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> 
 impl<H1, H2, H3, H4, H5, R, C1, C2, Result, Cr, C_> HexAdd6<H1, H2, H3, H4, H5> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd4<H2, H3, H4, Output = R, Carry = C1>, R: HexAdd3<_F, H5, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
 /// This is an internal implementation of addition of 7 number
-pub trait HexAdd7<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex> { type Output: Hex; type Carry: Hex; }
+pub(crate) trait HexAdd7<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H1, H2, H3, H4, H5, H6, R, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R, Carry = C1>, R: HexAdd3<_0, H6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, H6, R, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R, Carry = C1>, R: HexAdd3<_1, H6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, H6, R, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R, Carry = C1>, R: HexAdd3<_2, H6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
@@ -682,7 +723,7 @@ impl<H1, H2, H3, H4, H5, H6, R, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, 
 impl<H1, H2, H3, H4, H5, H6, R, C1, C2, Result, Cr, C_> HexAdd7<H1, H2, H3, H4, H5, H6> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd5<H2, H3, H4, H5, Output = R, Carry = C1>, R: HexAdd3<_F, H6, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
 /// This is an internal implementation of addition of 8 number
-pub trait HexAdd8<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> { type Output: Hex; type Carry: Hex; }
+pub(crate) trait HexAdd8<H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> { type Output: Hex; type Carry: Hex; }
 impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _0 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R, Carry = C1>, R: HexAdd3<_0, H7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _1 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R, Carry = C1>, R: HexAdd3<_1, H7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _2 where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R, Carry = C1>, R: HexAdd3<_2, H7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
@@ -700,7 +741,35 @@ impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, 
 impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _E where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R, Carry = C1>, R: HexAdd3<_E, H7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 impl<H1, H2, H3, H4, H5, H6, H7, R, C1, C2, Result, Cr, C_> HexAdd8<H1, H2, H3, H4, H5, H6, H7> for _F where H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex, R: Hex, Result: Hex, C1: Hex, C2: Hex, Cr: Hex, C_: Hex, H1: HexAdd6<H2, H3, H4, H5, H6, Output = R, Carry = C1>, R: HexAdd3<_F, H7, Output = Result, Carry = C2>, C1: HexAdd<C2, Output = Cr, Carry = C_>, C_: HexAssertEqual<_0> { type Output = Result; type Carry = Cr; }
 
-/// This trait is the equal trait on hex numbers. False evaluates to _0 and true evaluates to _1
+/// This is an internal implementation of equality on hexadecimal. False evaluates to _0 and true evaluates to _1
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = _5;
+/// let b = _5;
+/// 
+/// fn hex_equal<H1, H2, B>(_h1: H1, _h2: H2) where
+/// H1: Hex,
+/// H2: Hex,
+/// B: Binary,
+/// H1: HexEqual<H2, Output = B> ,
+/// B: AssertTrue
+/// {}
+/// 
+/// hex_equal(a, b);
+/// 
+/// let c = _1;
+/// fn hex_neq<H1, H2, B>(_h1: H1, _h2: H2) where
+/// H1: Hex,
+/// H2: Hex,
+/// B: Binary,
+/// H1: HexEqual<H2, Output = B> ,
+/// B: AssertFalse
+/// {}
+/// 
+/// hex_neq(a, c);
+/// ```
 pub trait HexEqual<H: Hex> { type Output: Binary; }
 impl HexEqual<_0> for _0 { type Output = _1; }
 impl HexEqual<_0> for _1 { type Output = _0; }
@@ -959,7 +1028,25 @@ impl HexEqual<_F> for _D { type Output = _0; }
 impl HexEqual<_F> for _E { type Output = _0; }
 impl HexEqual<_F> for _F { type Output = _1; }
 
-/// This trait is the equal trait on hex numbers with an assertion quality. False ones are simply not implemented
+/// This is an internal implementation of asserted equality on hexadecimal.
+/// 
+/// Example
+/// ```
+/// use const_arithmetic::*;
+/// let a = _0;
+/// let b = _0;
+/// 
+/// fn hex_equal<H1, H2>(_h1: H1, _h2: H2) where
+/// H1: Hex,
+/// H2: Hex,
+/// H1: HexAssertEqual<H2> {}
+/// 
+/// hex_equal(a, b);
+/// 
+/// let c = _1;
+/// // This does not compile
+/// // hex_equal(a, c);
+/// ```
 pub trait HexAssertEqual<H: Hex> { }
 impl HexAssertEqual<_0> for _0 { }
 impl HexAssertEqual<_1> for _1 { }
@@ -1255,320 +1342,3 @@ impl HexMul<_F> for _C { type Output = _4; type Carry = _B; }
 impl HexMul<_F> for _D { type Output = _3; type Carry = _C; }
 impl HexMul<_F> for _E { type Output = _2; type Carry = _D; }
 impl HexMul<_F> for _F { type Output = _1; type Carry = _E; }
-
-/// This is an internal implementation of a < b
-/// This is an internal implementation of a < b
-pub trait HexLessThan<H: Hex> {type Output: Binary; }
-impl HexLessThan<_0> for _0 { type Output = _0; }
-impl HexLessThan<_0> for _1 { type Output = _0; }
-impl HexLessThan<_0> for _2 { type Output = _0; }
-impl HexLessThan<_0> for _3 { type Output = _0; }
-impl HexLessThan<_0> for _4 { type Output = _0; }
-impl HexLessThan<_0> for _5 { type Output = _0; }
-impl HexLessThan<_0> for _6 { type Output = _0; }
-impl HexLessThan<_0> for _7 { type Output = _0; }
-impl HexLessThan<_0> for _8 { type Output = _0; }
-impl HexLessThan<_0> for _9 { type Output = _0; }
-impl HexLessThan<_0> for _A { type Output = _0; }
-impl HexLessThan<_0> for _B { type Output = _0; }
-impl HexLessThan<_0> for _C { type Output = _0; }
-impl HexLessThan<_0> for _D { type Output = _0; }
-impl HexLessThan<_0> for _E { type Output = _0; }
-impl HexLessThan<_0> for _F { type Output = _0; }
-impl HexLessThan<_1> for _0 { type Output = _1; }
-impl HexLessThan<_1> for _1 { type Output = _0; }
-impl HexLessThan<_1> for _2 { type Output = _0; }
-impl HexLessThan<_1> for _3 { type Output = _0; }
-impl HexLessThan<_1> for _4 { type Output = _0; }
-impl HexLessThan<_1> for _5 { type Output = _0; }
-impl HexLessThan<_1> for _6 { type Output = _0; }
-impl HexLessThan<_1> for _7 { type Output = _0; }
-impl HexLessThan<_1> for _8 { type Output = _0; }
-impl HexLessThan<_1> for _9 { type Output = _0; }
-impl HexLessThan<_1> for _A { type Output = _0; }
-impl HexLessThan<_1> for _B { type Output = _0; }
-impl HexLessThan<_1> for _C { type Output = _0; }
-impl HexLessThan<_1> for _D { type Output = _0; }
-impl HexLessThan<_1> for _E { type Output = _0; }
-impl HexLessThan<_1> for _F { type Output = _0; }
-impl HexLessThan<_2> for _0 { type Output = _1; }
-impl HexLessThan<_2> for _1 { type Output = _1; }
-impl HexLessThan<_2> for _2 { type Output = _0; }
-impl HexLessThan<_2> for _3 { type Output = _0; }
-impl HexLessThan<_2> for _4 { type Output = _0; }
-impl HexLessThan<_2> for _5 { type Output = _0; }
-impl HexLessThan<_2> for _6 { type Output = _0; }
-impl HexLessThan<_2> for _7 { type Output = _0; }
-impl HexLessThan<_2> for _8 { type Output = _0; }
-impl HexLessThan<_2> for _9 { type Output = _0; }
-impl HexLessThan<_2> for _A { type Output = _0; }
-impl HexLessThan<_2> for _B { type Output = _0; }
-impl HexLessThan<_2> for _C { type Output = _0; }
-impl HexLessThan<_2> for _D { type Output = _0; }
-impl HexLessThan<_2> for _E { type Output = _0; }
-impl HexLessThan<_2> for _F { type Output = _0; }
-impl HexLessThan<_3> for _0 { type Output = _1; }
-impl HexLessThan<_3> for _1 { type Output = _1; }
-impl HexLessThan<_3> for _2 { type Output = _1; }
-impl HexLessThan<_3> for _3 { type Output = _0; }
-impl HexLessThan<_3> for _4 { type Output = _0; }
-impl HexLessThan<_3> for _5 { type Output = _0; }
-impl HexLessThan<_3> for _6 { type Output = _0; }
-impl HexLessThan<_3> for _7 { type Output = _0; }
-impl HexLessThan<_3> for _8 { type Output = _0; }
-impl HexLessThan<_3> for _9 { type Output = _0; }
-impl HexLessThan<_3> for _A { type Output = _0; }
-impl HexLessThan<_3> for _B { type Output = _0; }
-impl HexLessThan<_3> for _C { type Output = _0; }
-impl HexLessThan<_3> for _D { type Output = _0; }
-impl HexLessThan<_3> for _E { type Output = _0; }
-impl HexLessThan<_3> for _F { type Output = _0; }
-impl HexLessThan<_4> for _0 { type Output = _1; }
-impl HexLessThan<_4> for _1 { type Output = _1; }
-impl HexLessThan<_4> for _2 { type Output = _1; }
-impl HexLessThan<_4> for _3 { type Output = _1; }
-impl HexLessThan<_4> for _4 { type Output = _0; }
-impl HexLessThan<_4> for _5 { type Output = _0; }
-impl HexLessThan<_4> for _6 { type Output = _0; }
-impl HexLessThan<_4> for _7 { type Output = _0; }
-impl HexLessThan<_4> for _8 { type Output = _0; }
-impl HexLessThan<_4> for _9 { type Output = _0; }
-impl HexLessThan<_4> for _A { type Output = _0; }
-impl HexLessThan<_4> for _B { type Output = _0; }
-impl HexLessThan<_4> for _C { type Output = _0; }
-impl HexLessThan<_4> for _D { type Output = _0; }
-impl HexLessThan<_4> for _E { type Output = _0; }
-impl HexLessThan<_4> for _F { type Output = _0; }
-impl HexLessThan<_5> for _0 { type Output = _1; }
-impl HexLessThan<_5> for _1 { type Output = _1; }
-impl HexLessThan<_5> for _2 { type Output = _1; }
-impl HexLessThan<_5> for _3 { type Output = _1; }
-impl HexLessThan<_5> for _4 { type Output = _1; }
-impl HexLessThan<_5> for _5 { type Output = _0; }
-impl HexLessThan<_5> for _6 { type Output = _0; }
-impl HexLessThan<_5> for _7 { type Output = _0; }
-impl HexLessThan<_5> for _8 { type Output = _0; }
-impl HexLessThan<_5> for _9 { type Output = _0; }
-impl HexLessThan<_5> for _A { type Output = _0; }
-impl HexLessThan<_5> for _B { type Output = _0; }
-impl HexLessThan<_5> for _C { type Output = _0; }
-impl HexLessThan<_5> for _D { type Output = _0; }
-impl HexLessThan<_5> for _E { type Output = _0; }
-impl HexLessThan<_5> for _F { type Output = _0; }
-impl HexLessThan<_6> for _0 { type Output = _1; }
-impl HexLessThan<_6> for _1 { type Output = _1; }
-impl HexLessThan<_6> for _2 { type Output = _1; }
-impl HexLessThan<_6> for _3 { type Output = _1; }
-impl HexLessThan<_6> for _4 { type Output = _1; }
-impl HexLessThan<_6> for _5 { type Output = _1; }
-impl HexLessThan<_6> for _6 { type Output = _0; }
-impl HexLessThan<_6> for _7 { type Output = _0; }
-impl HexLessThan<_6> for _8 { type Output = _0; }
-impl HexLessThan<_6> for _9 { type Output = _0; }
-impl HexLessThan<_6> for _A { type Output = _0; }
-impl HexLessThan<_6> for _B { type Output = _0; }
-impl HexLessThan<_6> for _C { type Output = _0; }
-impl HexLessThan<_6> for _D { type Output = _0; }
-impl HexLessThan<_6> for _E { type Output = _0; }
-impl HexLessThan<_6> for _F { type Output = _0; }
-impl HexLessThan<_7> for _0 { type Output = _1; }
-impl HexLessThan<_7> for _1 { type Output = _1; }
-impl HexLessThan<_7> for _2 { type Output = _1; }
-impl HexLessThan<_7> for _3 { type Output = _1; }
-impl HexLessThan<_7> for _4 { type Output = _1; }
-impl HexLessThan<_7> for _5 { type Output = _1; }
-impl HexLessThan<_7> for _6 { type Output = _1; }
-impl HexLessThan<_7> for _7 { type Output = _0; }
-impl HexLessThan<_7> for _8 { type Output = _0; }
-impl HexLessThan<_7> for _9 { type Output = _0; }
-impl HexLessThan<_7> for _A { type Output = _0; }
-impl HexLessThan<_7> for _B { type Output = _0; }
-impl HexLessThan<_7> for _C { type Output = _0; }
-impl HexLessThan<_7> for _D { type Output = _0; }
-impl HexLessThan<_7> for _E { type Output = _0; }
-impl HexLessThan<_7> for _F { type Output = _0; }
-impl HexLessThan<_8> for _0 { type Output = _1; }
-impl HexLessThan<_8> for _1 { type Output = _1; }
-impl HexLessThan<_8> for _2 { type Output = _1; }
-impl HexLessThan<_8> for _3 { type Output = _1; }
-impl HexLessThan<_8> for _4 { type Output = _1; }
-impl HexLessThan<_8> for _5 { type Output = _1; }
-impl HexLessThan<_8> for _6 { type Output = _1; }
-impl HexLessThan<_8> for _7 { type Output = _1; }
-impl HexLessThan<_8> for _8 { type Output = _0; }
-impl HexLessThan<_8> for _9 { type Output = _0; }
-impl HexLessThan<_8> for _A { type Output = _0; }
-impl HexLessThan<_8> for _B { type Output = _0; }
-impl HexLessThan<_8> for _C { type Output = _0; }
-impl HexLessThan<_8> for _D { type Output = _0; }
-impl HexLessThan<_8> for _E { type Output = _0; }
-impl HexLessThan<_8> for _F { type Output = _0; }
-impl HexLessThan<_9> for _0 { type Output = _1; }
-impl HexLessThan<_9> for _1 { type Output = _1; }
-impl HexLessThan<_9> for _2 { type Output = _1; }
-impl HexLessThan<_9> for _3 { type Output = _1; }
-impl HexLessThan<_9> for _4 { type Output = _1; }
-impl HexLessThan<_9> for _5 { type Output = _1; }
-impl HexLessThan<_9> for _6 { type Output = _1; }
-impl HexLessThan<_9> for _7 { type Output = _1; }
-impl HexLessThan<_9> for _8 { type Output = _1; }
-impl HexLessThan<_9> for _9 { type Output = _0; }
-impl HexLessThan<_9> for _A { type Output = _0; }
-impl HexLessThan<_9> for _B { type Output = _0; }
-impl HexLessThan<_9> for _C { type Output = _0; }
-impl HexLessThan<_9> for _D { type Output = _0; }
-impl HexLessThan<_9> for _E { type Output = _0; }
-impl HexLessThan<_9> for _F { type Output = _0; }
-impl HexLessThan<_A> for _0 { type Output = _1; }
-impl HexLessThan<_A> for _1 { type Output = _1; }
-impl HexLessThan<_A> for _2 { type Output = _1; }
-impl HexLessThan<_A> for _3 { type Output = _1; }
-impl HexLessThan<_A> for _4 { type Output = _1; }
-impl HexLessThan<_A> for _5 { type Output = _1; }
-impl HexLessThan<_A> for _6 { type Output = _1; }
-impl HexLessThan<_A> for _7 { type Output = _1; }
-impl HexLessThan<_A> for _8 { type Output = _1; }
-impl HexLessThan<_A> for _9 { type Output = _1; }
-impl HexLessThan<_A> for _A { type Output = _0; }
-impl HexLessThan<_A> for _B { type Output = _0; }
-impl HexLessThan<_A> for _C { type Output = _0; }
-impl HexLessThan<_A> for _D { type Output = _0; }
-impl HexLessThan<_A> for _E { type Output = _0; }
-impl HexLessThan<_A> for _F { type Output = _0; }
-impl HexLessThan<_B> for _0 { type Output = _1; }
-impl HexLessThan<_B> for _1 { type Output = _1; }
-impl HexLessThan<_B> for _2 { type Output = _1; }
-impl HexLessThan<_B> for _3 { type Output = _1; }
-impl HexLessThan<_B> for _4 { type Output = _1; }
-impl HexLessThan<_B> for _5 { type Output = _1; }
-impl HexLessThan<_B> for _6 { type Output = _1; }
-impl HexLessThan<_B> for _7 { type Output = _1; }
-impl HexLessThan<_B> for _8 { type Output = _1; }
-impl HexLessThan<_B> for _9 { type Output = _1; }
-impl HexLessThan<_B> for _A { type Output = _1; }
-impl HexLessThan<_B> for _B { type Output = _0; }
-impl HexLessThan<_B> for _C { type Output = _0; }
-impl HexLessThan<_B> for _D { type Output = _0; }
-impl HexLessThan<_B> for _E { type Output = _0; }
-impl HexLessThan<_B> for _F { type Output = _0; }
-impl HexLessThan<_C> for _0 { type Output = _1; }
-impl HexLessThan<_C> for _1 { type Output = _1; }
-impl HexLessThan<_C> for _2 { type Output = _1; }
-impl HexLessThan<_C> for _3 { type Output = _1; }
-impl HexLessThan<_C> for _4 { type Output = _1; }
-impl HexLessThan<_C> for _5 { type Output = _1; }
-impl HexLessThan<_C> for _6 { type Output = _1; }
-impl HexLessThan<_C> for _7 { type Output = _1; }
-impl HexLessThan<_C> for _8 { type Output = _1; }
-impl HexLessThan<_C> for _9 { type Output = _1; }
-impl HexLessThan<_C> for _A { type Output = _1; }
-impl HexLessThan<_C> for _B { type Output = _1; }
-impl HexLessThan<_C> for _C { type Output = _0; }
-impl HexLessThan<_C> for _D { type Output = _0; }
-impl HexLessThan<_C> for _E { type Output = _0; }
-impl HexLessThan<_C> for _F { type Output = _0; }
-impl HexLessThan<_D> for _0 { type Output = _1; }
-impl HexLessThan<_D> for _1 { type Output = _1; }
-impl HexLessThan<_D> for _2 { type Output = _1; }
-impl HexLessThan<_D> for _3 { type Output = _1; }
-impl HexLessThan<_D> for _4 { type Output = _1; }
-impl HexLessThan<_D> for _5 { type Output = _1; }
-impl HexLessThan<_D> for _6 { type Output = _1; }
-impl HexLessThan<_D> for _7 { type Output = _1; }
-impl HexLessThan<_D> for _8 { type Output = _1; }
-impl HexLessThan<_D> for _9 { type Output = _1; }
-impl HexLessThan<_D> for _A { type Output = _1; }
-impl HexLessThan<_D> for _B { type Output = _1; }
-impl HexLessThan<_D> for _C { type Output = _1; }
-impl HexLessThan<_D> for _D { type Output = _0; }
-impl HexLessThan<_D> for _E { type Output = _0; }
-impl HexLessThan<_D> for _F { type Output = _0; }
-impl HexLessThan<_E> for _0 { type Output = _1; }
-impl HexLessThan<_E> for _1 { type Output = _1; }
-impl HexLessThan<_E> for _2 { type Output = _1; }
-impl HexLessThan<_E> for _3 { type Output = _1; }
-impl HexLessThan<_E> for _4 { type Output = _1; }
-impl HexLessThan<_E> for _5 { type Output = _1; }
-impl HexLessThan<_E> for _6 { type Output = _1; }
-impl HexLessThan<_E> for _7 { type Output = _1; }
-impl HexLessThan<_E> for _8 { type Output = _1; }
-impl HexLessThan<_E> for _9 { type Output = _1; }
-impl HexLessThan<_E> for _A { type Output = _1; }
-impl HexLessThan<_E> for _B { type Output = _1; }
-impl HexLessThan<_E> for _C { type Output = _1; }
-impl HexLessThan<_E> for _D { type Output = _1; }
-impl HexLessThan<_E> for _E { type Output = _0; }
-impl HexLessThan<_E> for _F { type Output = _0; }
-impl HexLessThan<_F> for _0 { type Output = _1; }
-impl HexLessThan<_F> for _1 { type Output = _1; }
-impl HexLessThan<_F> for _2 { type Output = _1; }
-impl HexLessThan<_F> for _3 { type Output = _1; }
-impl HexLessThan<_F> for _4 { type Output = _1; }
-impl HexLessThan<_F> for _5 { type Output = _1; }
-impl HexLessThan<_F> for _6 { type Output = _1; }
-impl HexLessThan<_F> for _7 { type Output = _1; }
-impl HexLessThan<_F> for _8 { type Output = _1; }
-impl HexLessThan<_F> for _9 { type Output = _1; }
-impl HexLessThan<_F> for _A { type Output = _1; }
-impl HexLessThan<_F> for _B { type Output = _1; }
-impl HexLessThan<_F> for _C { type Output = _1; }
-impl HexLessThan<_F> for _D { type Output = _1; }
-impl HexLessThan<_F> for _E { type Output = _1; }
-impl HexLessThan<_F> for _F { type Output = _0; }
-
-/// This is an internal implementation of a <= b
-pub trait HexLeq<H: Hex> { type Output: Binary; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _0 where H: HexLessThan<_0, Output = A>, H: HexEqual<_0, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _1 where H: HexLessThan<_1, Output = A>, H: HexEqual<_1, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _2 where H: HexLessThan<_2, Output = A>, H: HexEqual<_2, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _3 where H: HexLessThan<_3, Output = A>, H: HexEqual<_3, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _4 where H: HexLessThan<_4, Output = A>, H: HexEqual<_4, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _5 where H: HexLessThan<_5, Output = A>, H: HexEqual<_5, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _6 where H: HexLessThan<_6, Output = A>, H: HexEqual<_6, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _7 where H: HexLessThan<_7, Output = A>, H: HexEqual<_7, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _8 where H: HexLessThan<_8, Output = A>, H: HexEqual<_8, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _9 where H: HexLessThan<_9, Output = A>, H: HexEqual<_9, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _A where H: HexLessThan<_A, Output = A>, H: HexEqual<_A, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _B where H: HexLessThan<_B, Output = A>, H: HexEqual<_B, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _C where H: HexLessThan<_C, Output = A>, H: HexEqual<_C, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _D where H: HexLessThan<_D, Output = A>, H: HexEqual<_D, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _E where H: HexLessThan<_E, Output = A>, H: HexEqual<_E, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexLeq<H> for _F where H: HexLessThan<_F, Output = A>, H: HexEqual<_F, Output = B>, A: BinOr<B, Output = C> { type Output = C; }
-
-/// This is an internal implementation of a > b
-pub trait HexGreaterThan<H: Hex> { type Output: Binary; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _0 where H: HexLessThan<_0, Output = A>, H: HexEqual<_0, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _1 where H: HexLessThan<_1, Output = A>, H: HexEqual<_1, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _2 where H: HexLessThan<_2, Output = A>, H: HexEqual<_2, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _3 where H: HexLessThan<_3, Output = A>, H: HexEqual<_3, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _4 where H: HexLessThan<_4, Output = A>, H: HexEqual<_4, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _5 where H: HexLessThan<_5, Output = A>, H: HexEqual<_5, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _6 where H: HexLessThan<_6, Output = A>, H: HexEqual<_6, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _7 where H: HexLessThan<_7, Output = A>, H: HexEqual<_7, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _8 where H: HexLessThan<_8, Output = A>, H: HexEqual<_8, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _9 where H: HexLessThan<_9, Output = A>, H: HexEqual<_9, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _A where H: HexLessThan<_A, Output = A>, H: HexEqual<_A, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _B where H: HexLessThan<_B, Output = A>, H: HexEqual<_B, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _C where H: HexLessThan<_C, Output = A>, H: HexEqual<_C, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _D where H: HexLessThan<_D, Output = A>, H: HexEqual<_D, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _E where H: HexLessThan<_E, Output = A>, H: HexEqual<_E, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-impl<H: Hex, A: Binary, B: Binary, C: Binary> HexGreaterThan<H> for _F where H: HexLessThan<_F, Output = A>, H: HexEqual<_F, Output = B>, A: BinNor<B, Output = C> { type Output = C; }
-
-/// This is an internal implementation of a >= b
-pub trait HexGeq<H: Hex> { type Output: Binary; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _0 where H: HexLessThan<_0, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _1 where H: HexLessThan<_1, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _2 where H: HexLessThan<_2, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _3 where H: HexLessThan<_3, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _4 where H: HexLessThan<_4, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _5 where H: HexLessThan<_5, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _6 where H: HexLessThan<_6, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _7 where H: HexLessThan<_7, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _8 where H: HexLessThan<_8, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _9 where H: HexLessThan<_9, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _A where H: HexLessThan<_A, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _B where H: HexLessThan<_B, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _C where H: HexLessThan<_C, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _D where H: HexLessThan<_D, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _E where H: HexLessThan<_E, Output = A>, A: BinNot<Output = B> { type Output = B; }
-impl<H: Hex, A: Binary, B: Binary> HexGeq<H> for _F where H: HexLessThan<_F, Output = A>, A: BinNot<Output = B> { type Output = B; }

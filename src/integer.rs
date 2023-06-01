@@ -6,6 +6,7 @@ use super::hex::*;
 use std::marker::PhantomData;
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
+/// 
 /// Example
 /// ```
 /// use const_arithmetic::*;

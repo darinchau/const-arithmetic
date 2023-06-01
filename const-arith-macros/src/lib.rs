@@ -34,7 +34,7 @@ fn int_to_hex_codes(input: LitInt) -> Vec<String> {
 
 /// Parses a literal integer into its typed counterpart. Panics inline if the input is not a u32
 #[proc_macro]
-pub fn parse_integer(token: TokenStream) -> TokenStream {
+pub fn parse_integer_inner(token: TokenStream) -> TokenStream {
     let input = parse_macro_input!(token as LitInt);
     let hex_digits = int_to_hex_codes(input);
     let joined = hex_digits.join(", ");

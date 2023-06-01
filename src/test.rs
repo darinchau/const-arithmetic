@@ -1,6 +1,12 @@
 //! If this compiles then all tests passed
 use super::*;
 
+fn div_equal<H, K, Q, R>(_a: H, _b: K, _c: Q, _d: R) where H: IsInteger, K: IsInteger, Q: IsInteger, R: IsInteger, H: TypedDiv<K, Output = Q, Remainder = R> {}
+fn mul_equal<H, K, R, S>(_p: H, _q: K, _r: R, _s: S) where H: IsInteger, K: IsInteger, R: IsInteger, S: IsInteger, H: TypedMul<K, Output = S, Overflow = R> {}
+fn less_than<H, K, R>(_p: H, _q: K) where H: IsInteger, K: IsInteger, R: Binary, H: TypedLessThan<K, Output = R>, R: AssertTrue {}
+fn add_equal<H, K, S>(_a0: H, _a1: K, _a2: S) where H: IsInteger, K: IsInteger, S: IsInteger, H: TypedAdd<K, Output = S> {}
+fn sub_equal<H, K, D>(_a0: H, _a1: K, _a2: D) where H: IsInteger, K: IsInteger, D: IsInteger, H: TypedSub<K, Output = D> {}
+
 #[test]
 fn test_set_1() {
     let h = parse_integer!(0); 
