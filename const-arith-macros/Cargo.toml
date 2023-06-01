@@ -1,8 +1,16 @@
 [package]
 # This package is named in such a weird way to avoid name clash - in case someone somewhere sometime in the future wants const-arith-macros
-name = "const-arith-macros178"
+name = "const-arith-macros-178"
 version = "0.1.0"
 edition = "2021"
+authors = ["Darin Chau <yfdchau@connect.ust.hk>"]
+license-file = "LICENSE"
+keywords = []
+categories = []
+description = "Provides macros for const-arithmetic"
+homepage = "https://github.com/darinchau/const-arithmetic"
+repository = "https://github.com/darinchau/const-arithmetic"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

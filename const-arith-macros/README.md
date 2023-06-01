@@ -1,0 +1,1 @@
+This provides macros for `const-arithmetic` crate and is by itself useless.
