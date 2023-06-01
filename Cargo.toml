@@ -1,9 +1,9 @@
 [package]
 name = "const-arithmetic"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 authors = ["Darin Chau <yfdchau@connect.ust.hk>"]
-license-file = "LICENSE"
+license = "MIT"
 keywords = ["const", "generics", "compile-time", "integer", "arithmetic"]
 categories = ["algorithms", "mathematics"]
 description = "Exploits Rust's type generic system to perform integer arithmetics at compile time."
