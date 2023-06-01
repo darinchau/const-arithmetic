@@ -3,7 +3,7 @@
 use super::hex::{_0, _1};
 
 /// Indicates binary types.
-pub trait Binary {
+pub trait Binary: Copy {
     const VALUE: bool;
 }
 impl Binary for _0 { const VALUE: bool = false; }

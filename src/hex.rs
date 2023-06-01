@@ -67,7 +67,7 @@ pub struct _E;
 pub struct _F;
 
 /// This denotes one single hexadecimal - half a byte
-pub trait Hex {
+pub trait Hex: Copy {
     const NUMBER: u32;
 }
 impl Hex for _0 { const NUMBER: u32 = 0; }

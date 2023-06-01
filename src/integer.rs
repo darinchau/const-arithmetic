@@ -69,14 +69,14 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> Typ
 /// 
 /// is_3(a);
 /// ```
-pub trait IsInteger {
+pub trait IsInteger: Copy {
     type Hex0: Hex; type Hex1: Hex; type Hex2: Hex; type Hex3: Hex; type Hex4: Hex; type Hex5: Hex; type Hex6: Hex; type Hex7: Hex;
-    fn number(&self) -> u32;
+    fn number() -> u32;
 }
 
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsInteger for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {
     type Hex0 = H0; type Hex1 = H1; type Hex2 = H2; type Hex3 = H3; type Hex4 = H4; type Hex5 = H5; type Hex6 = H6; type Hex7 = H7;
-    fn number(&self) -> u32 {
+    fn number() -> u32 {
         H0::NUMBER + 16 * H1::NUMBER + 256 * H2::NUMBER + 4096 * H3::NUMBER + 65536 * H4::NUMBER + 1048576 * H5::NUMBER + 16777216 * H6::NUMBER + 268435456 * H7::NUMBER
     }
 }
