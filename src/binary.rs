@@ -1,6 +1,6 @@
 //! Implements all binary types
 
-use super::hex::{_0, _1, Hex};
+use super::hex::{_0, _1};
 
 /// Indicates binary types.
 pub trait Binary {

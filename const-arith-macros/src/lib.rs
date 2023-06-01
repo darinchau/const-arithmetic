@@ -4,6 +4,7 @@ use proc_macro::TokenStream;
 use syn::{parse_macro_input, LitInt};
 
 // Debug :)
+#[allow(unused)]
 fn print_type_of<T>(_: &T) -> &'static str {
     std::any::type_name::<T>()
 }
@@ -32,7 +33,8 @@ fn int_to_hex_codes(input: LitInt) -> Vec<String> {
     return hex_digits;
 }
 
-/// Parses a literal integer into its typed counterpart. Panics inline if the input is not a u32
+// Parses a literal integer into its typed counterpart. Panics inline if the input is not a u32
+#[doc(hidden)]
 #[proc_macro]
 pub fn parse_integer_inner(token: TokenStream) -> TokenStream {
     let input = parse_macro_input!(token as LitInt);
@@ -46,7 +48,8 @@ pub fn parse_integer_inner(token: TokenStream) -> TokenStream {
     result.parse().unwrap()
 }
 
-/// Assert the typed integer equals the number you provided
+// Assert the typed integer equals the number you provided
+#[doc(hidden)]
 #[proc_macro]
 pub fn typed_assert_eq_inner(token: TokenStream) -> TokenStream {
     let input = parse_macro_input!(token as LitInt);
