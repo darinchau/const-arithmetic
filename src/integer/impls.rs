@@ -262,7 +262,114 @@ C_: HexAssertEqual<_0>
 }
 
 
-// Inner implementation for division
+// =====================================
+// = Inner implementation for division =
+// =====================================
+
+// Multiplication but hexshiftable
+pub(crate) trait _ShiftMul<N: IsInteger> { type Output: IsInteger; type Overflow: IsInteger; }
+
+// Bit shift 0
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex,
+HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, 
+HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, 
+HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, 
+HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, 
+HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, 
+HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, 
+HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex, 
+> _ShiftMul<N> for TypedInteger<H, _0, _0, _0, _0, _0, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>,
+H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>,
+H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>,
+H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>,
+H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>,
+H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>,
+H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>,
+H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>,
+HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>,
+HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>,
+HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>,
+HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>,
+HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>,
+HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>,
+HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
+    type Overflow = TypedInteger<C7, _0, _0, _0, _0, _0, _0, _0>;
+}
+
+// The ones below are all collapsed for easy copypasting
+// Bit shift 1
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, H, _0, _0, _0, _0, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, R0, R1, R2, R3, R4, R5, R6>;
+    type Overflow = TypedInteger<R7, C7, _0, _0, _0, _0, _0, _0>;
+}
+
+// Bitshift 2
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, H, _0, _0, _0, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, R0, R1, R2, R3, R4, R5>;
+    type Overflow = TypedInteger<R6, R7, C7, _0, _0, _0, _0, _0>;
+}
+
+// Bitshift 3
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, _0, H, _0, _0, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, _0, R0, R1, R2, R3, R4>;
+    type Overflow = TypedInteger<R5, R6, R7, C7, _0, _0, _0, _0>;
+}
+
+// Bitshift 4
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, H, _0, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, _0, _0, R0, R1, R2, R3>;
+    type Overflow = TypedInteger<R4, R5, R6, R7, C7, _0, _0, _0>;
+}
+
+// Bit shift 5
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, H, _0, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, _0, _0, _0, R0, R1, R2>;
+    type Overflow = TypedInteger<R3, R4, R5, R6, R7, C7, _0, _0>;
+}
+
+// Bitshift 6
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, _0, H, _0> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, _0, _0, _0, _0, R0, R1>;
+    type Overflow = TypedInteger<R2, R3, R4, R5, R6, R7, C7, _0>;
+}
+
+impl<H: NonZeroHex, N: IsInteger,
+R0: Hex, HK0C: Hex, HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex,
+> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, _0, _0, H> where
+H: HexMul<N::Hex0, Output = R0, Carry = HK0C>, H: HexMul<N::Hex1, Output = HK1R, Carry = HK1C>, H: HexMul<N::Hex2, Output = HK2R, Carry = HK2C>, H: HexMul<N::Hex3, Output = HK3R, Carry = HK3C>, H: HexMul<N::Hex4, Output = HK4R, Carry = HK4C>, H: HexMul<N::Hex5, Output = HK5R, Carry = HK5C>, H: HexMul<N::Hex6, Output = HK6R, Carry = HK6C>, H: HexMul<N::Hex7, Output = HK7R, Carry = HK7C>, HK1R: HexAdd<HK0C,      Output = R1, Carry = C1>, HK2R: HexAdd3<HK2C, C1, Output = R2, Carry = C2>, HK3R: HexAdd3<HK3C, C2, Output = R3, Carry = C3>, HK4R: HexAdd3<HK4C, C3, Output = R4, Carry = C4>, HK5R: HexAdd3<HK5C, C4, Output = R5, Carry = C5>, HK6R: HexAdd3<HK6C, C5, Output = R6, Carry = C6>, HK7R: HexAdd3<HK7C, C6, Output = R7, Carry = C7>,
+{
+    type Output = TypedInteger<_0, _0, _0, _0, _0, _0, _0, R0>;
+    type Overflow = TypedInteger<R1, R2, R3, R4, R5, R6, R7, C7>;
+}
+
 // Helper stuff for division
 // Helper if clauses. Condition: If<TrueValue: T, FalseValue: T, Output = T>
 pub(crate) trait If<T: IsInteger, F: IsInteger> { type Output: IsInteger; }
@@ -310,7 +417,7 @@ MinusMe: Binary,
 // H - C -> Hout
 // J16 if MinusMe else 0 -> D
 // Q + D -> Qout
-J16: _Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
+J16: _ShiftMul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
 O: _Equal<_Zero, Output = Bx>,
 A: _Leq<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 
@@ -357,7 +464,6 @@ H29: IsInteger, Q29: IsInteger,
 H30: IsInteger, Q30: IsInteger, 
 H31: IsInteger, Q31: IsInteger, 
 H32: IsInteger, Q32: IsInteger, 
-// For special case
 B: Binary, Eq1: Binary, Eq0: Binary,
 H33: IsInteger, Q33: IsInteger,
 HResult: IsInteger, QResult: IsInteger
