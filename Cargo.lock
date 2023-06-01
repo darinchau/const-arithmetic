@@ -3,7 +3,7 @@
 version = 3
 
 [[package]]
-name = "const-arith-macros"
+name = "const-arith-macros-178"
 version = "0.1.0"
 dependencies = [
  "syn",
@@ -13,7 +13,7 @@ dependencies = [
 name = "const-arithmetic"
 version = "1.0.0"
 dependencies = [
- "const-arith-macros",
+ "const-arith-macros-178",
 ]
 
 [[package]]

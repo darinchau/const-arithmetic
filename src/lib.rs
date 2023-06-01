@@ -9,7 +9,7 @@ pub use binary::{Binary, BinAnd, BinEq, BinNor, BinNot, BinOr, AssertFalse, Asse
 pub use integer::{TypedAssertEqual, TypedEqual, TypedGeq, TypedGreaterThan, TypedLessThan, TypedLeq, TypedInteger, TypedAdd, TypedSub, TypedMul, TypedDiv, IsInteger};
 
 #[doc(hidden)]
-pub use const_arith_macros::{parse_integer_inner, typed_assert_eq_inner};
+pub use const_arith_macros_178::{parse_integer_inner, typed_assert_eq_inner};
 
 /// Turns an integer (u32) into a typed integer object.
 /// 
