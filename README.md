@@ -11,7 +11,7 @@ Add the `const_arithmetic` crate as a dependency in your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-const_arithmetic = "0.1.0"
+const_arithmetic = "1.0.1"
 ```
 
 Import the traits and types from the `const_arithmetic` crate:

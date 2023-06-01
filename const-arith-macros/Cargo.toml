@@ -1,7 +1,7 @@
 [package]
 # This package is named in such a weird way to avoid name clash - in case someone somewhere sometime in the future wants const-arith-macros
 name = "const-arith-macros-178"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Darin Chau <yfdchau@connect.ust.hk>"]
 license-file = "LICENSE"
