@@ -449,7 +449,7 @@ MinusMe: Binary,
 // H - C -> Hout
 // J16 if MinusMe else 0 -> D
 // Q + D -> Qout
-J16: _ShiftMul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
+J16: _Mul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
 O: _Equal<_Zero, Output = Bx>,
 A: _Leq<H, Output = By>,
 Bx: BinAnd<By, Output = MinusMe>, 
