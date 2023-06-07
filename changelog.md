@@ -1,3 +1,5 @@
+### v1.0.4
+
 ### v1.0.3
 Hides implementation details in docs.
 Optimizes division with hexshift algorithm. 
