@@ -87,6 +87,7 @@ impl Hex for _D { const NUMBER: u32 = 13; }
 impl Hex for _E { const NUMBER: u32 = 14; }
 impl Hex for _F { const NUMBER: u32 = 15; }
 
+#[doc(hidden)]
 pub(crate) trait NonZeroHex: Hex {}
 impl NonZeroHex for _1 {}
 impl NonZeroHex for _2 {}
