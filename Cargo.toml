@@ -1,6 +1,6 @@
 [package]
 name = "const-arithmetic"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 authors = ["Darin Chau <yfdchau@connect.ust.hk>"]
 license = "MIT"
@@ -14,4 +14,4 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-const-arith-macros-178 = { version = "~0.1.0", path = "./const-arith-macros"}
+const-arith-macros-178 = { version = "~0.1.2", path = "./const-arith-macros"}
