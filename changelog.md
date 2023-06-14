@@ -1,4 +1,5 @@
 ### v1.0.4
+Update macros to use literal invocation to avoid many copies of TypedInteger::new()
 
 ### v1.0.3
 Hides implementation details in docs.

@@ -29,19 +29,6 @@ pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6
 }
 
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {
-    pub const fn new() -> Self {
-        TypedInteger { 
-            _m0: PhantomData, 
-            _m1: PhantomData, 
-            _m2: PhantomData, 
-            _m3: PhantomData,
-            _m4: PhantomData, 
-            _m5: PhantomData, 
-            _m6: PhantomData, 
-            _m7: PhantomData 
-        }
-    }
-
     /// Returns the value of the Typed integer
     /// 
     /// Example
