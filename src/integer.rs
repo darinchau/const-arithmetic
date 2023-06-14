@@ -18,14 +18,14 @@ use impls::*;
 /// ```
 #[derive(Clone, Copy)]
 pub struct TypedInteger<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> {
-    _m0: PhantomData<H0>,
-    _m1: PhantomData<H1>,
-    _m2: PhantomData<H2>,
-    _m3: PhantomData<H3>,
-    _m4: PhantomData<H4>,
-    _m5: PhantomData<H5>,
-    _m6: PhantomData<H6>,
-    _m7: PhantomData<H7>
+    pub _m0: PhantomData<H0>,
+    pub _m1: PhantomData<H1>,
+    pub _m2: PhantomData<H2>,
+    pub _m3: PhantomData<H3>,
+    pub _m4: PhantomData<H4>,
+    pub _m5: PhantomData<H5>,
+    pub _m6: PhantomData<H6>,
+    pub _m7: PhantomData<H7>
 }
 
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {

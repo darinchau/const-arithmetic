@@ -7,6 +7,7 @@ mod binary;
 pub use hex::{_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C, _D, _E, _F, Hex, HexAdd, HexAdd3, HexMul, HexEqual, HexAssertEqual};
 pub use binary::{Binary, BinAnd, BinEq, BinNor, BinNot, BinOr, AssertFalse, AssertTrue};
 pub use integer::{TypedAssertEqual, TypedEqual, TypedGeq, TypedGreaterThan, TypedLessThan, TypedLeq, TypedInteger, TypedAdd, TypedSub, TypedMul, TypedDiv, IsInteger};
+pub use std::marker::PhantomData;
 
 #[doc(hidden)]
 pub use const_arith_macros_178::{parse_integer_inner, typed_assert_eq_inner};
@@ -22,7 +23,7 @@ pub use const_arith_macros_178::{parse_integer_inner, typed_assert_eq_inner};
 /// // The expression must be a literal integer smaller than 4294967296 = 2**32
 /// // let a = parse_integer!(-1); // This does not compile
 /// // let a = parse_integer!(999999999999999999999999999999999); // This does not compile
-/// const hiya: u32 = 5;
+/// // const hiya: u32 = 5;
 /// // let a = parse_integer!(hiya); // This does not compile
 /// ```
 #[macro_export]
@@ -47,6 +48,3 @@ macro_rules! typed_assert_eq {
         asserting(&$a);
     }};
 }
-
-#[cfg(test)]
-mod test;

@@ -261,11 +261,6 @@ C_: HexAssertEqual<_0>
     type Overflow = TypedInteger<R8, R9, R10, R11, R12, N3::Hex5, N3::Hex6, N3::Hex7>;
 }
 
-
-// =====================================
-// = Inner implementation for division =
-// =====================================
-
 // =====================================
 // = Inner implementation for division =
 // =====================================

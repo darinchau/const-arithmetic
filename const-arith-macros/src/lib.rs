@@ -42,7 +42,7 @@ pub fn parse_integer_inner(token: TokenStream) -> TokenStream {
     let joined = hex_digits.join(", ");
 
     // let result = format!("Integer::<{}> {{ _m0: PhantomData, _m1: PhantomData, _m2: PhantomData, _m3: PhantomData, _m4: PhantomData, _m5: PhantomData, _m6: PhantomData, _m7: PhantomData }}", hex_digits.join(", "));
-    let result = format!("TypedInteger::<{}>::new()", joined);
+    let result = format!("TypedInteger::<{}>  {{ _m0: PhantomData,  _m1: PhantomData,  _m2: PhantomData,  _m3: PhantomData, _m4: PhantomData,  _m5: PhantomData,  _m6: PhantomData,  _m7: PhantomData }}", joined);
 
     // panic!("{}", result);
     result.parse().unwrap()
