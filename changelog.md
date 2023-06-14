@@ -1,5 +1,6 @@
 ### v1.0.4
 Update macros to use literal invocation to avoid many copies of TypedInteger::new()
+Improves test suite compile time performace by about 30%
 
 ### v1.0.3
 Hides implementation details in docs.
