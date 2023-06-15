@@ -324,8 +324,6 @@ TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>: _Mul<N, Output = R, Overflow = O> 
 }
 
 
-// TODO: We can actually implement bitshift to optimize division
-
 /// Returns the Quotient of H/K for H: Div<K, Output: ...>
 /// 
 /// Note about implementation detail: This is an expanded version of long division - it takes O(1) steps but the constant is quite big unfortunately

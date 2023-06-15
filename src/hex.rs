@@ -69,30 +69,30 @@ pub struct _F;
 /// This denotes one single hexadecimal - half a byte
 pub trait Hex: Copy {
     const NUMBER: u32;
-    type Bin0: Binary;
-    type Bin1: Binary;
-    type Bin2: Binary;
-    type Bin3: Binary;
+    type Bit0: Binary;
+    type Bit1: Binary;
+    type Bit2: Binary;
+    type Bit3: Binary;
 }
 
 // for i in range(16):
 //     print(f"impl Hex for _{i:X} {{ const NUMBER: u32 = {i}; type Bin0 = _{i&1}; type Bin1 = _{i>>1&1}; type Bin2 = _{i>>2&1}; type Bin3 = _{i>>3&1}; }}")
-impl Hex for _0 { const NUMBER: u32 = 0; type Bin0 = _0; type Bin1 = _0; type Bin2 = _0; type Bin3 = _0; }
-impl Hex for _1 { const NUMBER: u32 = 1; type Bin0 = _1; type Bin1 = _0; type Bin2 = _0; type Bin3 = _0; }
-impl Hex for _2 { const NUMBER: u32 = 2; type Bin0 = _0; type Bin1 = _1; type Bin2 = _0; type Bin3 = _0; }
-impl Hex for _3 { const NUMBER: u32 = 3; type Bin0 = _1; type Bin1 = _1; type Bin2 = _0; type Bin3 = _0; }
-impl Hex for _4 { const NUMBER: u32 = 4; type Bin0 = _0; type Bin1 = _0; type Bin2 = _1; type Bin3 = _0; }
-impl Hex for _5 { const NUMBER: u32 = 5; type Bin0 = _1; type Bin1 = _0; type Bin2 = _1; type Bin3 = _0; }
-impl Hex for _6 { const NUMBER: u32 = 6; type Bin0 = _0; type Bin1 = _1; type Bin2 = _1; type Bin3 = _0; }
-impl Hex for _7 { const NUMBER: u32 = 7; type Bin0 = _1; type Bin1 = _1; type Bin2 = _1; type Bin3 = _0; }
-impl Hex for _8 { const NUMBER: u32 = 8; type Bin0 = _0; type Bin1 = _0; type Bin2 = _0; type Bin3 = _1; }
-impl Hex for _9 { const NUMBER: u32 = 9; type Bin0 = _1; type Bin1 = _0; type Bin2 = _0; type Bin3 = _1; }
-impl Hex for _A { const NUMBER: u32 = 10; type Bin0 = _0; type Bin1 = _1; type Bin2 = _0; type Bin3 = _1; }
-impl Hex for _B { const NUMBER: u32 = 11; type Bin0 = _1; type Bin1 = _1; type Bin2 = _0; type Bin3 = _1; }
-impl Hex for _C { const NUMBER: u32 = 12; type Bin0 = _0; type Bin1 = _0; type Bin2 = _1; type Bin3 = _1; }
-impl Hex for _D { const NUMBER: u32 = 13; type Bin0 = _1; type Bin1 = _0; type Bin2 = _1; type Bin3 = _1; }
-impl Hex for _E { const NUMBER: u32 = 14; type Bin0 = _0; type Bin1 = _1; type Bin2 = _1; type Bin3 = _1; }
-impl Hex for _F { const NUMBER: u32 = 15; type Bin0 = _1; type Bin1 = _1; type Bin2 = _1; type Bin3 = _1; }
+impl Hex for _0 { const NUMBER: u32 = 0; type Bit0 = _0; type Bit1 = _0; type Bit2 = _0; type Bit3 = _0; }
+impl Hex for _1 { const NUMBER: u32 = 1; type Bit0 = _1; type Bit1 = _0; type Bit2 = _0; type Bit3 = _0; }
+impl Hex for _2 { const NUMBER: u32 = 2; type Bit0 = _0; type Bit1 = _1; type Bit2 = _0; type Bit3 = _0; }
+impl Hex for _3 { const NUMBER: u32 = 3; type Bit0 = _1; type Bit1 = _1; type Bit2 = _0; type Bit3 = _0; }
+impl Hex for _4 { const NUMBER: u32 = 4; type Bit0 = _0; type Bit1 = _0; type Bit2 = _1; type Bit3 = _0; }
+impl Hex for _5 { const NUMBER: u32 = 5; type Bit0 = _1; type Bit1 = _0; type Bit2 = _1; type Bit3 = _0; }
+impl Hex for _6 { const NUMBER: u32 = 6; type Bit0 = _0; type Bit1 = _1; type Bit2 = _1; type Bit3 = _0; }
+impl Hex for _7 { const NUMBER: u32 = 7; type Bit0 = _1; type Bit1 = _1; type Bit2 = _1; type Bit3 = _0; }
+impl Hex for _8 { const NUMBER: u32 = 8; type Bit0 = _0; type Bit1 = _0; type Bit2 = _0; type Bit3 = _1; }
+impl Hex for _9 { const NUMBER: u32 = 9; type Bit0 = _1; type Bit1 = _0; type Bit2 = _0; type Bit3 = _1; }
+impl Hex for _A { const NUMBER: u32 = 10; type Bit0 = _0; type Bit1 = _1; type Bit2 = _0; type Bit3 = _1; }
+impl Hex for _B { const NUMBER: u32 = 11; type Bit0 = _1; type Bit1 = _1; type Bit2 = _0; type Bit3 = _1; }
+impl Hex for _C { const NUMBER: u32 = 12; type Bit0 = _0; type Bit1 = _0; type Bit2 = _1; type Bit3 = _1; }
+impl Hex for _D { const NUMBER: u32 = 13; type Bit0 = _1; type Bit1 = _0; type Bit2 = _1; type Bit3 = _1; }
+impl Hex for _E { const NUMBER: u32 = 14; type Bit0 = _0; type Bit1 = _1; type Bit2 = _1; type Bit3 = _1; }
+impl Hex for _F { const NUMBER: u32 = 15; type Bit0 = _1; type Bit1 = _1; type Bit2 = _1; type Bit3 = _1; }
 
 #[doc(hidden)]
 pub(crate) trait NonZeroHex: Hex {}
@@ -1367,126 +1367,3 @@ impl HexMul<_F> for _C { type Output = _4; type Carry = _B; }
 impl HexMul<_F> for _D { type Output = _3; type Carry = _C; }
 impl HexMul<_F> for _E { type Output = _2; type Carry = _D; }
 impl HexMul<_F> for _F { type Output = _1; type Carry = _E; }
-
-// Hex less than asserted
-pub(crate) trait HexAssertLessThan<H: Hex> {}
-impl HexAssertLessThan<_1> for _0 {}
-impl HexAssertLessThan<_2> for _0 {}
-impl HexAssertLessThan<_3> for _0 {}
-impl HexAssertLessThan<_4> for _0 {}
-impl HexAssertLessThan<_5> for _0 {}
-impl HexAssertLessThan<_6> for _0 {}
-impl HexAssertLessThan<_7> for _0 {}
-impl HexAssertLessThan<_8> for _0 {}
-impl HexAssertLessThan<_9> for _0 {}
-impl HexAssertLessThan<_A> for _0 {}
-impl HexAssertLessThan<_B> for _0 {}
-impl HexAssertLessThan<_C> for _0 {}
-impl HexAssertLessThan<_D> for _0 {}
-impl HexAssertLessThan<_E> for _0 {}
-impl HexAssertLessThan<_F> for _0 {}
-impl HexAssertLessThan<_2> for _1 {}
-impl HexAssertLessThan<_3> for _1 {}
-impl HexAssertLessThan<_4> for _1 {}
-impl HexAssertLessThan<_5> for _1 {}
-impl HexAssertLessThan<_6> for _1 {}
-impl HexAssertLessThan<_7> for _1 {}
-impl HexAssertLessThan<_8> for _1 {}
-impl HexAssertLessThan<_9> for _1 {}
-impl HexAssertLessThan<_A> for _1 {}
-impl HexAssertLessThan<_B> for _1 {}
-impl HexAssertLessThan<_C> for _1 {}
-impl HexAssertLessThan<_D> for _1 {}
-impl HexAssertLessThan<_E> for _1 {}
-impl HexAssertLessThan<_F> for _1 {}
-impl HexAssertLessThan<_3> for _2 {}
-impl HexAssertLessThan<_4> for _2 {}
-impl HexAssertLessThan<_5> for _2 {}
-impl HexAssertLessThan<_6> for _2 {}
-impl HexAssertLessThan<_7> for _2 {}
-impl HexAssertLessThan<_8> for _2 {}
-impl HexAssertLessThan<_9> for _2 {}
-impl HexAssertLessThan<_A> for _2 {}
-impl HexAssertLessThan<_B> for _2 {}
-impl HexAssertLessThan<_C> for _2 {}
-impl HexAssertLessThan<_D> for _2 {}
-impl HexAssertLessThan<_E> for _2 {}
-impl HexAssertLessThan<_F> for _2 {}
-impl HexAssertLessThan<_4> for _3 {}
-impl HexAssertLessThan<_5> for _3 {}
-impl HexAssertLessThan<_6> for _3 {}
-impl HexAssertLessThan<_7> for _3 {}
-impl HexAssertLessThan<_8> for _3 {}
-impl HexAssertLessThan<_9> for _3 {}
-impl HexAssertLessThan<_A> for _3 {}
-impl HexAssertLessThan<_B> for _3 {}
-impl HexAssertLessThan<_C> for _3 {}
-impl HexAssertLessThan<_D> for _3 {}
-impl HexAssertLessThan<_E> for _3 {}
-impl HexAssertLessThan<_F> for _3 {}
-impl HexAssertLessThan<_5> for _4 {}
-impl HexAssertLessThan<_6> for _4 {}
-impl HexAssertLessThan<_7> for _4 {}
-impl HexAssertLessThan<_8> for _4 {}
-impl HexAssertLessThan<_9> for _4 {}
-impl HexAssertLessThan<_A> for _4 {}
-impl HexAssertLessThan<_B> for _4 {}
-impl HexAssertLessThan<_C> for _4 {}
-impl HexAssertLessThan<_D> for _4 {}
-impl HexAssertLessThan<_E> for _4 {}
-impl HexAssertLessThan<_F> for _4 {}
-impl HexAssertLessThan<_6> for _5 {}
-impl HexAssertLessThan<_7> for _5 {}
-impl HexAssertLessThan<_8> for _5 {}
-impl HexAssertLessThan<_9> for _5 {}
-impl HexAssertLessThan<_A> for _5 {}
-impl HexAssertLessThan<_B> for _5 {}
-impl HexAssertLessThan<_C> for _5 {}
-impl HexAssertLessThan<_D> for _5 {}
-impl HexAssertLessThan<_E> for _5 {}
-impl HexAssertLessThan<_F> for _5 {}
-impl HexAssertLessThan<_7> for _6 {}
-impl HexAssertLessThan<_8> for _6 {}
-impl HexAssertLessThan<_9> for _6 {}
-impl HexAssertLessThan<_A> for _6 {}
-impl HexAssertLessThan<_B> for _6 {}
-impl HexAssertLessThan<_C> for _6 {}
-impl HexAssertLessThan<_D> for _6 {}
-impl HexAssertLessThan<_E> for _6 {}
-impl HexAssertLessThan<_F> for _6 {}
-impl HexAssertLessThan<_8> for _7 {}
-impl HexAssertLessThan<_9> for _7 {}
-impl HexAssertLessThan<_A> for _7 {}
-impl HexAssertLessThan<_B> for _7 {}
-impl HexAssertLessThan<_C> for _7 {}
-impl HexAssertLessThan<_D> for _7 {}
-impl HexAssertLessThan<_E> for _7 {}
-impl HexAssertLessThan<_F> for _7 {}
-impl HexAssertLessThan<_9> for _8 {}
-impl HexAssertLessThan<_A> for _8 {}
-impl HexAssertLessThan<_B> for _8 {}
-impl HexAssertLessThan<_C> for _8 {}
-impl HexAssertLessThan<_D> for _8 {}
-impl HexAssertLessThan<_E> for _8 {}
-impl HexAssertLessThan<_F> for _8 {}
-impl HexAssertLessThan<_A> for _9 {}
-impl HexAssertLessThan<_B> for _9 {}
-impl HexAssertLessThan<_C> for _9 {}
-impl HexAssertLessThan<_D> for _9 {}
-impl HexAssertLessThan<_E> for _9 {}
-impl HexAssertLessThan<_F> for _9 {}
-impl HexAssertLessThan<_B> for _A {}
-impl HexAssertLessThan<_C> for _A {}
-impl HexAssertLessThan<_D> for _A {}
-impl HexAssertLessThan<_E> for _A {}
-impl HexAssertLessThan<_F> for _A {}
-impl HexAssertLessThan<_C> for _B {}
-impl HexAssertLessThan<_D> for _B {}
-impl HexAssertLessThan<_E> for _B {}
-impl HexAssertLessThan<_F> for _B {}
-impl HexAssertLessThan<_D> for _C {}
-impl HexAssertLessThan<_E> for _C {}
-impl HexAssertLessThan<_F> for _C {}
-impl HexAssertLessThan<_E> for _D {}
-impl HexAssertLessThan<_F> for _D {}
-impl HexAssertLessThan<_F> for _E {}

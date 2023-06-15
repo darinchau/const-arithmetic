@@ -1,6 +1,7 @@
 use crate::hex::*;
 use crate::binary::*;
 use super::{IsInteger, TypedInteger};
+use std::marker::PhantomData;
 
 // ==================================
 // = Inner implementation for equal =
@@ -265,289 +266,198 @@ C_: HexAssertEqual<_0>
 // = Inner implementation for division =
 // =====================================
 
-// Factor out shift multiplication
-pub(crate) trait _ShiftMulInner<H: NonZeroHex> { 
-    type R0: Hex;
-    type R1: Hex;
-    type R2: Hex;
-    type R3: Hex;
-    type R4: Hex;
-    type R5: Hex;
-    type R6: Hex;
-    type R7: Hex;
-    type C7: Hex;
-}
-
-impl<H: NonZeroHex, 
-H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex,
-R0: Hex, HK0C: Hex,
-HK1R: Hex, HK1C: Hex, R1: Hex, C1: Hex, 
-HK2R: Hex, HK2C: Hex, R2: Hex, C2: Hex, 
-HK3R: Hex, HK3C: Hex, R3: Hex, C3: Hex, 
-HK4R: Hex, HK4C: Hex, R4: Hex, C4: Hex, 
-HK5R: Hex, HK5C: Hex, R5: Hex, C5: Hex, 
-HK6R: Hex, HK6C: Hex, R6: Hex, C6: Hex, 
-HK7R: Hex, HK7C: Hex, R7: Hex, C7: Hex, 
-C7_: Hex
-> _ShiftMulInner<H> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
-H: HexMul<H0, Output = R0, Carry = HK0C>,
-H: HexMul<H1, Output = HK1R, Carry = HK1C>,
-H: HexMul<H2, Output = HK2R, Carry = HK2C>,
-H: HexMul<H3, Output = HK3R, Carry = HK3C>,
-H: HexMul<H4, Output = HK4R, Carry = HK4C>,
-H: HexMul<H5, Output = HK5R, Carry = HK5C>,
-H: HexMul<H6, Output = HK6R, Carry = HK6C>,
-H: HexMul<H7, Output = HK7R, Carry = HK7C>,
-HK1R: HexAdd<HK0C, Output = R1, Carry = C1>,
-HK2R: HexAdd3<HK1C, C1, Output = R2, Carry = C2>,
-HK3R: HexAdd3<HK2C, C2, Output = R3, Carry = C3>,
-HK4R: HexAdd3<HK3C, C3, Output = R4, Carry = C4>,
-HK5R: HexAdd3<HK4C, C4, Output = R5, Carry = C5>,
-HK6R: HexAdd3<HK5C, C5, Output = R6, Carry = C6>,
-HK7R: HexAdd3<HK6C, C6, Output = R7, Carry = C7_>,
-C7_: HexAdd<HK7C, Output = C7>,
-{
-    type R0 = R0;
-    type R1 = R1;
-    type R2 = R2;
-    type R3 = R3;
-    type R4 = R4;
-    type R5 = R5;
-    type R6 = R6;
-    type R7 = R7;
-    type C7 = C7;
-}
-
-// Multiplication but hexshiftable
-pub(crate) trait _ShiftMul<N: IsInteger> { type Output: IsInteger; type Overflow: IsInteger; }
-
-// Bit shift 0
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<H, _0, _0, _0, _0, _0, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<R0, R1, R2, R3, R4, R5, R6, R7>;
-    type Overflow = TypedInteger<C7, _0, _0, _0, _0, _0, _0, _0>;
-}
-
-// Bit shift 1
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, H, _0, _0, _0, _0, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, R0, R1, R2, R3, R4, R5, R6>;
-    type Overflow = TypedInteger<R7, C7, _0, _0, _0, _0, _0, _0>;
-}
-
-// Bitshift 2
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, H, _0, _0, _0, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, R0, R1, R2, R3, R4, R5>;
-    type Overflow = TypedInteger<R6, R7, C7, _0, _0, _0, _0, _0>;
-}
-
-// Bitshift 3
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, _0, H, _0, _0, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, _0, R0, R1, R2, R3, R4>;
-    type Overflow = TypedInteger<R5, R6, R7, C7, _0, _0, _0, _0>;
-}
-
-// Bitshift 4
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, H, _0, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, _0, _0, R0, R1, R2, R3>;
-    type Overflow = TypedInteger<R4, R5, R6, R7, C7, _0, _0, _0>;
-}
-
-// Bit shift 5
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, H, _0, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, _0, _0, _0, R0, R1, R2>;
-    type Overflow = TypedInteger<R3, R4, R5, R6, R7, C7, _0, _0>;
-}
-
-// Bitshift 6
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, _0, H, _0> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, _0, _0, _0, _0, R0, R1>;
-    type Overflow = TypedInteger<R2, R3, R4, R5, R6, R7, C7, _0>;
-}
-
-// Bitshift 7
-impl<H: NonZeroHex, N: IsInteger,
-R0: Hex, R1: Hex, R2: Hex, R3: Hex, R4: Hex, R5: Hex, R6: Hex, R7: Hex, C7: Hex,
-> _ShiftMul<N> for TypedInteger<_0, _0, _0, _0, _0, _0, _0, H> where
-N: _ShiftMulInner<H, R0 = R0, R1 = R1, R2 = R2, R3 = R3, R4 = R4, R5 = R5, R6 = R6, R7 = R7, C7 = C7>
-{
-    type Output = TypedInteger<_0, _0, _0, _0, _0, _0, _0, R0>;
-    type Overflow = TypedInteger<R1, R2, R3, R4, R5, R6, R7, C7>;
-}
-
-// Helper stuff for division
-// Helper if clauses. Condition: If<TrueValue: T, FalseValue: T, Output = T>
-pub(crate) trait If<T: IsInteger, F: IsInteger> { type Output: IsInteger; }
-impl<T: IsInteger, F: IsInteger> If<T, F> for _0 { type Output = F; }
-impl<T: IsInteger, F: IsInteger> If<T, F> for _1 { type Output = T; }
-
-// Helper types for division
-type _Zero = TypedInteger<_0, _0, _0, _0, _0, _0, _0, _0>;
-
-// One single iteration of long div
-pub(crate) trait DivInner<H: IsInteger, Q: IsInteger, TT: IsInteger> { type Hout: IsInteger; type Qout: IsInteger; }
-impl<H, Q, H0, H1, H2, H3, H4, H5, H6, H7, J16, A, O, C, D, MinusMe, Bx, By, Ho, Qo> DivInner<H, Q, J16> for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> where
-H: IsInteger, 
-Q: IsInteger,
-O: IsInteger,
-Ho: IsInteger,
-Qo: IsInteger,
-H0: Hex,
-H1: Hex, 
-H2: Hex, 
-H3: Hex, 
-H4: Hex, 
-H5: Hex, 
-H6: Hex, 
-H7: Hex, 
-J16: IsInteger, 
-A: IsInteger, 
-C: IsInteger, 
-D: IsInteger,
-Bx: Binary,
-By: Binary,
-MinusMe: Binary,
-// minus_me = h >= 16 ** j * K
-// h -= 16 ** j * K * minus_me
-// quotient += 16 ** j * minus_me
-J16: _ShiftMul<TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7>, Output = A, Overflow = O>,
-O: _Equal<_Zero, Output = Bx>,
-A: _Leq<H, Output = By>,
-Bx: BinAnd<By, Output = MinusMe>, 
-MinusMe: If<A, _Zero, Output = C>, 
-MinusMe: If<J16, _Zero, Output = D>, 
-H: _Sub<C, Output = Ho>, 
-D: _Add<Q, Output = Qo> {
-    type Hout = Ho;
-    type Qout = Qo;
-}
-
 pub(crate) trait _Div<K: IsInteger> { type Output: IsInteger; type Remainder: IsInteger; }
-impl< K: IsInteger, 
-Hx0: Hex, Hx1: Hex, Hx2: Hex, Hx3: Hex, Hx4: Hex, Hx5: Hex, Hx6: Hex, Hx7: Hex, 
-H1: IsInteger, Q1: IsInteger, 
-H2: IsInteger, Q2: IsInteger, 
-H3: IsInteger, Q3: IsInteger, 
-H4: IsInteger, Q4: IsInteger, 
-H5: IsInteger, Q5: IsInteger, 
-H6: IsInteger, Q6: IsInteger, 
-H7: IsInteger, Q7: IsInteger, 
-H8: IsInteger, Q8: IsInteger, 
-H9: IsInteger, Q9: IsInteger, 
-H10: IsInteger, Q10: IsInteger, 
-H11: IsInteger, Q11: IsInteger, 
-H12: IsInteger, Q12: IsInteger, 
-H13: IsInteger, Q13: IsInteger, 
-H14: IsInteger, Q14: IsInteger, 
-H15: IsInteger, Q15: IsInteger, 
-H16: IsInteger, Q16: IsInteger, 
-H17: IsInteger, Q17: IsInteger, 
-H18: IsInteger, Q18: IsInteger, 
-H19: IsInteger, Q19: IsInteger, 
-H20: IsInteger, Q20: IsInteger, 
-H21: IsInteger, Q21: IsInteger, 
-H22: IsInteger, Q22: IsInteger, 
-H23: IsInteger, Q23: IsInteger, 
-H24: IsInteger, Q24: IsInteger, 
-H25: IsInteger, Q25: IsInteger, 
-H26: IsInteger, Q26: IsInteger, 
-H27: IsInteger, Q27: IsInteger, 
-H28: IsInteger, Q28: IsInteger, 
-H29: IsInteger, Q29: IsInteger, 
-H30: IsInteger, Q30: IsInteger, 
-H31: IsInteger, Q31: IsInteger, 
-H32: IsInteger, Q32: IsInteger, 
-B: Binary, Eq1: Binary, Eq0: Binary,
-H33: IsInteger, Q33: IsInteger,
-HResult: IsInteger, QResult: IsInteger
-> _Div<K> for TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7> where
-// Here is some psuedocode in python
-// # Actual psuedocode for division
-// def long_division(H, K):
-//     quotient = 0
-//     h = H
-//     for j in range(7, -1, -1):
-//         while h >= 16 ** j * K:
-//             h -= 16 ** j * K
-//             quotient += 16 ** j
-//     remainder = h
-//     return quotient, remainder
 
-// # Implementation psuedocode for Division
-// def long_division(H, K):
-//     quotient = 0
-//     h = H
-//     for j in (7, 6, 5, 4, 3, 2, 1, 0):
-//         for x in (8, 4, 2, 1):
-//             minus_me = h >= 16 ** j * x * K
-//             h -= 16 ** j * x * K * minus_me
-//             quotient += 16 ** j * x * minus_me
-//     remainder = h
-//     return quotient, remainder
-
-// Make sure k is not 0
-K: _GreaterThan<_Zero, Output = B>,
-B: AssertTrue,
-
-// Long division
-K: DivInner<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, _Zero, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _8>, Hout = H1, Qout = Q1>, 
-K: DivInner<H1, Q1, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _4>, Hout = H2, Qout = Q2>, 
-K: DivInner<H2, Q2, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _2>, Hout = H3, Qout = Q3>, 
-K: DivInner<H3, Q3, TypedInteger<_0, _0, _0, _0, _0, _0, _0, _1>, Hout = H4, Qout = Q4>, 
-K: DivInner<H4, Q4, TypedInteger<_0, _0, _0, _0, _0, _0, _8, _0>, Hout = H5, Qout = Q5>, 
-K: DivInner<H5, Q5, TypedInteger<_0, _0, _0, _0, _0, _0, _4, _0>, Hout = H6, Qout = Q6>,
-K: DivInner<H6, Q6, TypedInteger<_0, _0, _0, _0, _0, _0, _2, _0>, Hout = H7, Qout = Q7>, 
-K: DivInner<H7, Q7, TypedInteger<_0, _0, _0, _0, _0, _0, _1, _0>, Hout = H8, Qout = Q8>, 
-K: DivInner<H8, Q8, TypedInteger<_0, _0, _0, _0, _0, _8, _0, _0>, Hout = H9, Qout = Q9>, 
-K: DivInner<H9, Q9, TypedInteger<_0, _0, _0, _0, _0, _4, _0, _0>, Hout = H10, Qout = Q10>, 
-K: DivInner<H10, Q10, TypedInteger<_0, _0, _0, _0, _0, _2, _0, _0>, Hout = H11, Qout = Q11>, 
-K: DivInner<H11, Q11, TypedInteger<_0, _0, _0, _0, _0, _1, _0, _0>, Hout = H12, Qout = Q12>, 
-K: DivInner<H12, Q12, TypedInteger<_0, _0, _0, _0, _8, _0, _0, _0>, Hout = H13, Qout = Q13>, 
-K: DivInner<H13, Q13, TypedInteger<_0, _0, _0, _0, _4, _0, _0, _0>, Hout = H14, Qout = Q14>, 
-K: DivInner<H14, Q14, TypedInteger<_0, _0, _0, _0, _2, _0, _0, _0>, Hout = H15, Qout = Q15>, 
-K: DivInner<H15, Q15, TypedInteger<_0, _0, _0, _0, _1, _0, _0, _0>, Hout = H16, Qout = Q16>, 
-K: DivInner<H16, Q16, TypedInteger<_0, _0, _0, _8, _0, _0, _0, _0>, Hout = H17, Qout = Q17>, 
-K: DivInner<H17, Q17, TypedInteger<_0, _0, _0, _4, _0, _0, _0, _0>, Hout = H18, Qout = Q18>, 
-K: DivInner<H18, Q18, TypedInteger<_0, _0, _0, _2, _0, _0, _0, _0>, Hout = H19, Qout = Q19>, 
-K: DivInner<H19, Q19, TypedInteger<_0, _0, _0, _1, _0, _0, _0, _0>, Hout = H20, Qout = Q20>, 
-K: DivInner<H20, Q20, TypedInteger<_0, _0, _8, _0, _0, _0, _0, _0>, Hout = H21, Qout = Q21>, 
-K: DivInner<H21, Q21, TypedInteger<_0, _0, _4, _0, _0, _0, _0, _0>, Hout = H22, Qout = Q22>, 
-K: DivInner<H22, Q22, TypedInteger<_0, _0, _2, _0, _0, _0, _0, _0>, Hout = H23, Qout = Q23>, 
-K: DivInner<H23, Q23, TypedInteger<_0, _0, _1, _0, _0, _0, _0, _0>, Hout = H24, Qout = Q24>, 
-K: DivInner<H24, Q24, TypedInteger<_0, _8, _0, _0, _0, _0, _0, _0>, Hout = H25, Qout = Q25>, 
-K: DivInner<H25, Q25, TypedInteger<_0, _4, _0, _0, _0, _0, _0, _0>, Hout = H26, Qout = Q26>, 
-K: DivInner<H26, Q26, TypedInteger<_0, _2, _0, _0, _0, _0, _0, _0>, Hout = H27, Qout = Q27>, 
-K: DivInner<H27, Q27, TypedInteger<_0, _1, _0, _0, _0, _0, _0, _0>, Hout = H28, Qout = Q28>, 
-K: DivInner<H28, Q28, TypedInteger<_8, _0, _0, _0, _0, _0, _0, _0>, Hout = H29, Qout = Q29>, 
-K: DivInner<H29, Q29, TypedInteger<_4, _0, _0, _0, _0, _0, _0, _0>, Hout = H30, Qout = Q30>, 
-K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, Qout = Q31>, 
-K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>,
-{ 
-    type Output = QResult; type Remainder = HResult; 
+// We can have a comparison of two binary numbers
+struct BinaryNumber<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B30: Binary, B31: Binary> {
+    _m0: PhantomData<B0>, 
+    _m1: PhantomData<B1>, 
+    _m2: PhantomData<B2>, 
+    _m3: PhantomData<B3>, 
+    _m4: PhantomData<B4>, 
+    _m5: PhantomData<B5>, 
+    _m6: PhantomData<B6>, 
+    _m7: PhantomData<B7>, 
+    _m8: PhantomData<B8>, 
+    _m9: PhantomData<B9>, 
+    _m10: PhantomData<B10>, 
+    _m11: PhantomData<B11>, 
+    _m12: PhantomData<B12>, 
+    _m13: PhantomData<B13>, 
+    _m14: PhantomData<B14>, 
+    _m15: PhantomData<B15>, 
+    _m16: PhantomData<B16>, 
+    _m17: PhantomData<B17>, 
+    _m18: PhantomData<B18>, 
+    _m19: PhantomData<B19>, 
+    _m20: PhantomData<B20>, 
+    _m21: PhantomData<B21>, 
+    _m22: PhantomData<B22>, 
+    _m23: PhantomData<B23>, 
+    _m24: PhantomData<B24>, 
+    _m25: PhantomData<B25>, 
+    _m26: PhantomData<B26>, 
+    _m27: PhantomData<B27>, 
+    _m28: PhantomData<B28>, 
+    _m29: PhantomData<B29>, 
+    _m30: PhantomData<B30>, 
+    _m31: PhantomData<B31>, 
 }
+
+trait IsBinaryNumber {
+    type B0: Binary; 
+    type B1: Binary; 
+    type B2: Binary; 
+    type B3: Binary; 
+    type B4: Binary; 
+    type B5: Binary; 
+    type B6: Binary; 
+    type B7: Binary; 
+    type B8: Binary; 
+    type B9: Binary; 
+    type B10: Binary; 
+    type B11: Binary; 
+    type B12: Binary; 
+    type B13: Binary; 
+    type B14: Binary; 
+    type B15: Binary; 
+    type B16: Binary; 
+    type B17: Binary; 
+    type B18: Binary; 
+    type B19: Binary; 
+    type B20: Binary; 
+    type B21: Binary; 
+    type B22: Binary; 
+    type B23: Binary; 
+    type B24: Binary; 
+    type B25: Binary; 
+    type B26: Binary; 
+    type B27: Binary; 
+    type B28: Binary; 
+    type B29: Binary; 
+    type B30: Binary; 
+    type B31: Binary; 
+}
+
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B30: Binary, B31: Binary> 
+IsBinaryNumber for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31> {
+    type B0 = B0; 
+    type B1 = B1; 
+    type B2 = B2; 
+    type B3 = B3; 
+    type B4 = B4; 
+    type B5 = B5; 
+    type B6 = B6; 
+    type B7 = B7; 
+    type B8 = B8; 
+    type B9 = B9; 
+    type B10 = B10; 
+    type B11 = B11; 
+    type B12 = B12; 
+    type B13 = B13; 
+    type B14 = B14; 
+    type B15 = B15; 
+    type B16 = B16; 
+    type B17 = B17; 
+    type B18 = B18; 
+    type B19 = B19; 
+    type B20 = B20; 
+    type B21 = B21; 
+    type B22 = B22; 
+    type B23 = B23; 
+    type B24 = B24; 
+    type B25 = B25; 
+    type B26 = B26; 
+    type B27 = B27; 
+    type B28 = B28; 
+    type B29 = B29; 
+    type B30 = B30; 
+    type B31 = B31; 
+}
+
+// A no-compromise conversion from hex to binary
+impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsBinaryNumber for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {
+    type B0 = H0::Bit0; 
+    type B1 = H0::Bit1; 
+    type B2 = H0::Bit2; 
+    type B3 = H0::Bit3; 
+    type B4 = H1::Bit0; 
+    type B5 = H1::Bit1; 
+    type B6 = H1::Bit2; 
+    type B7 = H1::Bit3; 
+    type B8 = H2::Bit0; 
+    type B9 = H2::Bit1; 
+    type B10 = H2::Bit2; 
+    type B11 = H2::Bit3; 
+    type B12 = H3::Bit0; 
+    type B13 = H3::Bit1; 
+    type B14 = H3::Bit2; 
+    type B15 = H3::Bit3; 
+    type B16 = H4::Bit0; 
+    type B17 = H4::Bit1; 
+    type B18 = H4::Bit2; 
+    type B19 = H4::Bit3; 
+    type B20 = H5::Bit0; 
+    type B21 = H5::Bit1; 
+    type B22 = H5::Bit2; 
+    type B23 = H5::Bit3; 
+    type B24 = H6::Bit0; 
+    type B25 = H6::Bit1; 
+    type B26 = H6::Bit2; 
+    type B27 = H6::Bit3; 
+    type B28 = H7::Bit0; 
+    type B29 = H7::Bit1; 
+    type B30 = H7::Bit2; 
+    type B31 = H7::Bit3; 
+}
+
+// Implement greater equal for Binary numbers
+trait _AssertGeq<B: IsBinaryNumber> {}
+impl<B1: Binary, C1: Binary, B2: Binary, C2: Binary, B3: Binary, C3: Binary, B4: Binary, C4: Binary, B5: Binary, C5: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<_0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<_1, C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B2: Binary, C2: Binary, B3: Binary, C3: Binary, B4: Binary, C4: Binary, B5: Binary, C5: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, _0, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, _1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B3: Binary, C3: Binary, B4: Binary, C4: Binary, B5: Binary, C5: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, _0, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, _1, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B4: Binary, C4: Binary, B5: Binary, C5: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, _0, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, _1, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B5: Binary, C5: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, _0, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, _1, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B6: Binary, C6: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, _0, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, _1, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B7: Binary, C7: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, _0, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, _1, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B8: Binary, C8: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, _0, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, _1, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B9: Binary, C9: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, _0, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, _1, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B10: Binary, C10: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, _0, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, _1, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B11: Binary, C11: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, _0, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, _1, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B12: Binary, C12: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, _0, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, _1, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B13: Binary, C13: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, _0, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, _1, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B14: Binary, C14: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, _0, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, _1, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B15: Binary, C15: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, _0, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, _1, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B16: Binary, C16: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, _0, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, _1, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B17: Binary, C17: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, _0, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, _1, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B18: Binary, C18: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, _0, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, _1, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B19: Binary, C19: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, _0, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, _1, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B20: Binary, C20: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, _0, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, _1, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B21: Binary, C21: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, _0, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, _1, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B22: Binary, C22: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, _0, B22, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, _1, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B23: Binary, C23: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, _0, B23, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, _1, C23, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B24: Binary, C24: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, _0, B24, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, _1, C24, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B25: Binary, C25: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, _0, B25, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, _1, C25, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B26: Binary, C26: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, _0, B26, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, _1, C26, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B27: Binary, C27: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, _0, B27, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, _1, C27, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B28: Binary, C28: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, _0, B28, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, _1, C28, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B29: Binary, C29: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, _0, B29, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, _1, C29, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B30: Binary, C30: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, _0, B30, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, _1, C30, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B31: Binary, C31: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, _0, B31>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, _1, C31> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B30: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _0>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _1> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B30: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _0>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _0> {}
+impl<B0: Binary, B1: Binary, B2: Binary, B3: Binary, B4: Binary, B5: Binary, B6: Binary, B7: Binary, B8: Binary, B9: Binary, B10: Binary, B11: Binary, B12: Binary, B13: Binary, B14: Binary, B15: Binary, B16: Binary, B17: Binary, B18: Binary, B19: Binary, B20: Binary, B21: Binary, B22: Binary, B23: Binary, B24: Binary, B25: Binary, B26: Binary, B27: Binary, B28: Binary, B29: Binary, B30: Binary> _AssertGeq<BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _1>> for BinaryNumber<B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B26, B27, B28, B29, B30, _1> {}
+
+// Binary division psuedocode
+// def long_division(H, K):
+//    quotient = 0
+//    h = H
+//    for j in range(31, -1, -1):
+//         if h >= (K << j):
+//             quotient += 1 << j
+//             h -= (K << j)
+//    remainder = h
+//    return quotient, remainder
+//
+// and here is the inner blob
+trait _InnerDiv<H: IsInteger, K: IsInteger>
