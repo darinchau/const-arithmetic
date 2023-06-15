@@ -548,15 +548,6 @@ K: DivInner<H28, Q28, TypedInteger<_8, _0, _0, _0, _0, _0, _0, _0>, Hout = H29, 
 K: DivInner<H29, Q29, TypedInteger<_4, _0, _0, _0, _0, _0, _0, _0>, Hout = H30, Qout = Q30>, 
 K: DivInner<H30, Q30, TypedInteger<_2, _0, _0, _0, _0, _0, _0, _0>, Hout = H31, Qout = Q31>, 
 K: DivInner<H31, Q31, TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Hout = H32, Qout = Q32>,
-// There is a special case we need to implement: if k = 1 then stuff goes wrong
-// If  k = 1 then h//k = h, h%k = 0
-K: _Equal<TypedInteger<_1, _0, _0, _0, _0, _0, _0, _0>, Output = Eq1>,
-Eq1: If<_Zero, H32, Output = H33>,
-Eq1: If<TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>, Q32, Output = Q33>,
-// There is a special case we need to implement: if H = 0 then stuff goes wrong. Order matters here because 0/1 == (0, 0)
-TypedInteger<Hx0, Hx1, Hx2, Hx3, Hx4, Hx5, Hx6, Hx7>: _Equal<_Zero, Output = Eq0>,
-Eq0: If<_Zero, H33, Output = HResult>,
-Eq0: If<_Zero, Q33, Output = QResult>,
 { 
     type Output = QResult; type Remainder = HResult; 
 }
