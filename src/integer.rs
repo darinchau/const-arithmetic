@@ -6,7 +6,9 @@ use super::hex::*;
 use std::marker::PhantomData;
 
 mod impls;
+mod division;
 use impls::*;
+use division::_Div;
 
 /// A struct which generics represents an unique integer from 0 to 2 ** 32 - 1
 /// 
@@ -58,14 +60,13 @@ impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> Typ
 /// ```
 pub trait IsInteger: Copy {
     type Hex0: Hex; type Hex1: Hex; type Hex2: Hex; type Hex3: Hex; type Hex4: Hex; type Hex5: Hex; type Hex6: Hex; type Hex7: Hex;
-    fn number() -> u32;
+    fn number() -> u32 {
+        Self::Hex0::NUMBER + 16 * Self::Hex1::NUMBER + 256 * Self::Hex2::NUMBER + 4096 * Self::Hex3::NUMBER + 65536 * Self::Hex4::NUMBER + 1048576 * Self::Hex5::NUMBER + 16777216 * Self::Hex6::NUMBER + 268435456 * Self::Hex7::NUMBER
+    }
 }
 
 impl<H0: Hex, H1: Hex, H2: Hex, H3: Hex, H4: Hex, H5: Hex, H6: Hex, H7: Hex> IsInteger for TypedInteger<H0, H1, H2, H3, H4, H5, H6, H7> {
     type Hex0 = H0; type Hex1 = H1; type Hex2 = H2; type Hex3 = H3; type Hex4 = H4; type Hex5 = H5; type Hex6 = H6; type Hex7 = H7;
-    fn number() -> u32 {
-        H0::NUMBER + 16 * H1::NUMBER + 256 * H2::NUMBER + 4096 * H3::NUMBER + 65536 * H4::NUMBER + 1048576 * H5::NUMBER + 16777216 * H6::NUMBER + 268435456 * H7::NUMBER
-    }
 }
 
 /// A trait that asserts two integers are equal
